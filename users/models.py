@@ -16,19 +16,16 @@ class User(AbstractUser):
         blank=False,
         max_length=100
     )
+    middle_name = models.CharField(
+        verbose_name='middle_name',
+        max_length=100,
+        blank=True
+    )
     last_name = models.CharField(
         verbose_name='last_name',
         blank=False,
         db_index=True,
         max_length=100
-    )
-    email = models.EmailField(
-        max_length=100,
-        null=True
-    )
-    phone = models.CharField(
-        max_length=50,
-        null=True
     )
     position = models.CharField(
         verbose_name='position',
