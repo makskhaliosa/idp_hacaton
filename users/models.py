@@ -1,11 +1,15 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    uid = models.BigAutoField(
+    uid = models.UUIDField(
         primary_key=True,
-        verbose_name='user_id'
+        verbose_name='user_id',
+        default=uuid.uuid4,
+        editable=False
     )
     first_name = models.CharField(
         verbose_name='first_name',
