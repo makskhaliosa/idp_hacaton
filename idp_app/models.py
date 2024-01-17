@@ -73,12 +73,10 @@ class Task(models.Model):
     )
     task_name = models.CharField(
         verbose_name='task_name',
-        blank=False,
         max_length=150
     )
     task_description = models.CharField(
         verbose_name='task_description',
-        blank=False,
         max_length=10000,
     )
     task_status = models.CharField(
@@ -86,7 +84,6 @@ class Task(models.Model):
         max_length=40,
         choices=TaskStatuses.choices,
         default=TaskStatuses.OPEN,
-        blank=False,
     )
     task_start_date = models.DateTimeField(
         verbose_name='task_start_date',
@@ -103,12 +100,10 @@ class Task(models.Model):
     task_note_employee = models.CharField(
         verbose_name='task_note_employee',
         max_length=10000,
-        blank=False,
     )
     task_note_cheif = models.CharField(
         verbose_name='task_note_cheif',
         max_length=10000,
-        blank=False,
     )
     task_note_mentor = models.CharField(
         verbose_name='task_note_mentor',
@@ -142,17 +137,14 @@ class File(models.Model):
     )
     file_name = models.CharField(
         verbose_name='file_name',
-        blank=False,
         max_length=100
     )
     file_link = models.URLField(
         verbose_name='file_link',
-        blank=False,
         max_length=5000
     )
     file_type = models.CharField(
         verbose_name='file_type',
-        blank=False,
         max_length=10
     )
     file_task_id = models.ForeignKey(
