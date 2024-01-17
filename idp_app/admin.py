@@ -40,3 +40,4 @@ admin.site.register(Task, TaskAdmin)
 admin.site.register(File, FileAdmin)
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(Company, CompanyAdmin)
+
