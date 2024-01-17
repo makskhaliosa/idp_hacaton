@@ -20,11 +20,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'drf_spectacular',
     'drf_spectacular_sidecar',
     # project`s apps
     'users.apps.UsersConfig',
     'idp_app.apps.IdpAppConfig',
+    'api_v1.apps.ApiV1Config',
 ]
 
 MIDDLEWARE = [
