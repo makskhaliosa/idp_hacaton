@@ -30,19 +30,19 @@ class IDP(models.Model):
         choices=STATUS_CHOICES,
         default='draft',
     )
-    start_date = models.DateField(
+    start_date = models.DateTimeField(
         verbose_name='start_date',
         default=datetime.now,
         blank=True,
         null=True
     )
-    end_date_plan = models.DateField(
+    end_date_plan = models.DateTimeField(
         verbose_name='end_date_plan',
         default=default_end_date_plan,
         blank=True,
         null=True
     )
-    end_date_fact = models.DateField(
+    end_date_fact = models.DateTimeField(
         verbose_name='end_date_fact',
         blank=True,
         null=True
