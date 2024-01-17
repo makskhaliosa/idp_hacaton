@@ -144,10 +144,10 @@ class File(models.Model):
         blank=False,
         max_length=100
     )
-    file_link = models.CharField(
+    url_field = models.CharField(
         verbose_name='file_link',
         blank=False,
-        max_length=1000
+        max_length=5000
     )
     file_type = models.CharField(
         verbose_name='file_type',
