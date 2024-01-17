@@ -145,7 +145,7 @@ class File(models.Model):
         blank=False,
         max_length=100
     )
-    url_field = models.CharField(
+    file_link = models.URLField(
         verbose_name='file_link',
         blank=False,
         max_length=5000

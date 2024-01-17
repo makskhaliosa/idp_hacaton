@@ -14,7 +14,7 @@ class TaskAdmin(admin.ModelAdmin):
 
 class FileAdmin(admin.ModelAdmin):
     list_display = (
-        'file_id', 'file_name', 'url_field',
+        'file_id', 'file_name', 'file_link',
         'file_type', 'file_task_id',
     )
     list_filter = ('file_type', 'file_task_id',)
