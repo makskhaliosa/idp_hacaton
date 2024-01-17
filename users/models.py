@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    uid = models.IntegerField(
+    uid = models.AutoField(
         primary_key=True,
         verbose_name='user_id'
     )

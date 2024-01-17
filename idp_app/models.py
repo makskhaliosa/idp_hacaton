@@ -22,7 +22,7 @@ class Company(models.Model):
     """
     Company table.
     """
-    company_id = models.IntegerField(
+    company_id = models.AutoField(
         primary_key=True,
         verbose_name='company_id',
     )
@@ -43,7 +43,7 @@ class Department(models.Model):
     """
     Department table.
     """
-    dep_id = models.IntegerField(
+    dep_id = models.AutoField(
         primary_key=True,
         verbose_name='dep_id'
     )
@@ -67,7 +67,7 @@ class Task(models.Model):
     """
     Tasks table.
     """
-    task_id = models.IntegerField(
+    task_id = models.AutoField(
         primary_key=True,
         verbose_name='task_id'
     )
@@ -93,11 +93,12 @@ class Task(models.Model):
     )
     task_end_date_plan = models.DateTimeField(
         verbose_name='task_end_date_plan',
-        blank=False,
+        blank=True,
     )
     task_end_date_fact = models.DateTimeField(
         verbose_name='task_end_date_plan',
-        blank=True
+        blank=True,
+        null=True
     )
     task_note_employee = models.CharField(
         verbose_name='task_note_employee',
@@ -135,7 +136,7 @@ class File(models.Model):
     """
     Files table.
     """
-    file_id = models.IntegerField(
+    file_id = models.AutoField(
         primary_key=True,
         verbose_name='file_id'
     )
@@ -165,4 +166,4 @@ class File(models.Model):
         verbose_name_plural = 'Files'
 
     def __str__(self) -> str:
-        return self.filename
+        return self.file_name
