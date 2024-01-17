@@ -1,37 +1,22 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from django.db import models
 import uuid
 
+from core.choices import STATUS_CHOICES
+from core.utils import default_end_date_plan
 from users.models import User
 
 
-def default_end_date_plan():
-    return timezone.now() + timedelta(days=30)
-
-
 class IDP(models.Model):
-    STATUS_CHOICES = [
-        ('active', 'Активные'),
-        ('completed', 'Выполненные'),
-        ('two_weeks', 'Две недели до плановой даты выполнения'),
-        ('overdue', 'Просроченные'),
-        ('canceled', 'Отмененные'),
-        ('closed', 'Закрытые'),
-        ('draft', 'Черновик')
-    ]
-
     idp_id = models.UUIDField(
         primary_key=True,
         verbose_name='idp_id',
         default=uuid.uuid4,
         editable=False,
-        blank=False,
     )
     name = models.CharField(
         verbose_name='name',
         max_length=100,
-        blank=False,
-        null=False
     )
     target = models.TextField(
         verbose_name='target',
@@ -44,8 +29,6 @@ class IDP(models.Model):
         max_length=255,
         choices=STATUS_CHOICES,
         default='draft',
-        blank=False,
-        null=False
     )
     start_date = models.DateField(
         verbose_name='start_date',
@@ -64,8 +47,8 @@ class IDP(models.Model):
         blank=True,
         null=True
     )
-    employee_id = models.ForeignKey(
+    employee = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        blank=False,
+        related_name='idps'
     )
