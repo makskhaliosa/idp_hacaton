@@ -90,7 +90,6 @@ class Task(models.Model):
     )
     task_start_date = models.DateTimeField(
         verbose_name='task_start_date',
-        auto_now_add=True,
     )
     task_end_date_plan = models.DateTimeField(
         verbose_name='task_end_date_plan',
