@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     # project`s apps
     'users.apps.UsersConfig',
     'idp_app.apps.IdpAppConfig',
