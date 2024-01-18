@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
+    '''Таблица для сотрудников.'''
     uid = models.UUIDField(
         primary_key=True,
         verbose_name='user_id',
@@ -13,7 +14,6 @@ class User(AbstractUser):
     )
     first_name = models.CharField(
         verbose_name='first_name',
-        blank=False,
         max_length=100
     )
     middle_name = models.CharField(
@@ -23,13 +23,15 @@ class User(AbstractUser):
     )
     last_name = models.CharField(
         verbose_name='last_name',
-        blank=False,
         db_index=True,
         max_length=100
     )
-    position = models.CharField(
-        verbose_name='position',
-        max_length=255
+    position = models.ForeignKey(
+        'Position',
+        on_delete=models.SET_NULL,
+        verbose_name='user_position',
+        related_name='users',
+        null=True
     )
     chief = models.ForeignKey(
         'User',
@@ -39,6 +41,40 @@ class User(AbstractUser):
         blank=True,
         null=True
     )
+    mentor = models.ForeignKey(
+        'User',
+        on_delete=models.SET_NULL,
+        verbose_name='mentor',
+        related_name='students',
+        blank=True,
+        null=True
+    )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'{self.first_name} {self.last_name} ({self.position})'
+
+    class Meta:
+        ordering = ('last_name', 'first_name')
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
+
+class Position(models.Model):
+    '''Таблица с наименованием должностей сотрудников.'''
+    pos_id = models.AutoField(
+        verbose_name='position_id',
+        primary_key=True
+    )
+    name = models.CharField(
+        verbose_name='position_name',
+        max_length=255,
+        unique=True
+    )
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'Position'
+        verbose_name_plural = 'Positions'
