@@ -14,15 +14,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'rest_framework',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     # project`s apps
-    "users.apps.UsersConfig",
-    "idp_app.apps.IdpAppConfig",
+    'users.apps.UsersConfig',
+    'idp_app.apps.IdpAppConfig',
+    'api_v1.apps.ApiV1Config',
 ]
 
 MIDDLEWARE = [
@@ -86,6 +90,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# DRF settings
+
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# DRF_SPECTACULAR
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "IDP_hacaton",
+    "DESCRIPTION": "Документация для API сервиса",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
+    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
+    "REDOC_DIST": "SIDECAR",
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
