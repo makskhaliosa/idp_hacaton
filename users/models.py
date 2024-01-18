@@ -3,7 +3,10 @@ from django.db import models
 
 
 class User(AbstractUser):
-    uid = models.IntegerField(primary_key=True, verbose_name="user_id")
+    uid = models.AutoField(
+        primary_key=True,
+        verbose_name='user_id'
+    )
     first_name = models.CharField(
         verbose_name="first_name", blank=False, max_length=100
     )

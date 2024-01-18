@@ -16,6 +16,11 @@ tzdata==2023.4
 uritemplate==4.1.1
 cfgv==3.4.0
 distlib==0.3.8
+Django==5.0.1
+flake8==7.0.0
+mccabe==0.7.0
+pycodestyle==2.11.1
+pyflakes==3.2.0
 filelock==3.13.1
 identify==2.5.33
 nodeenv==1.8.0
