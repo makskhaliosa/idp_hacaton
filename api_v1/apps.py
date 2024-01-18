@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class IdpAppConfig(AppConfig):
+class ApiV1Config(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "idp_app"
+    name = "api_v1"
