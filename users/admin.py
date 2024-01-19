@@ -4,8 +4,8 @@ from .models import User
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['username', 'first_name', 'last_name']
-    empty_value_display = '-empty-'
+    list_display = ["username", "first_name", "last_name"]
+    empty_value_display = "-empty-"
 
 
 admin.site.register(User, UserAdmin)
