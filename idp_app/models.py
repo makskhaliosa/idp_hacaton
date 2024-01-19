@@ -1,5 +1,11 @@
+import uuid
+from datetime import datetime
+
 from django.contrib.auth import get_user_model
 from django.db import models
+
+from core.choices import STATUS_CHOICES
+from core.utils import default_end_date_plan
 
 User = get_user_model()
 
@@ -14,6 +20,45 @@ class TaskStatuses(models.TextChoices):
     REVIEW = ("Review",)
     HOLD = ("Hold",)
     CLOSED = "Closed"
+
+
+class IDP(models.Model):
+    """IDP table."""
+
+    idp_id = models.UUIDField(
+        primary_key=True,
+        verbose_name="idp_id",
+        default=uuid.uuid4,
+        editable=False,
+    )
+    name = models.CharField(
+        verbose_name="name",
+        max_length=100,
+    )
+    target = models.TextField(
+        verbose_name="target", max_length=255, blank=True, null=True
+    )
+    status = models.CharField(
+        verbose_name="status",
+        max_length=255,
+        choices=STATUS_CHOICES,
+        default="draft",
+    )
+    start_date = models.DateTimeField(
+        verbose_name="start_date", default=datetime.now, blank=True, null=True
+    )
+    end_date_plan = models.DateTimeField(
+        verbose_name="end_date_plan",
+        default=default_end_date_plan,
+        blank=True,
+        null=True,
+    )
+    end_date_fact = models.DateTimeField(
+        verbose_name="end_date_fact", blank=True, null=True
+    )
+    employee = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="idps"
+    )
 
 
 class Company(models.Model):
@@ -68,7 +113,7 @@ class Task(models.Model):
     task_status = models.CharField(
         verbose_name="task_status",
         max_length=40,
-        choices=TaskStatuses.choices,
+        choices=STATUS_CHOICES,
         default=TaskStatuses.OPEN,
     )
     task_start_date = models.DateTimeField(

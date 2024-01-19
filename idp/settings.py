@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # project`s apps
     "users.apps.UsersConfig",
     "idp_app.apps.IdpAppConfig",
+    "core.apps.CoreConfig",
     "api_v1.apps.ApiV1Config",
 ]
 
