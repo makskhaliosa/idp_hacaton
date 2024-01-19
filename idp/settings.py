@@ -1,33 +1,35 @@
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = (
-    "django-insecure-vd_z2&_#8llgsqq_t#$z396z6xmt2ziuga9)*&vhvjoik@31bf"
-)
+SECRET_KEY = os.getenv("DJANGO_KEY", "django_key")
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split()
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'drf_spectacular',
-    'drf_spectacular_sidecar',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     # project`s apps
-    'users.apps.UsersConfig',
-    'idp_app.apps.IdpAppConfig',
-    'core.apps.CoreConfig'
-    'api_v1.apps.ApiV1Config',
+    "users.apps.UsersConfig",
+    "idp_app.apps.IdpAppConfig",
+    "core.apps.CoreConfig",
+    "api_v1.apps.ApiV1Config",
 ]
 
 MIDDLEWARE = [
@@ -66,8 +68,12 @@ WSGI_APPLICATION = "idp.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB", "dbname"),
+        "USER": os.getenv("POSTGRES_USER", "user"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "password"),
+        "HOST": os.getenv("HOST", "localhost"),
+        "PORT": os.getenv("PORT", 5432),
     }
 }
 
@@ -95,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     # YOUR SETTINGS
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # DRF_SPECTACULAR

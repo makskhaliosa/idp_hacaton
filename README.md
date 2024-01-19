@@ -12,3 +12,14 @@ pre-commit install
 pre-commit run --all-files
 ```
 После этого перед каждым коммитом будет автоматическая проверка кода на ошибки.
+
+## Добавлен файл .env
+Создать файл по примеру .env-sample
+
+## Добавлено подключение к БД PostgresQL
+Для подключения к базе можно запустить Postgres в докере
+```bash
+docker compose -f docker-compose-postgres up -d
+```
+
+Либо запустить Postgres локально и создать базу там.
