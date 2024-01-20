@@ -1,6 +1,22 @@
 from django.contrib import admin
 
-from .models import Company, Department, File, Task
+from .models import Company, Department, File, Task, IDP
+
+
+class IDPAdmin(admin.ModelAdmin):
+    list_display = (
+        "idp_id",
+        "name",
+        "target",
+        "status",
+        "start_date",
+        "end_date_plan",
+        "end_date_fact",
+        "employee"
+    )
+    search_fields=('employee',)
+    list_filter=('status',)
+    empty_value_display = "-пусто-"
 
 
 class TaskAdmin(admin.ModelAdmin):
@@ -54,3 +70,4 @@ admin.site.register(Task, TaskAdmin)
 admin.site.register(File, FileAdmin)
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(Company, CompanyAdmin)
+admin.site.register(IDP, IDPAdmin)
