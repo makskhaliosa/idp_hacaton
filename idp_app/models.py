@@ -4,22 +4,15 @@ from datetime import datetime
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from core.choices import STATUS_CHOICES
+from core.choices import (
+    STATUS_CHOICES,
+    NotificationStatuses,
+    NotificationTriggers,
+    TaskStatuses,
+)
 from core.utils import default_end_date_plan
 
 User = get_user_model()
-
-
-class TaskStatuses(models.TextChoices):
-    """Status table for tasks."""
-
-    OPEN = ("Open",)
-    IN_PROGRESS = ("In Progress",)
-    NEED_DETAILS = ("Need Details",)
-    REASSIGNED = ("Reassigned",)
-    REVIEW = ("Review",)
-    HOLD = ("Hold",)
-    CLOSED = "Closed"
 
 
 class IDP(models.Model):
@@ -67,46 +60,20 @@ class IDP(models.Model):
     employee = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="idps"
     )
-
-
-class Company(models.Model):
-    """Company table."""
-
-    company_id = models.AutoField(
-        primary_key=True,
-        verbose_name="company_id",
-    )
-    company_name = models.CharField(
-        verbose_name="company_name", max_length=200
+    notifications = models.ManyToManyField(
+        "Notification",
+        through="IdpNotification",
+        verbose_name="notifications",
+        blank=True,
     )
 
     class Meta:
-        ordering = ("company_id",)
-        verbose_name = "Company"
-        verbose_name_plural = "Companies"
+        ordering = ("name", "start_date")
+        verbose_name = "IDP"
+        verbose_name_plural = "IDPs"
 
     def __str__(self) -> str:
-        return self.company_name
-
-
-class Department(models.Model):
-    """Department table."""
-
-    dep_id = models.AutoField(primary_key=True, verbose_name="dep_id")
-    dep_name = models.CharField(verbose_name="dep_name", max_length=400)
-    company_id = models.ForeignKey(
-        Company,
-        on_delete=models.CASCADE,
-        verbose_name="company_id",
-    )
-
-    class Meta:
-        ordering = ("dep_id",)
-        verbose_name = "Department"
-        verbose_name_plural = "Departmens"
-
-    def __str__(self) -> str:
-        return self.dep_name
+        return self.name
 
 
 class Task(models.Model):
@@ -137,10 +104,11 @@ class Task(models.Model):
     task_note_employee = models.CharField(
         verbose_name="task_note_employee",
         max_length=10000,
+        blank=True,
+        null=True,
     )
     task_note_cheif = models.CharField(
-        verbose_name="task_note_cheif",
-        max_length=10000,
+        verbose_name="task_note_cheif", max_length=10000, blank=True, null=True
     )
     task_note_mentor = models.CharField(
         verbose_name="task_note_mentor", max_length=10000, blank=False
@@ -151,6 +119,15 @@ class Task(models.Model):
         verbose_name="task_mentor_id",
         related_name="mentor_tasks",
         null=True,
+    )
+    idp = models.ForeignKey(
+        IDP, on_delete=models.CASCADE, related_name="tasks", verbose_name="idp"
+    )
+    notifications = models.ManyToManyField(
+        "Notification",
+        through="TaskNotification",
+        verbose_name="notifications",
+        blank=True,
     )
 
     class Meta:
@@ -180,3 +157,93 @@ class File(models.Model):
 
     def __str__(self) -> str:
         return self.file_name
+
+
+class Notification(models.Model):
+    """Notifications table."""
+
+    notice_id = models.AutoField(
+        primary_key=True, verbose_name="notification_id"
+    )
+    trigger = models.CharField(
+        verbose_name="notification_trigger",
+        choices=NotificationTriggers,
+        default=NotificationTriggers.IDP_CREATED,
+        max_length=255,
+    )
+    name = models.CharField(verbose_name="notification_name", max_length=255)
+    description = models.TextField(
+        verbose_name="notification_description", blank=True, null=True
+    )
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name = "Notification"
+        verbose_name_plural = "Notifications"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class TaskNotification(models.Model):
+    """Link table for task related notifications and users."""
+
+    tn_id = models.BigAutoField(
+        primary_key=True, verbose_name="notification_user_id"
+    )
+    notification = models.ForeignKey(
+        Notification,
+        on_delete=models.CASCADE,
+        related_name="notice_tasks",
+        verbose_name="notification",
+    )
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name="task_notices",
+        verbose_name="task",
+    )
+    date = models.DateTimeField(
+        verbose_name="notification_sent_datetime", auto_now_add=True
+    )
+    status = models.CharField(
+        verbose_name="notification_status",
+        choices=NotificationStatuses,
+        max_length=40,
+        default=NotificationStatuses.UNREAD,
+    )
+
+    def __str__(self) -> str:
+        return f"{self.notification} {self.task}"
+
+
+class IdpNotification(models.Model):
+    """Link table for idp related notifications and users."""
+
+    in_id = models.BigAutoField(
+        primary_key=True, verbose_name="notification_user_id"
+    )
+    notification = models.ForeignKey(
+        Notification,
+        on_delete=models.CASCADE,
+        related_name="notice_idps",
+        verbose_name="notification",
+    )
+    idp = models.ForeignKey(
+        IDP,
+        on_delete=models.CASCADE,
+        related_name="idp_notices",
+        verbose_name="idp",
+    )
+    date = models.DateTimeField(
+        verbose_name="notification_sent_datetime", auto_now_add=True
+    )
+    status = models.CharField(
+        verbose_name="notification_status",
+        choices=NotificationStatuses,
+        max_length=40,
+        default=NotificationStatuses.UNREAD,
+    )
+
+    def __str__(self) -> str:
+        return f"{self.notification} {self.idp}"

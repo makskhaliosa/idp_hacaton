@@ -43,8 +43,16 @@ class User(AbstractUser):
         blank=True,
         null=True,
     )
+    department = models.ForeignKey(
+        "Department",
+        on_delete=models.SET_NULL,
+        related_name="users",
+        verbose_name="user_department",
+        null=True,
+    )
 
     def __str__(self) -> str:
+
         return f"{self.first_name} {self.last_name}"
 
     class Meta:
@@ -73,3 +81,43 @@ class Position(models.Model):
         ordering = ("name",)
         verbose_name = "Position"
         verbose_name_plural = "Positions"
+
+
+class Company(models.Model):
+    """Company table."""
+
+    company_id = models.AutoField(
+        primary_key=True,
+        verbose_name="company_id",
+    )
+    company_name = models.CharField(
+        verbose_name="company_name", max_length=200
+    )
+
+    class Meta:
+        ordering = ("company_id",)
+        verbose_name = "Company"
+        verbose_name_plural = "Companies"
+
+    def __str__(self) -> str:
+        return self.company_name
+
+
+class Department(models.Model):
+    """Department table."""
+
+    dep_id = models.AutoField(primary_key=True, verbose_name="dep_id")
+    dep_name = models.CharField(verbose_name="dep_name", max_length=400)
+    company_id = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        verbose_name="company_id",
+    )
+
+    class Meta:
+        ordering = ("dep_id",)
+        verbose_name = "Department"
+        verbose_name_plural = "Departmens"
+
+    def __str__(self) -> str:
+        return self.dep_name
