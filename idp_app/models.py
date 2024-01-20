@@ -36,7 +36,10 @@ class IDP(models.Model):
         max_length=100,
     )
     target = models.TextField(
-        verbose_name="target", max_length=255, blank=True, null=True
+        verbose_name="target",
+        max_length=255,
+        blank=True,
+        null=True
     )
     status = models.CharField(
         verbose_name="status",
@@ -45,7 +48,10 @@ class IDP(models.Model):
         default="draft",
     )
     start_date = models.DateTimeField(
-        verbose_name="start_date", default=datetime.now, blank=True, null=True
+        verbose_name="start_date",
+        default=datetime.now,
+        blank=True,
+        null=True
     )
     end_date_plan = models.DateTimeField(
         verbose_name="end_date_plan",
@@ -54,7 +60,9 @@ class IDP(models.Model):
         null=True,
     )
     end_date_fact = models.DateTimeField(
-        verbose_name="end_date_fact", blank=True, null=True
+        verbose_name="end_date_fact",
+        blank=True,
+        null=True
     )
     employee = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="idps"
@@ -124,7 +132,7 @@ class Task(models.Model):
         blank=True,
     )
     task_end_date_fact = models.DateTimeField(
-        verbose_name="task_end_date_plan", blank=True, null=True
+        verbose_name="task_end_date_fact", blank=True, null=True
     )
     task_note_employee = models.CharField(
         verbose_name="task_note_employee",

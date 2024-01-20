@@ -45,7 +45,7 @@ class User(AbstractUser):
     )
 
     def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name} ({self.position.name})"
+        return f"{self.first_name} {self.last_name}"
 
     class Meta:
         ordering = ("last_name", "first_name")
@@ -56,9 +56,14 @@ class User(AbstractUser):
 class Position(models.Model):
     """Таблица с наименованием должностей сотрудников."""
 
-    pos_id = models.AutoField(verbose_name="position_id", primary_key=True)
+    pos_id = models.AutoField(
+        verbose_name="position_id",
+        primary_key=True
+    )
     name = models.CharField(
-        verbose_name="position_name", max_length=255, unique=True
+        verbose_name="position_name",
+        max_length=255,
+        unique=True
     )
 
     def __str__(self) -> str:
