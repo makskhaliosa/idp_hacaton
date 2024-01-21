@@ -50,6 +50,7 @@ class User(AbstractUser):
         verbose_name="user_department",
         null=True,
     )
+    is_admin = models.BooleanField(verbose_name="user_is_admin", default=False)
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name} ({self.position})"
