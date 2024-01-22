@@ -12,8 +12,7 @@ SECRET_KEY = os.getenv("DJANGO_KEY", "django_key")
 
 DEBUG = True
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split()
-
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,7 +75,7 @@ DATABASES = {
         "NAME": os.getenv("POSTGRES_DB", "dbname"),
         "USER": os.getenv("POSTGRES_USER", "user"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "password"),
-        "HOST": os.getenv("HOST", "localhost"),
+        "HOST": os.getenv("HOST", "db"),
         "PORT": os.getenv("PORT", 5432),
     }
 }

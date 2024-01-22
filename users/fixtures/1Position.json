@@ -1,0 +1,44 @@
+[
+    {
+      "model": "users.Position",
+      "pk": 1,
+      "fields": {
+        "name": "Backend-разработчик"
+      }
+    },
+    {
+      "model": "users.Position",
+      "pk": 2,
+      "fields": {
+        "name": "Frontend-разработчик"
+      }
+    },
+    {
+      "model": "users.Position",
+      "pk": 3,
+      "fields": {
+        "name": "Fullstack-разработчик"
+      }
+    },
+    {
+      "model": "users.Position",
+      "pk": 4,
+      "fields": {
+        "name": "QA-инженер"
+      }
+    },
+    {
+      "model": "users.Position",
+      "pk": 5,
+      "fields": {
+        "name": "Devops-инженер"
+      }
+    },
+    {
+      "model": "users.Position",
+      "pk": 6,
+      "fields": {
+        "name": "Senior Backend-разработчик"
+      }
+    }
+]

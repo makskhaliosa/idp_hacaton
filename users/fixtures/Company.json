@@ -1,0 +1,37 @@
+[
+    {
+      "model": "users.Company",
+      "pk": 1,
+      "fields": {
+        "company_name": "Yandex"
+      }
+    },
+    {
+      "model": "users.Company",
+      "pk": 2,
+      "fields": {
+        "company_name": "Google"
+      }
+    },
+    {
+      "model": "users.Company",
+      "pk": 3,
+      "fields": {
+        "company_name": "Red October LLC"
+      }
+    },
+    {
+      "model": "users.Company",
+      "pk": 4,
+      "fields": {
+        "company_name": "Bing"
+      }
+    },
+    {
+      "model": "users.Company",
+      "pk": 5,
+      "fields": {
+        "company_name": "VK LLC"
+      }
+    }
+]
