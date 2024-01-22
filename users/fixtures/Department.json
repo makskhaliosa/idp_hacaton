@@ -1,0 +1,362 @@
+[
+    {
+      "model": "users.Department",
+      "pk": 1,
+      "fields": {
+        "dep_name": "Administration",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 2,
+      "fields": {
+        "dep_name": "Marketing",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 3,
+      "fields": {
+        "dep_name": "Business Development",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 4,
+      "fields": {
+        "dep_name": "Cybersecurity",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 5,
+      "fields": {
+        "dep_name": "Programming",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 6,
+      "fields": {
+        "dep_name": "IT services",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 7,
+      "fields": {
+        "dep_name": "HR",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 8,
+      "fields": {
+        "dep_name": "Account department",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk":9,
+      "fields": {
+        "dep_name": "Technical Support",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 10,
+      "fields": {
+        "dep_name": "Administration",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 11,
+      "fields": {
+        "dep_name": "Marketing",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 12,
+      "fields": {
+        "dep_name": "Business Development",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 13,
+      "fields": {
+        "dep_name": "Cybersecurity",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 14,
+      "fields": {
+        "dep_name": "Programming",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 15,
+      "fields": {
+        "dep_name": "IT services",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 16,
+      "fields": {
+        "dep_name": "HR",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 17,
+      "fields": {
+        "dep_name": "Account department",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk":18,
+      "fields": {
+        "dep_name": "Technical Support",
+        "company_id": 2
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 19,
+      "fields": {
+        "dep_name": "Administration",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 20,
+      "fields": {
+        "dep_name": "Marketing",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 21,
+      "fields": {
+        "dep_name": "Business Development",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 22,
+      "fields": {
+        "dep_name": "Cybersecurity",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 23,
+      "fields": {
+        "dep_name": "Programming",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 24,
+      "fields": {
+        "dep_name": "IT services",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 25,
+      "fields": {
+        "dep_name": "HR",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 26,
+      "fields": {
+        "dep_name": "Account department",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 27,
+      "fields": {
+        "dep_name": "Technical Support",
+        "company_id": 3
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 28,
+      "fields": {
+        "dep_name": "Administration",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 29,
+      "fields": {
+        "dep_name": "Marketing",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 30,
+      "fields": {
+        "dep_name": "Business Development",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 31,
+      "fields": {
+        "dep_name": "Cybersecurity",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 32,
+      "fields": {
+        "dep_name": "Programming",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 33,
+      "fields": {
+        "dep_name": "IT services",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 34,
+      "fields": {
+        "dep_name": "HR",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 35,
+      "fields": {
+        "dep_name": "Account department",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 36,
+      "fields": {
+        "dep_name": "Technical Support",
+        "company_id": 4
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 37,
+      "fields": {
+        "dep_name": "Administration",
+        "company_id": 5
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 38,
+      "fields": {
+        "dep_name": "Marketing",
+        "company_id": 5
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 39,
+      "fields": {
+        "dep_name": "Business Development",
+        "company_id": 5
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 40,
+      "fields": {
+        "dep_name": "Cybersecurity",
+        "company_id": 5
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 41,
+      "fields": {
+        "dep_name": "Programming",
+        "company_id": 5
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 42,
+      "fields": {
+        "dep_name": "IT services",
+        "company_id": 5
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 43,
+      "fields": {
+        "dep_name": "HR",
+        "company_id": 5
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 44,
+      "fields": {
+        "dep_name": "Account department",
+        "company_id": 5
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 45,
+      "fields": {
+        "dep_name": "Technical Support",
+        "company_id": 5
+      }
+    }
+]
