@@ -1,0 +1,65 @@
+[
+    {
+      "model": "users.User",
+      "pk": 1,
+      "fields": {
+        "first_name": "Andrey",
+        "last_name": "Varachev",
+        "username": "user1",
+        "position": 1,
+        "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+        "chief": 5,
+        "mentor": 5
+      }
+    },
+    {
+      "model": "users.User",
+      "pk": 2,
+      "fields": {
+        "first_name": "Alexy",
+        "last_name": "Chizhov",
+        "username": "user2",
+        "position": 1,
+        "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+        "chief": 5,
+        "mentor": 5
+      }
+    },
+    {
+      "model": "users.User",
+      "pk": 3,
+      "fields": {
+        "first_name": "Maxim",
+        "last_name": "Kalesa",
+        "username": "user3",
+        "position": 1,
+        "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+        "chief": 5,
+        "mentor": 5
+      }
+    },
+    {
+      "model": "users.User",
+      "pk": 4,
+      "fields": {
+        "first_name": "Igor",
+        "last_name": "Babazhuk",
+        "username": "user4",
+        "position": 1,
+        "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+        "chief": 5,
+        "mentor": 5
+      }
+    },
+    {
+      "model": "users.User",
+      "pk": 5,
+      "fields": {
+        "first_name": "Pavel",
+        "last_name": "Pavlov",
+        "username": "user5",
+        "position": 6,
+        "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww="
+      }
+    }
+]
