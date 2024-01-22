@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from idp_app.models import Task
+
+from idp_app.models import IDP, Task
 from users.models import Department
 
 
@@ -30,3 +31,9 @@ class TaskSerializer(serializers.ModelSerializer):
             'task_note_mentor',
             'task_mentor_id'
         )
+        
+        
+class IDPSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IDP
+        fields = "__all__"
