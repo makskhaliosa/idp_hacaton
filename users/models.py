@@ -35,14 +35,6 @@ class User(AbstractUser):
         blank=True,
         null=True,
     )
-    mentor = models.ForeignKey(
-        "User",
-        on_delete=models.SET_NULL,
-        verbose_name="mentor",
-        related_name="students",
-        blank=True,
-        null=True,
-    )
     department = models.ForeignKey(
         "Department",
         on_delete=models.SET_NULL,
@@ -52,7 +44,6 @@ class User(AbstractUser):
     )
 
     def __str__(self) -> str:
-
         return f"{self.first_name} {self.last_name}"
 
     class Meta:
@@ -64,14 +55,9 @@ class User(AbstractUser):
 class Position(models.Model):
     """Таблица с наименованием должностей сотрудников."""
 
-    pos_id = models.AutoField(
-        verbose_name="position_id",
-        primary_key=True
-    )
+    pos_id = models.AutoField(verbose_name="position_id", primary_key=True)
     name = models.CharField(
-        verbose_name="position_name",
-        max_length=255,
-        unique=True
+        verbose_name="position_name", max_length=255, unique=True
     )
 
     def __str__(self) -> str:
