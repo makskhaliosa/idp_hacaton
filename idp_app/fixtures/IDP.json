@@ -1,0 +1,42 @@
+[
+    {
+      "model": "idp_app.IDP",
+      "pk": 1,
+      "fields": {
+        "name": "Победить на Хакатоне+",
+        "target": "Занять первое место с проектом на Хакатаоне+.",
+        "status": "active",
+        "employee": 1
+      }
+    },
+    {
+      "model": "idp_app.IDP",
+      "pk": 2,
+      "fields": {
+        "name": "Победить на Хакатоне+",
+        "target": "Занять первое место с проектом на Хакатаоне+.",
+        "status": "active",
+        "employee": 2
+      }
+    },
+    {
+      "model": "idp_app.IDP",
+      "pk": 3,
+      "fields": {
+        "name": "Победить на Хакатоне+",
+        "target": "Занять первое место с проектом на Хакатаоне+.",
+        "status": "active",
+        "employee": 3
+      }
+    },
+    {
+      "model": "idp_app.IDP",
+      "pk": 4,
+      "fields": {
+        "name": "Победить на Хакатоне+",
+        "target": "Занять первое место с проектом на Хакатаоне+.",
+        "status": "active",
+        "employee": 4
+      }
+    }
+]

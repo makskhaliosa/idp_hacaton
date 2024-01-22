@@ -1,9 +1,12 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from api_v1.serializers.idp_app import IDPSerializer
-from idp_app.models import IDP
+from api_v1.serializers.idp_app import (DepartmentSerializer, IDPSerializer,
+                                        TaskSerializer)
+from idp_app.models import IDP, Task
+from users.models import Department
 
 
 class IDPViewSet(viewsets.ModelViewSet):
@@ -69,3 +72,15 @@ class IDPViewSet(viewsets.ModelViewSet):
         """
         data = {"message": "Здесь будут данные."}
         return Response(data)
+
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    permission_classes = (AllowAny,)
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = (AllowAny,)
