@@ -7,6 +7,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ("username", "first_name", "last_name", "department")
     empty_value_display = "-empty-"
 
+
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ("dep_id", "dep_name", "company_id")
     list_filter = ("company_id",)
