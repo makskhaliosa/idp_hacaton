@@ -50,9 +50,9 @@ class User(AbstractUser):
         verbose_name="user_department",
         null=True,
     )
+    is_admin = models.BooleanField(verbose_name="user_is_admin", default=False)
 
     def __str__(self) -> str:
-
         return f"{self.first_name} {self.last_name}"
 
     class Meta:
@@ -64,14 +64,9 @@ class User(AbstractUser):
 class Position(models.Model):
     """Таблица с наименованием должностей сотрудников."""
 
-    pos_id = models.AutoField(
-        verbose_name="position_id",
-        primary_key=True
-    )
+    pos_id = models.AutoField(verbose_name="position_id", primary_key=True)
     name = models.CharField(
-        verbose_name="position_name",
-        max_length=255,
-        unique=True
+        verbose_name="position_name", max_length=255, unique=True
     )
 
     def __str__(self) -> str:

@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -21,9 +22,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # 3d party apps
     "rest_framework",
     "drf_spectacular",
     "drf_spectacular_sidecar",
+    "rest_framework_simplejwt",
+    "djoser",
     # project`s apps
     "idp_app.apps.IdpAppConfig",
     "core.apps.CoreConfig",
@@ -101,6 +105,9 @@ AUTH_PASSWORD_VALIDATORS = [
 REST_FRAMEWORK = {
     # YOUR SETTINGS
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
 }
 
 # DRF_SPECTACULAR
@@ -113,6 +120,27 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "SIDECAR",  # shorthand to use the sidecar instead
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
+    "SCHEMA_PATH_PREFIX": r"/api/v[0-9]",
+}
+
+# SIMPLE_JWT
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=3),
+    "USER_ID_FIELD": "uid",
+}
+
+# DJOSER
+
+DJOSER = {
+    "TOKEN_MODEL": "rest_framework_simplejwt.tokens.AccessToken",
+    "SERIALIZERS": {
+        "user": "api_v1.serializers.users.UserSerializer",
+        "current_user": "api_v1.serializers.users.UserSerializer",
+        "user_create": "api_v1.serializers.users.UserCreateSerializer",
+    },
+    "HIDE_USERS": False,
 }
 
 # Internationalization

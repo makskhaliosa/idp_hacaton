@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-
 from .models import (
     IDP,
     File,
@@ -9,7 +8,6 @@ from .models import (
     Task,
     TaskNotification,
 )
-
 
 
 class TaskAdmin(admin.ModelAdmin):

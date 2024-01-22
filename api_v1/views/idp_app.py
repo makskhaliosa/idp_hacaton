@@ -1,10 +1,13 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
-from api_v1.serializers.idp_app import (DepartmentSerializer, IDPSerializer,
-                                        TaskSerializer)
+from api_v1.serializers.idp_app import (
+    DepartmentSerializer,
+    IDPSerializer,
+    TaskSerializer,
+)
 from idp_app.models import IDP, Task
 from users.models import Department
 
