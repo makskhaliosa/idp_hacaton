@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from idp_app.models import Department, Task
+from idp_app.models import Task
+from users.models import Department
 
 
 class DepartmentSerializer(serializers.ModelSerializer):

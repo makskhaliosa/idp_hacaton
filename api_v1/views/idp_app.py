@@ -1,5 +1,6 @@
 from api_v1.serializers.idp_app import TaskSerializer, DepartmentSerializer
-from idp_app.models import Task, Department
+from idp_app.models import Task
+from users.models import Department
 
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, AllowAny
