@@ -33,10 +33,9 @@ repos:
       - id: flake8
         additional_dependencies:
           - flake8-docstrings
-        exclude: "^.*/migrations/"
+        exclude: |
+          (?x)(
+            "^.*/migrations/"|
+            "^tests/"
+          )
         args: [--config, setup.cfg]
-      - id: flake8
-        additional_dependencies:
-          - flake8-docstrings
-        exclude: "^tests/"
-        args: [ --config, setup.cfg ]
