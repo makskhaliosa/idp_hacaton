@@ -67,6 +67,11 @@ class IDP(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        update_fileds = kwargs.get("update_fields")
+        print(update_fileds)
+
 
 class Task(models.Model):
     """Tasks table."""
