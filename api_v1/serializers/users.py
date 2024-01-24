@@ -14,9 +14,6 @@ class UserSerializer(serializers.ModelSerializer):
     chief = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), required=False
     )
-    mentor = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), required=False
-    )
     department = serializers.SlugRelatedField(
         slug_field="dep_name",
         queryset=Department.objects.all(),
@@ -27,13 +24,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "uid",
+            "email",
             "first_name",
             "middle_name",
             "last_name",
             "position",
             "chief",
-            "mentor",
             "department",
+            "mentor_tasks",
         )
         extra_kwargs = {
             "first_name": {"required": False},
@@ -56,7 +54,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         model = User
         fields = (
             "uid",
-            "username",
+            "email",
             "first_name",
             "middle_name",
             "last_name",
