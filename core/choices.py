@@ -179,7 +179,7 @@ TaskNoteRelation = {
         "note": NotificationTriggers.TASK_COMMENT_ADDED,
         "receiver": ["emlpoyee"],
     },
-    "task_end_data_plan": {
+    "task_end_date_plan": {
         "note": NotificationTriggers.TASK_ENDDATE_UPDATED,
         "receiver": ["emlpoyee"],
     },
