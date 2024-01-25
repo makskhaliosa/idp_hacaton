@@ -167,7 +167,7 @@ TaskNoteRelation = {
         "note": NotificationTriggers.TASK_UPDATED,
         "receiver": ["emlpoyee"],
     },
-    "task_mentor_id_id": {
+    "task_mentor_id": {
         "note": NotificationTriggers.MENTOR_CHANGED,
         "receiver": ["emlpoyee"],
     },

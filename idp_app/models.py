@@ -167,10 +167,10 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
-    task_mentor_id = models.ForeignKey(
+    task_mentor = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
-        verbose_name="task_mentor_id",
+        verbose_name="task_mentor",
         related_name="mentor_tasks",
         null=True,
     )
@@ -236,7 +236,7 @@ class Task(models.Model):
         receivers = {
             "employee": self.idp.employee,
             "chief": self.idp.employee.chief,
-            "mentor": self.task_mentor_id,
+            "mentor": self.task_mentor,
         }
         return [receivers.get(user) for user in users]
 
@@ -260,8 +260,8 @@ class File(models.Model):
     file_name = models.CharField(verbose_name="file_name", max_length=100)
     file_link = models.URLField(verbose_name="file_link", max_length=5000)
     file_type = models.CharField(verbose_name="file_type", max_length=10)
-    file_task_id = models.ForeignKey(
-        Task, on_delete=models.CASCADE, verbose_name="file_task_id"
+    file_task = models.ForeignKey(
+        Task, on_delete=models.CASCADE, verbose_name="file_task"
     )
 
     class Meta:
