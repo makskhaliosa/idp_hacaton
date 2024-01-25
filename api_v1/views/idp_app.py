@@ -2,10 +2,11 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 
 from api_v1.serializers.idp_app import (
+    CreateIDPSerializer,
     DepartmentSerializer,
     FileSerializer,
     IDPNotificationSerializer,
-    IDPSerializer,
+    IDPReadOnlySerializer,
     NotificationSerializer,
     TaskNotificationSerializer,
     TaskSerializer,
@@ -47,8 +48,13 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
 class IDPViewSet(viewsets.ModelViewSet):
     queryset = IDP.objects.all()
-    serializer_class = IDPSerializer
+    serializer_class = IDPReadOnlySerializer
     permission_classes = (AllowAny,)
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return IDPReadOnlySerializer
+        return CreateIDPSerializer
 
 
 class TaskNotificationViewSet(viewsets.ModelViewSet):
@@ -58,6 +64,6 @@ class TaskNotificationViewSet(viewsets.ModelViewSet):
 
 
 class IDPNotificationViewSet(viewsets.ModelViewSet):
-    queryset = IdpNotification
+    queryset = IdpNotification.objects.all()
     serializer_class = IDPNotificationSerializer
     permission_classes = (AllowAny,)

@@ -8,8 +8,7 @@
         "username": "user1",
         "position": 1,
         "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
-        "chief": 5,
-        "mentor": 5
+        "chief": 5
       }
     },
     {
@@ -21,8 +20,7 @@
         "username": "user2",
         "position": 1,
         "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
-        "chief": 5,
-        "mentor": 5
+        "chief": 5
       }
     },
     {
@@ -34,8 +32,7 @@
         "username": "user3",
         "position": 1,
         "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
-        "chief": 5,
-        "mentor": 5
+        "chief": 5
       }
     },
     {
@@ -47,8 +44,7 @@
         "username": "user4",
         "position": 1,
         "password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
-        "chief": 5,
-        "mentor": 5
+        "chief": 5
       }
     },
     {

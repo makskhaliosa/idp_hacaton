@@ -26,7 +26,13 @@ class TaskNotificationSerializer(serializers.ModelSerializer):
 class IDPNotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = IdpNotification
-        fields = ("in_id", "notifications", "idp", "date", "status")
+        fields = ("in_id", "notification", "idp", "date", "status")
+
+
+class CreateIDPNotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IdpNotification
+        fields = "in_id"
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -67,11 +73,28 @@ class FileSerializer(serializers.ModelSerializer):
         )
 
 
-class IDPSerializer(serializers.ModelSerializer):
+class IDPReadOnlySerializer(serializers.ModelSerializer):
     class Meta:
         model = IDP
         fields = (
             "idp_id",
+            "name",
+            "target",
+            "status",
+            "start_date",
+            "end_date_plan",
+            "end_date_fact",
+            "employee",
+            "notifications",
+        )
+
+
+class CreateIDPSerializer(serializers.ModelSerializer):
+    notifications = CreateIDPNotificationSerializer(many=True)
+
+    class Meta:
+        model = IDP
+        fields = (
             "name",
             "target",
             "status",
