@@ -32,7 +32,7 @@ class IDPNotificationSerializer(serializers.ModelSerializer):
 class CreateIDPNotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = IdpNotification
-        fields = "in_id"
+        fields = ("notification",)
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -90,7 +90,7 @@ class IDPReadOnlySerializer(serializers.ModelSerializer):
 
 
 class CreateIDPSerializer(serializers.ModelSerializer):
-    notifications = CreateIDPNotificationSerializer(many=True)
+    notifications = CreateIDPNotificationSerializer(many=True, required=False)
 
     class Meta:
         model = IDP
@@ -104,3 +104,18 @@ class CreateIDPSerializer(serializers.ModelSerializer):
             "employee",
             "notifications",
         )
+
+    def to_representation(self, instance):
+        return IDPReadOnlySerializer(
+            instance, context={"request": self.context.get("request")}
+        ).data
+
+    def create(self, validated_data):
+        if "notifications" not in self.initial_data:
+            idp = IDP.objects.create(**validated_data)
+            return idp
+        notifications = validated_data.pop("notifications")
+        idp = IDP.objects.create(**validated_data)
+        for notification in notifications:
+            IdpNotification.objects.create(**notification, idp_id=idp.pk)
+        return idp
