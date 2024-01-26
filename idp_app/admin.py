@@ -1,6 +1,8 @@
 from django.contrib import admin
 
+
 from core.models import EmptyFieldModel, MinValidatedInlineMixIn
+
 
 from .models import (
     IDP,
@@ -12,6 +14,7 @@ from .models import (
 )
 
 
+
 class IDPNotificationTabularInline(
     admin.TabularInline, MinValidatedInlineMixIn
 ):
@@ -21,6 +24,7 @@ class IDPNotificationTabularInline(
 
 
 class TaskAdmin(EmptyFieldModel):
+
     list_display = (
         "task_id",
         "task_name",
