@@ -8,7 +8,6 @@ from idp_app.models import (
     Task,
     TaskNotification,
 )
-
 from users.models import Department
 
 
@@ -51,7 +50,6 @@ class TaskSerializer(serializers.ModelSerializer):
             "task_description",
             "task_status",
             "mentor",
-
             "task_start_date",
             "task_end_date_plan",
             "task_end_date_fact",
