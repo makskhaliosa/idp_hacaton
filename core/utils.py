@@ -23,3 +23,20 @@ def find_differencies(initial: Model, updated: Model):
         # _state нам без надобности, поэтому убираем
         del diffs["_state"]
     return diffs
+
+
+def get_extensions():
+    """Return lists of allowed extensions and content types."""
+    extension_mapping = {
+        ".pdf": "application/pdf",
+        ".doc": "application/msword",
+        ".xls": "application/vnd.ms-excel",
+        ".jpeg": "image/jpeg",
+        ".jpg": "image/jpeg",
+        ".png": "image/png",
+        ".zip": "application/zip",
+        ".rar": "application/x-rar-compressed",
+    }
+    extensions = list(extension_mapping.keys())
+    content_types = list(extension_mapping.values())
+    return extensions, content_types
