@@ -4,6 +4,7 @@ from typing import Any, Dict, List
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 from core.choices import (
     IdpNoteRelation,
@@ -12,6 +13,7 @@ from core.choices import (
     NotificationTriggers,
     TaskNoteRelation,
     TaskStatuses,
+    UserRoles,
 )
 from core.utils import default_end_date_plan, find_differencies
 
@@ -84,18 +86,23 @@ class IDP(models.Model):
             if self.status == IdpStatuses.ACTIVE:
                 self._activate_tasks()
 
-    def _create_notification(self, trigger: Dict[str, Dict]):
+    def _create_notification(self, trigger: Dict[str, Any]):
         try:
             note = Notification.objects.get(trigger=trigger.get("note"))
-            receivers = self._get_receiver(
-                trigger.get("receiver", ["employee"])
+            messages = trigger.get("message")
+            receivers_messages = self._get_receiver_and_message(
+                users=trigger.get("receiver", [UserRoles.employee]),
+                messages=messages,
             )
-            [
+            print(receivers_messages)
+            for receiver, message in receivers_messages.items():
+                final_message = f"{message} {self.get_absolute_url()}"
                 IdpNotification.objects.create(
-                    notification=note, idp=self, receiver=receiver
+                    notification=note,
+                    idp=self,
+                    receiver=receiver,
+                    message=final_message,
                 )
-                for receiver in receivers
-            ]
         except Notification.DoesNotExist:
             return None
 
@@ -112,9 +119,19 @@ class IDP(models.Model):
             trigger = IdpNoteRelation.get("updated")
             self._create_notification(trigger)
 
-    def _get_receiver(self, users: List[str]) -> List[User]:
-        receivers = {"employee": self.employee, "chief": self.employee.chief}
-        return [receivers.get(user) for user in users]
+    def _get_receiver_and_message(
+        self, users: List[str], messages: Dict[str, str]
+    ) -> Dict[User, str]:
+        """
+        Accept list of roles and dictionary with messages for roles.
+
+        Return dictionary where key is a receiver and value is a message.
+        """
+        receivers = {
+            UserRoles.employee: self.employee,
+            UserRoles.chief: self.employee.chief,
+        }
+        return {receivers.get(user): messages.get(user) for user in users}
 
     def _activate_tasks(self):
         for task in self.tasks.all():
@@ -125,6 +142,9 @@ class IDP(models.Model):
         for task in self.tasks.all():
             task.task_status = TaskStatuses.CANCELLED_WITH_IDP
             task.save()
+
+    def get_absolute_url(self):
+        return reverse("idp-detail", kwargs={"pk": self.pk})
 
 
 class Task(models.Model):
@@ -204,18 +224,22 @@ class Task(models.Model):
             if trigger is not None:
                 self._create_notification(trigger)
 
-    def _create_notification(self, trigger: Dict[str, Dict]):
+    def _create_notification(self, trigger: Dict[str, Any]):
         try:
             note = Notification.objects.get(trigger=trigger.get("note"))
-            receivers = self._get_receiver(
-                trigger.get("receiver", ["employee"])
+            messages = trigger.get("message")
+            receivers_messages = self._get_receiver_and_message(
+                users=trigger.get("receiver", [UserRoles.employee]),
+                messages=messages,
             )
-            [
+            for receiver, message in receivers_messages.items():
+                final_message = f"{message} {self.get_absolute_url()}"
                 TaskNotification.objects.create(
-                    notification=note, task=self, receiver=receiver
+                    notification=note,
+                    task=self,
+                    receiver=receiver,
+                    message=final_message,
                 )
-                for receiver in receivers
-            ]
         except Notification.DoesNotExist:
             return None
 
@@ -232,13 +256,20 @@ class Task(models.Model):
             if trigger:
                 self._create_notification(trigger)
 
-    def _get_receiver(self, users: List[str]) -> List[User]:
+    def _get_receiver_and_message(
+        self, users: List[str], messages: Dict[str, str]
+    ) -> Dict[User, str]:
+        """
+        Accept list of roles and dictionary with messages for roles.
+
+        Return dictionary where key is a receiver and value is a message.
+        """
         receivers = {
-            "employee": self.idp.employee,
-            "chief": self.idp.employee.chief,
-            "mentor": self.task_mentor,
+            UserRoles.employee: self.idp.employee,
+            UserRoles.chief: self.idp.employee.chief,
+            UserRoles.mentor: self.task_mentor,
         }
-        return [receivers.get(user) for user in users]
+        return {receivers.get(user): messages.get(user) for user in users}
 
     def _check_other_tasks(self):
         all_tasks_done = True
@@ -251,6 +282,9 @@ class Task(models.Model):
         if all_tasks_done:
             self.idp.status = IdpStatuses.COMPLETED_APPROVAL
             self.idp.save()
+
+    def get_absolute_url(self):
+        return reverse("task-detail", kwargs={"pk": self.pk})
 
 
 class File(models.Model):
