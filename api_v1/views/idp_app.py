@@ -1,5 +1,7 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -8,13 +10,26 @@ from api_v1.serializers.idp_app import (
     IDPSerializer,
     TaskSerializer,
 )
+from core.choices import IdpStatuses
+from core.utils import get_idp_extra_info
 from idp_app.models import IDP, Task
 from users.models import Department
+
+from ..serializers.idp_app import IDPasFieldSerializer
 
 
 class IDPViewSet(viewsets.ModelViewSet):
     queryset = IDP.objects.all()
     serializer_class = IDPSerializer
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ("^name", "employee__last_name")
+    ordering_fields = (
+        "name",
+        "end_date_plan",
+        "status",
+        "employee__last_name",
+        "employee__first_name",
+    )
 
     @action(detail=False, methods=["get"], url_path="chief/list")
     def idp_list(self, request, *args, **kwargs):
@@ -75,6 +90,31 @@ class IDPViewSet(viewsets.ModelViewSet):
         """
         data = {"message": "Здесь будут данные."}
         return Response(data)
+
+    @extend_schema(responses=IDPasFieldSerializer)
+    @action(detail=False, url_path="subordinates")
+    def get_subordinates_idps(self, request):
+        """Return list of subordinates idps."""
+        subordinates = request.user.subordinates.all()
+        idps = IDP.objects.filter(employee__in=subordinates).exclude(
+            status=IdpStatuses.DRAFT
+        )
+        filtered_idps = self.filter_queryset(idps)
+
+        if filtered_idps:
+            extra_info = get_idp_extra_info(filtered_idps)
+            page = self.paginate_queryset(filtered_idps)
+            if page:
+                serializer = IDPasFieldSerializer(page, many=True)
+                response = self.get_paginated_response(serializer.data)
+                response.data.update(extra_info)
+                return response
+
+            serializer = IDPasFieldSerializer(filtered_idps, many=True)
+            response = Response(data=serializer.data)
+            response.data.update(extra_info)
+            return response
+        return Response({"detail": "Your employees don`t have idps yet."})
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):

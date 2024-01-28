@@ -324,6 +324,9 @@ class TaskNotification(models.Model):
         verbose_name="receiver_of_notice",
         null=True,
     )
+    message = models.TextField(
+        verbose_name="notification_message", blank=True, null=True
+    )
     date = models.DateTimeField(
         verbose_name="notification_sent_datetime", auto_now_add=True
     )
@@ -362,6 +365,9 @@ class IdpNotification(models.Model):
         related_name="idp_notices",
         verbose_name="receiver_of_notice",
         null=True,
+    )
+    message = models.TextField(
+        verbose_name="notification_message", blank=True, null=True
     )
     date = models.DateTimeField(
         verbose_name="notification_sent_datetime", auto_now_add=True
