@@ -29,6 +29,11 @@ def find_differencies(initial: Model, updated: Model):
 
 
 def get_idp_extra_info(idps: List[Model]) -> Dict[str, int]:
+    """
+    Generate extra fields for idp serializer.
+
+    Count number of idps by statuses.
+    """
     extra_info = {
         "in_total": 0,
         IdpStatuses.ACTIVE: 0,
