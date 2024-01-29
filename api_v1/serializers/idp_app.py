@@ -85,6 +85,7 @@ class IDPReadOnlySerializer(serializers.ModelSerializer):
             "end_date_plan",
             "end_date_fact",
             "employee",
+            "mentor",
             "notifications",
         )
 
@@ -102,6 +103,7 @@ class CreateIDPSerializer(serializers.ModelSerializer):
             "end_date_plan",
             "end_date_fact",
             "employee",
+            "mentor",
             "notifications",
         )
 
@@ -113,9 +115,14 @@ class CreateIDPSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         if "notifications" not in self.initial_data:
             idp = IDP.objects.create(**validated_data)
+
             return idp
+
         notifications = validated_data.pop("notifications")
+
         idp = IDP.objects.create(**validated_data)
+
         for notification in notifications:
             IdpNotification.objects.create(**notification, idp_id=idp.pk)
+
         return idp
