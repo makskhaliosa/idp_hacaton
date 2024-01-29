@@ -54,7 +54,6 @@ class FileAdmin(EmptyFieldModel):
     list_display = (
         "file_id",
         "file_name",
-        "file_link",
         "file_type",
         "file_task_id",
     )
