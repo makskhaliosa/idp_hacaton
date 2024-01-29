@@ -1,42 +1,157 @@
 [
-    {
-      "model": "idp_app.IDP",
-      "pk": 1,
-      "fields": {
-        "name": "Победить на Хакатоне+",
-        "target": "Занять первое место с проектом на Хакатаоне+.",
-        "status": "active",
-        "employee": 1
-      }
-    },
-    {
-      "model": "idp_app.IDP",
-      "pk": 2,
-      "fields": {
-        "name": "Победить на Хакатоне+",
-        "target": "Занять первое место с проектом на Хакатаоне+.",
-        "status": "active",
-        "employee": 2
-      }
-    },
-    {
-      "model": "idp_app.IDP",
-      "pk": 3,
-      "fields": {
-        "name": "Победить на Хакатоне+",
-        "target": "Занять первое место с проектом на Хакатаоне+.",
-        "status": "active",
-        "employee": 3
-      }
-    },
-    {
-      "model": "idp_app.IDP",
-      "pk": 4,
-      "fields": {
-        "name": "Победить на Хакатоне+",
-        "target": "Занять первое место с проектом на Хакатаоне+.",
-        "status": "active",
-        "employee": 4
-      }
-    }
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 1,
+  	"fields": {
+    	"name": "Изучить функциональное программирование",
+    	"target": "Стать senior Frontend-разработчиком",
+    	"status": "draft",
+    	"end_date_plan": "2024-03-20T00:00:00+03:00",
+            "employee": 7
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 2,
+  	"fields": {
+    	"name": "Изучить методологии разработки, преимущества и недостатки",
+    	"target": "Стать head of разработчиков",
+    	"status": "draft",
+    	"end_date_plan": "2024-03-21T00:00:00+03:00",
+            "employee": 4
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 3,
+  	"fields": {
+    	"name": "Научиться правильно выстраивать процессы в команде",
+    	"target": "Прокачать свои навыки",
+    	"status": "draft",
+    	"employee": 1
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 4,
+  	"fields": {
+    	"name": "Освоить с углубленным изучением фундаментальные аспекты программирования",
+    	"target": "Стать head of разработчиков",
+    	"status": "draft_approval",
+    	"end_date_plan": "2024-03-11T00:00:00+03:00",
+            "employee": 4
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 5,
+  	"fields": {
+    	"name": "Прокачать скиллы по системному анализу",
+    	"target": "Стать Head of аналитики",
+    	"status": "draft_approval",
+    	"employee": 2
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 6,
+  	"fields": {
+    	"name": "Научиться проводить техническое интервью кандидатов",
+    	"target": "Стать Head of аналитики",
+    	"status": "active",
+    	"end_date_plan": "2024-03-17T00:00:00+03:00",
+            "employee": 2
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 7,
+  	"fields": {
+    	"name": "Научиться эффективно ставить задачи разработчикам своей команды",
+    	"target": "Стать senior Backend-разработчиком",
+    	"status": "active",
+    	"end_date_plan": "2024-03-19T00:00:00+03:00",
+            "employee": 6
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 8,
+  	"fields": {
+    	"name": "Усовершенствовать знания в бизнес-анализе",
+    	"target": "Стать Head of аналитики",
+    	"status": "two_weeks",
+    	"end_date_plan": "2024-02-18T00:00:00+03:00",
+            "employee": 3
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 9,
+  	"fields": {
+    	"name": "Развить навыки планирования и тайм-менеджмента",
+    	"target": "Прокачать свои навыки",
+    	"status": "overdue",
+    	"end_date_plan": "2023-12-21T00:00:00+03:00",
+            "employee": 1
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 10,
+  	"fields": {
+    	"name": "Изучить Best practices по фронту",
+    	"target": "Стать senior Frontend-разработчиком",
+    	"status": "overdue",
+    	"end_date_plan": "2024-01-11T00:00:00+03:00",
+            "employee": 7
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 11,
+  	"fields": {
+    	"name": "Развить управленческие навыки/менторство",
+    	"target": "Стать Head of аналитики",
+    	"status": "closed",
+    	"end_date_plan": "2024-02-14T00:00:00+03:00",
+            "end_date_fact": "2024-01-16T00:00:00+03:00",
+    	"employee": 2
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 12,
+  	"fields": {
+    	"name": "Проводить собеседования с кандидатами",
+    	"target": "Стать head of разработчиков",
+    	"status": "cancelled",
+    	"end_date_plan": "2024-06-11T00:00:00+03:00",
+            "end_date_fact": "2023-12-23T00:00:00+03:00",
+    	"employee": 4
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 13,
+  	"fields": {
+    	"name": "Научиться проводить технический онбординг",
+    	"target": "Прокачать свои навыки",
+    	"status": "completed_approval",
+    	"end_date_plan": "2024-02-29T00:00:00+03:00",
+            "employee": 1
+  	}
+	},
+	{
+  	"model": "idp_app.IDP",
+  	"pk": 14,
+  	"fields": {
+    	"name": "Усовершенствовать построение масштабируемых и эффективных архитектур приложений",
+    	"target": "Стать senior Backend-разработчиком",
+    	"status": "closed",
+            "end_date_plan": "2024-01-23T00:00:00+03:00",
+            "end_date_fact": "2024-01-30T00:00:00+03:00",
+    	"employee": 6
+  	}
+	}
 ]

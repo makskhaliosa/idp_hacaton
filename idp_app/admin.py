@@ -38,7 +38,7 @@ class FileAdmin(admin.ModelAdmin):
     )
     list_filter = (
         "file_type",
-        "file_task_id",
+        "file_task",
     )
     search_fields = ("file_name",)
     empty_value_display = "-пусто-"

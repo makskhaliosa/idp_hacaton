@@ -1,44 +1,51 @@
 [
-    {
-      "model": "users.Position",
-      "pk": 1,
-      "fields": {
-        "name": "Backend-разработчик"
-      }
-    },
-    {
-      "model": "users.Position",
-      "pk": 2,
-      "fields": {
-        "name": "Frontend-разработчик"
-      }
-    },
-    {
-      "model": "users.Position",
-      "pk": 3,
-      "fields": {
-        "name": "Fullstack-разработчик"
-      }
-    },
-    {
-      "model": "users.Position",
-      "pk": 4,
-      "fields": {
-        "name": "QA-инженер"
-      }
-    },
-    {
-      "model": "users.Position",
-      "pk": 5,
-      "fields": {
-        "name": "Devops-инженер"
-      }
-    },
-    {
-      "model": "users.Position",
-      "pk": 6,
-      "fields": {
-        "name": "Senior Backend-разработчик"
-      }
-    }
+	{
+  	"model": "users.Position",
+  	"pk": 1,
+  	"fields": {
+    	"name": "Руководитель отдела"
+  	}
+	},
+	{
+  	"model": "users.Position",
+  	"pk": 2,
+  	"fields": {
+    	"name": "Руководитель группы"
+  	}
+	},
+	{
+  	"model": "users.Position",
+  	"pk": 3,
+  	"fields": {
+    	"name": "Backend-разработчик"
+  	}
+	},
+	{
+  	"model": "users.Position",
+  	"pk": 4,
+  	"fields": {
+    	"name": "Frontend-разработчик"
+  	}
+	},
+	{
+  	"model": "users.Position",
+  	"pk": 5,
+  	"fields": {
+    	"name": "Бизнес-аналитик"
+  	}
+	},
+	{
+  	"model": "users.Position",
+  	"pk": 6,
+  	"fields": {
+    	"name": "Системный аналитик"
+  	}
+	},
+	{
+  	"model": "users.Position",
+  	"pk": 7,
+  	"fields": {
+    	"name": "Тимлид"
+  	}
+	}
 ]
