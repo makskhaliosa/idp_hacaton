@@ -32,3 +32,8 @@ docker compose -f docker-compose-postgres up -d
 ```bash
 python manage.py loaddata */fixtures/*.json
 ```
+
+Также из фикстур создается базовая admin запись со следующими данными.
+
+email: admin@admin.ru
+password: admin
