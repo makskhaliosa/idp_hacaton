@@ -5,9 +5,9 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from core.choices import (
-    STATUS_CHOICES,
     NotificationStatuses,
     NotificationTriggers,
+    StatusChoices,
     TaskStatuses,
 )
 from core.utils import default_end_date_plan
@@ -34,8 +34,8 @@ class IDP(models.Model):
     status = models.CharField(
         verbose_name="status",
         max_length=255,
-        choices=STATUS_CHOICES,
-        default="draft",
+        choices=StatusChoices,
+        default=StatusChoices.DRAFT,
     )
     start_date = models.DateTimeField(
         verbose_name="start_date", default=datetime.now, blank=True, null=True
@@ -48,6 +48,14 @@ class IDP(models.Model):
     )
     end_date_fact = models.DateTimeField(
         verbose_name="end_date_fact", blank=True, null=True
+    )
+    mentor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        verbose_name="mentor",
+        related_name="idp",
+        blank=True,
+        null=True,
     )
     employee = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="idps"
@@ -67,6 +75,20 @@ class IDP(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def create(self, *args, **kwargs):
+        """Check whether the task was created by the user's mentor.
+
+        If not, then the task is a draft that needs to be approved.
+        """
+        employee = self.employee
+
+        if self.request.user == employee.chief:
+            self.status = StatusChoices.ACTIVE
+
+        self.status = StatusChoices.DRAFT
+
+        super(IDP, self).save(*args, **kwargs)
+
 
 class Task(models.Model):
     """Tasks table."""
@@ -80,7 +102,7 @@ class Task(models.Model):
     task_status = models.CharField(
         verbose_name="task_status",
         max_length=40,
-        choices=STATUS_CHOICES,
+        choices=StatusChoices,
         default=TaskStatuses.OPEN,
     )
     mentor = models.ForeignKey(

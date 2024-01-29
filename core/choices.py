@@ -1,14 +1,14 @@
 from django.db import models
 
-STATUS_CHOICES = [
-    ("active", "Активные"),
-    ("completed", "Выполненные"),
-    ("two_weeks", "Две недели до плановой даты выполнения"),
-    ("overdue", "Просроченные"),
-    ("canceled", "Отмененные"),
-    ("closed", "Закрытые"),
-    ("draft", "Черновик"),
-]
+
+class StatusChoices(models.TextChoices):
+    ACTIVE = "Active"
+    COMPLETED = "Completed"
+    TWO_WEEKS = "Two weeks"
+    OVERDUE = "Overdue"
+    CANCELED = "Canceled"
+    CLOSED = "Closed"
+    DRAFT = "Draft"
 
 
 class TaskStatuses(models.TextChoices):

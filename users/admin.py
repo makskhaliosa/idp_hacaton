@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
+from core.models import EmptyFieldModel
+
 from .models import Company, Department, Position, User
 
 
@@ -54,20 +56,20 @@ class UserAdmin(BaseUserAdmin):
     empty_value_display = "-empty-"
 
 
-class DepartmentAdmin(admin.ModelAdmin):
+class DepartmentAdmin(EmptyFieldModel):
     list_display = ("dep_id", "dep_name", "company_id")
     list_filter = ("company_id",)
     search_fields = ("dep_name",)
     empty_value_display = "-пусто-"
 
 
-class CompanyAdmin(admin.ModelAdmin):
+class CompanyAdmin(EmptyFieldModel):
     list_display = ("company_id", "company_name")
     search_fields = ("company_name",)
     empty_value_display = "-пусто-"
 
 
-class PositionAdmin(admin.ModelAdmin):
+class PositionAdmin(EmptyFieldModel):
     list_display = ("pos_id", "name")
     search_fields = ("name",)
     empty_value_display = "-пусто-"
