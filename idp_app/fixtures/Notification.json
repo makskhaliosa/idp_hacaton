@@ -1,0 +1,155 @@
+[
+    {
+      "model": "idp_app.Notification",
+      "pk": 1,
+      "fields": {
+        "name": "Note name1",
+        "trigger": "Idp_created",
+        "description": "Notification description"
+      }
+    },
+    {
+        "model": "idp_app.Notification",
+        "pk": 12,
+        "fields": {
+          "name": "Note name2",
+          "trigger": "Idp_close_request_created",
+          "description": "Notification description"
+        }
+    },
+    {
+        "model": "idp_app.Notification",
+        "pk": 13,
+        "fields": {
+          "name": "Note name3",
+          "trigger": "Idp_close_request_accepted",
+          "description": "Notification description"
+        }
+    },
+    {
+        "model": "idp_app.Notification",
+        "pk": 14,
+        "fields": {
+          "name": "Note name4",
+          "trigger": "Idp_cancelled",
+          "description": "Notification description"
+        }
+    },
+    {
+        "model": "idp_app.Notification",
+        "pk": 15,
+        "fields": {
+          "name": "Note name1",
+          "trigger": "Idp_updated",
+          "description": "Notification description"
+        }
+      },
+      {
+          "model": "idp_app.Notification",
+          "pk": 16,
+          "fields": {
+            "name": "Note name2",
+            "trigger": "Idp_request_from_employee",
+            "description": "Notification description"
+          }
+      },
+      {
+          "model": "idp_app.Notification",
+          "pk": 17,
+          "fields": {
+            "name": "Note name3",
+            "trigger": "Task_created_with_idp",
+            "description": "Notification description"
+          }
+      },
+      {
+          "model": "idp_app.Notification",
+          "pk": 18,
+          "fields": {
+            "name": "Note name4",
+            "trigger": "Task_close_request_created",
+            "description": "Notification description"
+          }
+      },
+      {
+        "model": "idp_app.Notification",
+        "pk": 19,
+        "fields": {
+          "name": "Note name3",
+          "trigger": "Task_closed",
+          "description": "Notification description"
+        }
+    },
+    {
+        "model": "idp_app.Notification",
+        "pk": 10,
+        "fields": {
+          "name": "Note name4",
+          "trigger": "Task_cancelled",
+          "description": "Notification description"
+        }
+    },
+    {
+        "model": "idp_app.Notification",
+        "pk": 21,
+        "fields": {
+          "name": "Note name1",
+          "trigger": "Task_cancelled_because_of_idp",
+          "description": "Notification description"
+        }
+      },
+      {
+          "model": "idp_app.Notification",
+          "pk": 31,
+          "fields": {
+            "name": "Note name2",
+            "trigger": "Task_close_rejected",
+            "description": "Notification description"
+          }
+      },
+      {
+          "model": "idp_app.Notification",
+          "pk": 41,
+          "fields": {
+            "name": "Note name3",
+            "trigger": "Idp_task_updated",
+            "description": "Notification description"
+          }
+      },
+      {
+          "model": "idp_app.Notification",
+          "pk": 51,
+          "fields": {
+            "name": "Note name4",
+            "trigger": "Mentor_changed",
+            "description": "Notification description"
+          }
+      },
+      {
+        "model": "idp_app.Notification",
+        "pk": 61,
+        "fields": {
+          "name": "Note name2",
+          "trigger": "Idp_comment_added",
+          "description": "Notification description"
+        }
+    },
+    {
+        "model": "idp_app.Notification",
+        "pk": 71,
+        "fields": {
+          "name": "Note name4",
+          "trigger": "Task_enddate_plan_updated",
+          "description": "Notification description"
+        }
+    },
+    {
+        "model": "idp_app.Notification",
+        "pk": 721,
+        "fields": {
+          "name": "Note name4",
+          "trigger": "Task_created",
+          "description": "Notification description"
+        }
+    }
+]
