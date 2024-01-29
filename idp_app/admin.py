@@ -21,6 +21,14 @@ class IDPNotificationTabularInline(
     min_num = 1
 
 
+class TaskNotificationTabularInline(
+    admin.TabularInline, MinValidatedInlineMixIn
+):
+    model = TaskNotification
+    validate_min = True
+    min_num = 1
+
+
 class TaskAdmin(EmptyFieldModel):
     list_display = (
         "task_id",
@@ -39,6 +47,7 @@ class TaskAdmin(EmptyFieldModel):
     )
     search_fields = ("task_name",)
     empty_value_display = "-пусто-"
+    inlines = [TaskNotificationTabularInline]
 
 
 class FileAdmin(EmptyFieldModel):
