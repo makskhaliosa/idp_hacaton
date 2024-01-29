@@ -75,20 +75,6 @@ class IDP(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    def create(self, *args, **kwargs):
-        """Check whether the task was created by the user's mentor.
-
-        If not, then the task is a draft that needs to be approved.
-        """
-        employee = self.employee
-
-        if self.request.user == employee.chief:
-            self.status = StatusChoices.ACTIVE
-
-        self.status = StatusChoices.DRAFT
-
-        super(IDP, self).save(*args, **kwargs)
-
 
 class Task(models.Model):
     """Tasks table."""

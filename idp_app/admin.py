@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from core.choices import StatusChoices
 from core.models import EmptyFieldModel, MinValidatedInlineMixIn
 
 from .models import (
@@ -71,6 +72,20 @@ class IDPAdmin(EmptyFieldModel):
     search_fields = ("name", "employee__last_name", "start_date")
     empty_value_display = "-пусто-"
     inlines = [IDPNotificationTabularInline]
+
+    def save_model(self, request, obj, form, change):
+        """Check whether the task was created by the user's mentor.
+
+        If not, then the task is a draft that needs to be approved.
+        """
+        employee = obj.employee
+
+        if request.user == employee.chief:
+            obj.status = StatusChoices.ACTIVE
+        else:
+            obj.status = StatusChoices.DRAFT
+
+        super().save_model(request, obj, form, change)
 
 
 class NotificationAdmin(EmptyFieldModel):

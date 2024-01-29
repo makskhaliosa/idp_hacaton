@@ -1,5 +1,7 @@
-from rest_framework import viewsets
+from django.contrib.auth import get_user_model
+from rest_framework import status, viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
 from api_v1.serializers.idp_app import (
     CreateIDPSerializer,
@@ -11,6 +13,7 @@ from api_v1.serializers.idp_app import (
     TaskNotificationSerializer,
     TaskSerializer,
 )
+from core.choices import StatusChoices
 from idp_app.models import (
     IDP,
     File,
@@ -20,6 +23,8 @@ from idp_app.models import (
     TaskNotification,
 )
 from users.models import Department
+
+User = get_user_model()
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
@@ -55,6 +60,25 @@ class IDPViewSet(viewsets.ModelViewSet):
         if self.request.method == "GET":
             return IDPReadOnlySerializer
         return CreateIDPSerializer
+
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated:
+            idp_data = request.data
+
+            employee_cheif = User.objects.get(uid=idp_data["employee"]).chief
+
+            if user == employee_cheif:
+                idp_data["status"] = StatusChoices.ACTIVE
+            else:
+                idp_data["status"] = StatusChoices.DRAFT
+
+            serializer = CreateIDPSerializer(data=idp_data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class TaskNotificationViewSet(viewsets.ModelViewSet):
