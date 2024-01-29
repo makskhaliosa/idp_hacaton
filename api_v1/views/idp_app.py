@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -8,13 +10,14 @@ from rest_framework.response import Response
 
 from api_v1.serializers.idp_app import (
     DepartmentSerializer,
+    FileSerializer,
     IDPasFieldSerializer,
     IDPSerializer,
     TaskSerializer,
 )
 from core.choices import IdpStatuses
 from core.utils import get_idp_extra_info
-from idp_app.models import IDP, Task
+from idp_app.models import IDP, File, Task
 from users.models import Department
 
 
@@ -93,3 +96,20 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = (AllowAny,)
+
+
+class FileViewSet(viewsets.ModelViewSet):
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+    permission_classes = (AllowAny,)
+
+    def download_file(self, request, file_id):
+        file_obj = get_object_or_404(File, pk=file_id)
+        file_content = file_obj.file.read()
+        response = HttpResponse(
+            file_content, content_type="application/octet-stream"
+        )
+        response[
+            "Content-Disposition"
+        ] = f'attachment; filename="{file_obj.file.name}"'
+        return response

@@ -51,3 +51,20 @@ def get_idp_extra_info(idps: List[Model]) -> Dict[str, int]:
             extra_info["in_total"] += 1
             extra_info[IdpStatuses.OVERDUE] += 1
     return extra_info
+
+
+def get_extensions():
+    """Возвращает списки допустимых разрешений и MIME типов для загрузки файлов."""
+    extension_mapping = {
+        ".pdf": "application/pdf",
+        ".doc": "application/msword",
+        ".xls": "application/vnd.ms-excel",
+        ".jpeg": "image/jpeg",
+        ".jpg": "image/jpeg",
+        ".png": "image/png",
+        ".zip": "application/zip",
+        ".rar": "application/x-rar-compressed",
+    }
+    extensions = list(extension_mapping.keys())
+    content_types = list(extension_mapping.values())
+    return extensions, content_types
