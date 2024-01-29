@@ -257,11 +257,19 @@ class File(models.Model):
     """Files table."""
 
     file_id = models.AutoField(primary_key=True, verbose_name="file_id")
-    file_name = models.CharField(verbose_name="file_name", max_length=100)
-    file_link = models.URLField(verbose_name="file_link", max_length=5000)
-    file_type = models.CharField(verbose_name="file_type", max_length=10)
+    file = models.FileField(upload_to="uploads/")
+    file_name = models.CharField(
+        verbose_name="file_name", max_length=100, default="file"
+    )
+    file_type = models.CharField(
+        verbose_name="file_type", max_length=50, blank=True
+    )
     file_task = models.ForeignKey(
-        Task, on_delete=models.CASCADE, verbose_name="file_task"
+        Task,
+        on_delete=models.CASCADE,
+        verbose_name="file_task",
+        related_name="task_files",
+        default=None,
     )
 
     class Meta:
