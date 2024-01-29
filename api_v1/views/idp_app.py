@@ -2,7 +2,8 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from api_v1.serializers.idp_app import (
@@ -20,6 +21,7 @@ from users.models import Department
 class IDPViewSet(viewsets.ModelViewSet):
     queryset = IDP.objects.all()
     serializer_class = IDPSerializer
+    permission_classes = (IsAuthenticated,)
     filter_backends = (SearchFilter, OrderingFilter)
     search_fields = ("^name", "employee__last_name")
     ordering_fields = (
@@ -30,73 +32,38 @@ class IDPViewSet(viewsets.ModelViewSet):
         "employee__first_name",
     )
 
-    @action(detail=False, methods=["get"], url_path="chief/list")
-    def idp_list(self, request, *args, **kwargs):
-        """
-        Запрос списка ИПР сотрудников отдела при входе в сервис ИПР.
+    @extend_schema(responses=IDPasFieldSerializer(many=True))
+    @action(detail=False, url_path="private")
+    def get_private_idps(self, request: Request):
+        """Возвращает список личных ипр авторизованного пользователя."""
+        idps = request.user.idps.all().order_by("-end_date_plan")
+        filtered_idps = self.filter_queryset(idps)
+        if filtered_idps:
+            extra_info = get_idp_extra_info(filtered_idps)
+            page = self.paginate_queryset(filtered_idps)
+            if page:
+                serializer = IDPasFieldSerializer(page, many=True)
+                response = self.get_paginated_response(serializer.data)
+            else:
+                serializer = IDPasFieldSerializer(filtered_idps, many=True)
+                response = Response(data=serializer.data)
 
-        Mетод GET. Эндпоинт: api/v1/idp/chief/list
-        """
-        data = {"message": "Здесь будут данные."}
-        return Response(data)
+            extra_info.update(response.data)
+            response.data = extra_info
+            return response
+        return Response({"detail": "У вас еще нет ИПР."})
 
-    @action(detail=False, methods=["get"], url_path="employee/list")
-    def idp_retrieve(self, request, *args, **kwargs):
-        """
-        Запрос данных ИПР сотрудника при входе в сервис ИПР.
-
-        Метод GET. Эндпоинт: api/v1/idp/employee/list
-        """
-        data = {"message": "Здесь будут данные."}
-        return Response(data)
-
-    @action(detail=False, methods=["post"], url_path="all/create")
-    def idp_create(self, request, *args, **kwargs):
-        """
-        Сохранить новый ИПР сотрудника руководителем.
-
-        Метод POST. Эндпоинт: api/v1/idp/all/create
-        """
-        data = {"message": "Здесь будут данные."}
-        return Response(data)
-
-    @action(detail=False, methods=["put"], url_path="status/update")
-    def idp_update(self, request, *args, **kwargs):
-        """
-        Изменить статус ИПР.
-
-        Метод PUT. Эндпоинт: api/v1/idp/status/update
-        """
-        data = {"message": "Здесь будут данные."}
-        return Response(data)
-
-    @action(detail=False, methods=["get"], url_path="all/list")
-    def list_all(self, request, *args, **kwargs):
-        """
-        Запросить все ИПР.
-
-        Метод GET. Эндпоинт: api/v1/idp/all/list
-        """
-        data = {"message": "Здесь будут данные."}
-        return Response(data)
-
-    @action(detail=False, methods=["update"], url_path="form/update")
-    def update_form(self, request, *args, **kwargs):
-        """
-        Отредактировать поля ИПР.
-
-        Метод Update. Эндпоинт: api/v1/idp/form/update
-        """
-        data = {"message": "Здесь будут данные."}
-        return Response(data)
-
-    @extend_schema(responses=IDPasFieldSerializer)
+    @extend_schema(responses=IDPasFieldSerializer(many=True))
     @action(detail=False, url_path="subordinates")
-    def get_subordinates_idps(self, request):
+    def get_subordinates_idps(self, request: Request):
         """Возвращает список ипр подчиненных."""
         subordinates = request.user.subordinates.all()
-        idps = IDP.objects.filter(employee__in=subordinates).exclude(
-            status=IdpStatuses.DRAFT
+        if not subordinates:
+            return Response({"detail": "У вас нет сотрудников."})
+        idps = (
+            IDP.objects.filter(employee__in=subordinates)
+            .exclude(status=IdpStatuses.DRAFT)
+            .order_by("-end_date_plan", "employee__last_name")
         )
         filtered_idps = self.filter_queryset(idps)
 
@@ -106,12 +73,12 @@ class IDPViewSet(viewsets.ModelViewSet):
             if page:
                 serializer = IDPasFieldSerializer(page, many=True)
                 response = self.get_paginated_response(serializer.data)
-                response.data.update(extra_info)
-                return response
+            else:
+                serializer = IDPasFieldSerializer(filtered_idps, many=True)
+                response = Response(data=serializer.data)
 
-            serializer = IDPasFieldSerializer(filtered_idps, many=True)
-            response = Response(data=serializer.data)
-            response.data.update(extra_info)
+            extra_info.update(response.data)
+            response.data = extra_info
             return response
         return Response({"detail": "У ваших сотрудников еще нет ИПР."})
 
