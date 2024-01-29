@@ -28,7 +28,6 @@ class TaskSerializer(serializers.ModelSerializer):
             "task_note_cheif",
             "task_note_mentor",
             "task_mentor_id",
-            "file",
         )
 
 
