@@ -42,7 +42,6 @@ class FileSerializer(serializers.ModelSerializer):
         fields = (
             "file_id",
             "file",
-            "file_link",
             "file_name",
             "file_type",
         )

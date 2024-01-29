@@ -26,7 +26,7 @@ def find_differencies(initial: Model, updated: Model):
 
 
 def get_extensions():
-    """Return lists of allowed extensions and content types."""
+    """Возвращает списки допустимых разрешений и MIME типов для загрузки файлов."""
     extension_mapping = {
         ".pdf": "application/pdf",
         ".doc": "application/msword",
