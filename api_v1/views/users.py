@@ -2,14 +2,13 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.viewsets import ModelViewSet
 
-from users.models import User
-
-from ..permissions import CreateUserPermission
-from ..serializers.users import (
+from api_v1.permissions import CreateUserPermission
+from api_v1.serializers.users import (
     UserCreateSerializer,
     UserSerializer,
     UserUpdateSerializer,
 )
+from users.models import User
 
 
 @extend_schema_view(
@@ -21,7 +20,7 @@ from ..serializers.users import (
     ),
 )
 class UserViewSet(ModelViewSet):
-    """Viewset for user objects."""
+    """Вьюсет для объектов User."""
 
     queryset = User.objects.all()
     serializer_class = UserSerializer

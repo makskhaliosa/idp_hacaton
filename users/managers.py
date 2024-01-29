@@ -18,12 +18,13 @@ class CustomUserManager(BaseUserManager):
         **extra_fields
     ):
         """
-        Create and save a user.
+        Создает и сохраняет пользователя.
 
-        Add the given email, other required params and password.
+        Добавляет указанный адрес электронной почты,
+        другие необходимые параметры и пароль.
         """
         if not email:
-            raise ValueError("The given email must be set")
+            raise ValueError("Нужно указать почту.")
         email = self.normalize_email(email)
         user = self.model(
             email=email,
@@ -75,11 +76,13 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_admin", True)
 
         if extra_fields.get("is_staff") is not True:
-            raise ValueError("Superuser must have is_staff=True.")
+            raise ValueError("Супер пользователь должен быть is_staff=True.")
         if extra_fields.get("is_superuser") is not True:
-            raise ValueError("Superuser must have is_superuser=True.")
+            raise ValueError(
+                "Супер пользователь должен быть is_superuser=True."
+            )
         if extra_fields.get("is_admin") is not True:
-            raise ValueError("Superuser must have is_admin=True.")
+            raise ValueError("Супер пользователь должен быть is_admin=True.")
 
         return self._create_user(
             email,

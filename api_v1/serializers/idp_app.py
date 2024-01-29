@@ -38,7 +38,11 @@ class IDPSerializer(serializers.ModelSerializer):
 
 
 class IDPasFieldSerializer(serializers.ModelSerializer):
-    """IDP serializer with certain fields to include in other serializers."""
+    """
+    IDP сериализатор с определенными полями.
+
+    Для включения в другие сериализаторы.
+    """
 
     employee = serializers.SerializerMethodField()
 

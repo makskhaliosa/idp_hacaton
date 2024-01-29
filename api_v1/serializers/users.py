@@ -15,7 +15,7 @@ from .idp_app import (
 
 
 class UserAsFieldSerializer(serializers.ModelSerializer):
-    """Serializer for UserSerializer field."""
+    """Сериализатор для User, где есть поле с отсылкой к User."""
 
     class Meta:
         model = User
@@ -29,7 +29,7 @@ class UserAsFieldSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Serializer for getting User objects."""
+    """Сериализатор для чтения объектов User."""
 
     position = serializers.SlugRelatedField(
         slug_field="name", queryset=Position.objects.all()
@@ -70,7 +70,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    """Serializer for creating User objects."""
+    """Сериализатор для создния объектов User."""
 
     position = serializers.SlugRelatedField(
         slug_field="name", queryset=Position.objects.all()
@@ -109,7 +109,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
-    """Serializer for updating User objects."""
+    """Сериализатор для обновления объектов User."""
 
     position = serializers.SlugRelatedField(
         slug_field="name", queryset=Position.objects.all(), required=False

@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from api_v1.serializers.idp_app import (
     DepartmentSerializer,
+    IDPasFieldSerializer,
     IDPSerializer,
     TaskSerializer,
 )
@@ -14,8 +15,6 @@ from core.choices import IdpStatuses
 from core.utils import get_idp_extra_info
 from idp_app.models import IDP, Task
 from users.models import Department
-
-from ..serializers.idp_app import IDPasFieldSerializer
 
 
 class IDPViewSet(viewsets.ModelViewSet):
@@ -94,7 +93,7 @@ class IDPViewSet(viewsets.ModelViewSet):
     @extend_schema(responses=IDPasFieldSerializer)
     @action(detail=False, url_path="subordinates")
     def get_subordinates_idps(self, request):
-        """Return list of subordinates idps."""
+        """Возвращает список ипр подчиненных."""
         subordinates = request.user.subordinates.all()
         idps = IDP.objects.filter(employee__in=subordinates).exclude(
             status=IdpStatuses.DRAFT
@@ -114,7 +113,7 @@ class IDPViewSet(viewsets.ModelViewSet):
             response = Response(data=serializer.data)
             response.data.update(extra_info)
             return response
-        return Response({"detail": "Your employees don`t have idps yet."})
+        return Response({"detail": "У ваших сотрудников еще нет ИПР."})
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):

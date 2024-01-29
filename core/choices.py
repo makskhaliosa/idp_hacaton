@@ -2,7 +2,7 @@ from django.db import models
 
 
 class IdpStatuses(models.TextChoices):
-    """Status table for idps."""
+    """Таблица со статусами ИПР."""
 
     DRAFT = ("draft", "Черновик")
     DRAFT_APPROVAL = ("draft_approval", "Черновик (на согласовании)")
@@ -15,7 +15,7 @@ class IdpStatuses(models.TextChoices):
 
 
 class TaskStatuses(models.TextChoices):
-    """Status table for tasks."""
+    """Таблица со статусами задач."""
 
     DRAFT = ("draft", "Черновик")
     DRAFT_APPROVAL = ("draft_approval", "Черновик (на согласовании)")
@@ -40,14 +40,14 @@ class TaskStatuses(models.TextChoices):
 
 
 class NotificationStatuses(models.TextChoices):
-    """Status for link tables with notifications."""
+    """Таблица со статусами уведомлений для связующих таблиц."""
 
     READ = "Read"
     UNREAD = "Unread"
 
 
 class NotificationTriggers(models.TextChoices):
-    """Triggers that create notifications."""
+    """События, после которых создаются уведомления."""
 
     # Уведомления после создания объектов
 
@@ -91,6 +91,8 @@ class NotificationTriggers(models.TextChoices):
 
 
 class UserRoles:
+    """Таблица с ролями пользователей."""
+
     chief: str = "chief"
     employee: str = "employee"
     mentor: str = "mentor"

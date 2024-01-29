@@ -50,22 +50,22 @@ class User(AbstractBaseUser):
     is_staff = models.BooleanField(
         verbose_name="staff status",
         default=False,
-        help_text="Designates whether the user can log into this admin site.",
+        help_text="Указывает, может ли пользователь войти в панелб админа.",
     )
     is_active = models.BooleanField(
         verbose_name="active",
         default=True,
         help_text=(
-            "Designates whether this user should be treated as active. "
-            "Unselect this instead of deleting accounts."
+            "Указывает, следует ли считать этого пользователя активным. "
+            "Снимите этот флаг вместо удаления учетных записей."
         ),
     )
     is_superuser = models.BooleanField(
         verbose_name="superuser status",
         default=False,
         help_text=(
-            "Designates that this user has all permissions without "
-            "explicitly assigning them."
+            "Указывает, что у этого пользователя есть все разрешения без "
+            "их явного назначения."
         ),
     )
 
@@ -84,10 +84,10 @@ class User(AbstractBaseUser):
 
     def get_full_name(self):
         """
-        Return full name.
+        Возвращает полное имя.
 
-        The first_name, middle_name if there is one and the last_name,
-        with a space in between.
+        Имя, отчество, если таковое имеется, и
+        фамилия с пробелом между ними.
         """
         middle_full_name = (
             f"{self.first_name} {self.middle_name} {self.last_name}"
@@ -96,14 +96,16 @@ class User(AbstractBaseUser):
         return middle_full_name if self.middle_name else full_name
 
     def get_short_name(self):
-        """Return the short name for the user."""
+        """Возвращает краткое имя пользователя."""
         return self.first_name
 
     def has_perm(self, perm, obj=None):
         """
-        Return True if the user is active and admin or superuser.
+        Проверяет разрешения пользователя.
 
-        Needs further development for common users.
+        Возвращает True, если пользователь активен,
+        является админом или суперпользователем.
+        Нуждается в дальнейшей доработке для обычных пользователей.
         """
         # Active superusers have all permissions.
         if self.is_active and (self.is_admin or self.is_superuser):
@@ -112,9 +114,10 @@ class User(AbstractBaseUser):
 
     def has_perms(self, perm_list, obj=None):
         """
-        Return True if the user has each of the specified permissions.
+        Возвращает True, если у пользователя есть указанные разрешения.
 
-        If object is passed, check if the user has all required perms for it.
+        Если объект передан, проверяет,
+        есть ли у пользователя разрешения на него.
         """
         if not is_iterable(perm_list) or isinstance(perm_list, str):
             raise ValueError("perm_list must be an iterable of permissions.")
@@ -122,9 +125,9 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         """
-        Return True if the user has any permissions in the given app label.
+        Возвращает True, если у пользователя есть разрешения на приложение.
 
-        Use similar logic as has_perm(), above.
+        Использует логику, аналогичную has_perm(), описанного выше.
         """
         # Active superusers have all permissions.
         if self.is_active and (self.is_admin or self.is_superuser):
@@ -150,7 +153,7 @@ class Position(models.Model):
 
 
 class Company(models.Model):
-    """Company table."""
+    """Таблица с команиями."""
 
     company_id = models.AutoField(
         primary_key=True,
@@ -170,7 +173,7 @@ class Company(models.Model):
 
 
 class Department(models.Model):
-    """Department table."""
+    """Таблица с департаментами."""
 
     dep_id = models.AutoField(primary_key=True, verbose_name="dep_id")
     dep_name = models.CharField(verbose_name="dep_name", max_length=400)

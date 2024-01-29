@@ -21,7 +21,7 @@ User = get_user_model()
 
 
 class IDP(models.Model):
-    """IDP table."""
+    """Таблица ИПР."""
 
     idp_id = models.UUIDField(
         primary_key=True,
@@ -123,9 +123,9 @@ class IDP(models.Model):
         self, users: List[str], messages: Dict[str, str]
     ) -> Dict[User, str]:
         """
-        Accept list of roles and dictionary with messages for roles.
+        Принимает список ролей и словарь с сообщениями для ролей.
 
-        Return dictionary where key is a receiver and value is a message.
+        Возвращает словарь, где ключ - получатель, а значение - сообщение.
         """
         receivers = {
             UserRoles.employee: self.employee,
@@ -148,7 +148,7 @@ class IDP(models.Model):
 
 
 class Task(models.Model):
-    """Tasks table."""
+    """Таблица для задач."""
 
     task_id = models.AutoField(primary_key=True, verbose_name="task_id")
     task_name = models.CharField(verbose_name="task_name", max_length=150)
@@ -260,9 +260,9 @@ class Task(models.Model):
         self, users: List[str], messages: Dict[str, str]
     ) -> Dict[User, str]:
         """
-        Accept list of roles and dictionary with messages for roles.
+        Принимает список ролей и словарь с сообщениями для ролей.
 
-        Return dictionary where key is a receiver and value is a message.
+        Возвращает словарь, где ключ - получатель, а значение - сообщение.
         """
         receivers = {
             UserRoles.employee: self.idp.employee,
@@ -288,7 +288,7 @@ class Task(models.Model):
 
 
 class File(models.Model):
-    """Files table."""
+    """Таблица для файлов."""
 
     file_id = models.AutoField(primary_key=True, verbose_name="file_id")
     file_name = models.CharField(verbose_name="file_name", max_length=100)
@@ -308,7 +308,7 @@ class File(models.Model):
 
 
 class Notification(models.Model):
-    """Notifications table."""
+    """Таблица для уведомлений."""
 
     notice_id = models.AutoField(
         primary_key=True, verbose_name="notification_id"
@@ -334,7 +334,7 @@ class Notification(models.Model):
 
 
 class TaskNotification(models.Model):
-    """Link table for task related notifications and users."""
+    """Связующая таблица для уведомлений и пользователей, связанных с задачами."""
 
     tn_id = models.BigAutoField(
         primary_key=True, verbose_name="notification_user_id"
@@ -376,7 +376,7 @@ class TaskNotification(models.Model):
 
 
 class IdpNotification(models.Model):
-    """Link table for idp related notifications and users."""
+    """Связующая таблица для уведомлений и пользователей, связанных с ипр."""
 
     in_id = models.BigAutoField(
         primary_key=True, verbose_name="notification_user_id"

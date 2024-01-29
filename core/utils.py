@@ -13,11 +13,11 @@ def default_end_date_plan():
 
 def find_differencies(initial: Model, updated: Model):
     """
-    Return differencies between fields of two objects.
+    Возвращает различия между полями двух объектов.
 
-    Compares two dicts of original and updated objects.
-    If any field differs, we take the updated value.
-    Return dict with new values.
+    Сравнивает два dict исходного и обновленного объектов.
+    Если какое-либо поле отличается, мы берем обновленное значение.
+    Возвращает dict с новыми значениями.
     """
     d1 = initial.__dict__
     d2 = updated.__dict__
@@ -30,9 +30,9 @@ def find_differencies(initial: Model, updated: Model):
 
 def get_idp_extra_info(idps: List[Model]) -> Dict[str, int]:
     """
-    Generate extra fields for idp serializer.
+    Генерирует дополнительные поля для ответа на запрос ИПР.
 
-    Count number of idps by statuses.
+    Считает количество ипр по статусам.
     """
     extra_info = {
         "in_total": 0,
