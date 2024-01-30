@@ -7,6 +7,7 @@ from api_v1.views.idp_app import (
     IDPViewSet,
     TaskViewSet,
 )
+from api_v1.views.users import UserViewSet
 
 router = DefaultRouter()
 
@@ -14,6 +15,8 @@ router.register("idp", IDPViewSet, basename="idp")
 router.register("task", TaskViewSet, basename="task")
 router.register("department", DepartmentViewSet, basename="department")
 router.register("file", FileViewSet, basename="file")
+router.register("users", UserViewSet, basename="users")
+
 
 urlpatterns = [
     path("v1/", include(router.urls)),

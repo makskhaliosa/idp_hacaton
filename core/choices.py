@@ -2,7 +2,7 @@ from django.db import models
 
 
 class IdpStatuses(models.TextChoices):
-    """Status table for idps."""
+    """Таблица со статусами ИПР."""
 
     DRAFT = ("draft", "Черновик")
     DRAFT_APPROVAL = ("draft_approval", "Черновик (на согласовании)")
@@ -15,7 +15,7 @@ class IdpStatuses(models.TextChoices):
 
 
 class TaskStatuses(models.TextChoices):
-    """Status table for tasks."""
+    """Таблица со статусами задач."""
 
     DRAFT = ("draft", "Черновик")
     DRAFT_APPROVAL = ("draft_approval", "Черновик (на согласовании)")
@@ -40,14 +40,14 @@ class TaskStatuses(models.TextChoices):
 
 
 class NotificationStatuses(models.TextChoices):
-    """Status for link tables with notifications."""
+    """Таблица со статусами уведомлений для связующих таблиц."""
 
     READ = "Read"
     UNREAD = "Unread"
 
 
 class NotificationTriggers(models.TextChoices):
-    """Triggers that create notifications."""
+    """События, после которых создаются уведомления."""
 
     # Уведомления после создания объектов
 
@@ -90,97 +90,168 @@ class NotificationTriggers(models.TextChoices):
     TASK_CLOSE_REJECTED = "Task_close_rejected"  # Rejected close Ментор выбирает "Отправить на доработку", уведомление сотруднику
 
 
+class UserRoles:
+    """Таблица с ролями пользователей."""
+
+    chief: str = "chief"
+    employee: str = "employee"
+    mentor: str = "mentor"
+
+
 # Словари соответствия между статусами и триггерами для уведомлений
 IdpNoteRelation = {
     IdpStatuses.DRAFT_APPROVAL: {
         "note": NotificationTriggers.IDP_REQUEST_CREATED,
-        "receiver": ["chief"],
+        "receiver": [UserRoles.chief],
+        "message": {
+            UserRoles.chief: (
+                "Вам отправлен на согласование новый план развития"
+            )
+        },
     },
     IdpStatuses.ACTIVE: {
         "note": NotificationTriggers.IDP_CREATED,
-        "receiver": ["employee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Вам создан новый план развития"},
     },
     IdpStatuses.TWO_WEEKS: {
         "note": NotificationTriggers.IDP_TWO_WEEKS,
-        "receiver": ["emlpoyee", "chief"],
+        "receiver": [UserRoles.employee, UserRoles.chief],
+        "message": {
+            UserRoles.employee: (
+                "Приближается срок выполнения вашего плана развития"
+            ),
+            UserRoles.chief: (
+                "Приближается срок выполнения плана развития (<<сотрудник>>)"
+            ),
+        },
     },
     IdpStatuses.OVERDUE: {
         "note": NotificationTriggers.IDP_OVERDUE,
-        "receiver": ["emlpoyee", "chief"],
+        "receiver": [UserRoles.employee, UserRoles.chief],
+        "message": {
+            UserRoles.employee: (
+                "Просрочен срок выполнения вашего плана развития"
+            ),
+            UserRoles.chief: (
+                "Просрочен срок выполнения плана развития (<<сотрудник>>)"
+            ),
+        },
     },
     IdpStatuses.COMPLETED_APPROVAL: {
         "note": NotificationTriggers.IDP_COMPLETED_APPROVAL,
-        "receiver": ["chief"],
+        "receiver": [UserRoles.chief],
+        "message": {
+            UserRoles.chief: (
+                "Вам отправлен на подтверждение выполненный план развития "
+                "(<<сотрудник>>)"
+            )
+        },
     },
     IdpStatuses.CLOSED: {
         "note": NotificationTriggers.IDP_CLOSED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Ваш план развития выполнен"},
     },
     IdpStatuses.CANCELLED: {
         "note": NotificationTriggers.IDP_CANCELLED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Ваш план развития отменен"},
     },
     "updated": {
         "note": NotificationTriggers.IDP_UPDATED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Ваш план развития обновлен"},
     },
 }
 
 TaskNoteRelation = {
     TaskStatuses.ACTIVE: {
         "note": NotificationTriggers.TASK_CREATED,
-        "receiver": ["employee", "mentor"],
+        "receiver": [UserRoles.employee, UserRoles.mentor],
+        "message": {
+            UserRoles.employee: "В ваш план развития добавлена новая задача",
+            UserRoles.mentor: "Вы назначены ментором задачи (<<сотрудник>>)",
+        },
     },
     TaskStatuses.ACTIVE_WITH_IDP: {
         "note": NotificationTriggers.TASK_CREATED_WITH_IDP,
-        "receiver": ["mentor"],
+        "receiver": [UserRoles.mentor],
+        "message": {
+            UserRoles.mentor: "Вы назначены ментором задачи (<<сотрудник>>"
+        },
     },
     TaskStatuses.TWO_WEEKS: {
         "note": NotificationTriggers.TASK_TWO_WEEKS,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {
+            UserRoles.employee: "Приближается срок выполнения вашей задачи"
+        },
     },
     TaskStatuses.OVERDUE: {
         "note": NotificationTriggers.TASK_OVERDUE,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {
+            UserRoles.employee: "Просрочен срок выполнения вашей задачи"
+        },
     },
     TaskStatuses.COMPLETED_APPROVAL: {
         "note": NotificationTriggers.TASK_COMPLETED_APPROVAL,
-        "receiver": ["chief"],
+        "receiver": [UserRoles.mentor],
+        "message": {
+            UserRoles.mentor: (
+                "Вам отправлена на подтверждение выполненная задача"
+            )
+        },
     },
     TaskStatuses.CLOSED: {
         "note": NotificationTriggers.TASK_CLOSED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {
+            UserRoles.employee: "Выполнение вашей задачи подтверждено"
+        },
     },
     TaskStatuses.CANCELLED: {
         "note": NotificationTriggers.TASK_CANCELLED,
-        "receiver": ["emlpoyee", "mentor"],
+        "receiver": [UserRoles.employee, UserRoles.mentor],
+        "message": {
+            UserRoles.employee: "Ваша задача отменена",
+            UserRoles.mentor: "Задача (<<сотрудник>>) отменена",
+        },
     },
     TaskStatuses.CANCELLED_WITH_IDP: {
         "note": NotificationTriggers.TASK_CANCELLED_AFTER_IDP,
-        "receiver": ["mentor"],
+        "receiver": [UserRoles.mentor],
+        "message": {UserRoles.mentor: "Задача (<<сотрудник>>) отменена"},
     },
     TaskStatuses.REJECTED: {
         "note": NotificationTriggers.TASK_CLOSE_REJECTED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Ваша задача возвращена на доработку"},
     },
     "task_description": {
         "note": NotificationTriggers.TASK_UPDATED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Ваша задача обновлена"},
     },
     "task_mentor_id": {
         "note": NotificationTriggers.MENTOR_CHANGED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Ваш ментор изменен"},
     },
     "task_note_chief": {
         "note": NotificationTriggers.TASK_COMMENT_ADDED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Добавлен комментарий"},
     },
     "task_note_mentor": {
         "note": NotificationTriggers.TASK_COMMENT_ADDED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Добавлен комментарий"},
     },
     "task_end_date_plan": {
         "note": NotificationTriggers.TASK_ENDDATE_UPDATED,
-        "receiver": ["emlpoyee"],
+        "receiver": [UserRoles.employee],
+        "message": {UserRoles.employee: "Изменена дата заверщения задачи"},
     },
 }
