@@ -13,36 +13,48 @@ from users.models import Department
 
 
 class NotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор модели Notification."""
+
     class Meta:
         model = Notification
         fields = ("notice_id", "trigger", "name", "description")
 
 
 class TaskNotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор модели TaskNotification."""
+
     class Meta:
         model = TaskNotification
         fields = ("tn_id", "notification", "task", "date", "status")
 
 
 class IDPNotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор чтения модели IdpNotification."""
+
     class Meta:
         model = IdpNotification
         fields = ("in_id", "notification", "idp", "date", "status")
 
 
 class CreateIDPNotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор создания модели IdpNotification."""
+
     class Meta:
         model = IdpNotification
         fields = ("notification",)
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
+    """Сериализатор модели Department."""
+
     class Meta:
         model = Department
         fields = ("dep_id", "dep_name", "company_id")
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    """Сериализатор модели Task."""
+
     class Meta:
         model = Task
         fields = (
@@ -63,6 +75,8 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class IDPReadOnlySerializer(serializers.ModelSerializer):
+    """Сериализатор для чтения IDP."""
+
     class Meta:
         model = IDP
         fields = (
@@ -80,6 +94,8 @@ class IDPReadOnlySerializer(serializers.ModelSerializer):
 
 
 class CreateIDPSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания IDP."""
+
     notifications = CreateIDPNotificationSerializer(many=True, required=False)
 
     class Meta:
@@ -118,6 +134,8 @@ class CreateIDPSerializer(serializers.ModelSerializer):
 
 
 class FileSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания File."""
+
     class Meta:
         model = File
         fields = (
