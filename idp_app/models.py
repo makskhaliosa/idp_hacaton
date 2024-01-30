@@ -162,14 +162,6 @@ class Task(models.Model):
         choices=TaskStatuses,
         default=TaskStatuses.DRAFT,
     )
-    mentor = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        verbose_name="mentor",
-        related_name="tasks",
-        blank=True,
-        null=True,
-    )
     task_start_date = models.DateTimeField(
         verbose_name="task_start_date",
         default=datetime.now,
@@ -202,6 +194,7 @@ class Task(models.Model):
         on_delete=models.SET_NULL,
         verbose_name="task_mentor",
         related_name="mentor_tasks",
+        blank=True,
         null=True,
     )
     idp = models.ForeignKey(

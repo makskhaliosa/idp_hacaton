@@ -81,5 +81,19 @@
     	"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
     	"chief": 4
   	}
-	}
+	},
+	{
+		"model": "users.User",
+		"pk": 6,
+		"fields": {
+		  "first_name": "Test",
+		  "last_name": "Admin",
+		  "email": "admin@admin.ru",
+		  "position": 6,
+		  "is_admin": "True",
+		  "is_staff": "True",
+		  "is_superuser": "True",
+		  "password": "pbkdf2_sha256$720000$AWUSFGAkI3Ls4CSYxJ2Sgi$PQeKuW/guAt0kSYOoRntZqIQqj4NOS8awWxQCwkgYeY="
+		}
+	  }
 ]

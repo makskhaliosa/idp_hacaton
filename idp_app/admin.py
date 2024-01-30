@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.choices import StatusChoices
+from core.choices import IdpStatuses
 from core.models import EmptyFieldModel, MinValidatedInlineMixIn
 
 from .models import (
@@ -35,18 +35,16 @@ class TaskAdmin(EmptyFieldModel):
         "task_name",
         "task_description",
         "task_status",
-        "mentor",
         "task_start_date",
         "task_end_date_plan",
         "task_end_date_fact",
         "task_note_employee",
         "task_note_cheif",
         "task_note_mentor",
-        "task_mentor_id",
+        "task_mentor",
         "idp",
     )
     search_fields = ("task_name",)
-    empty_value_display = "-пусто-"
     inlines = [TaskNotificationTabularInline]
 
 
@@ -62,7 +60,6 @@ class FileAdmin(EmptyFieldModel):
         "file_task",
     )
     search_fields = ("file_name",)
-    empty_value_display = "-пусто-"
 
 
 class IDPAdmin(EmptyFieldModel):
@@ -71,27 +68,26 @@ class IDPAdmin(EmptyFieldModel):
         "target",
         "status",
         "employee",
-        "mentor",
         "start_date",
         "end_date_plan",
         "end_date_fact",
     )
     list_filter = ("status",)
     search_fields = ("name", "employee__last_name", "start_date")
-    empty_value_display = "-пусто-"
     inlines = [IDPNotificationTabularInline]
 
     def save_model(self, request, obj, form, change):
-        """Check whether the task was created by the user's mentor.
+        """
+        Проверяет, был ли ипр создан рук-ом пользователя.
 
-        If not, then the task is a draft that needs to be approved.
+        Если нет, то задание является черновиком, который необходимо утвердить.
         """
         employee = obj.employee
 
         if request.user == employee.chief:
-            obj.status = StatusChoices.ACTIVE
+            obj.status = IdpStatuses.ACTIVE
         else:
-            obj.status = StatusChoices.DRAFT
+            obj.status = IdpStatuses.DRAFT
 
         super().save_model(request, obj, form, change)
 
@@ -100,21 +96,18 @@ class NotificationAdmin(EmptyFieldModel):
     list_display = ("name", "trigger")
     list_filter = ("trigger",)
     search_fields = ("name", "trigger")
-    empty_value_display = "-пусто-"
 
 
 class IdpNoteAdmin(EmptyFieldModel):
     list_display = ("notification", "idp", "status", "date")
     list_filter = ("status",)
     search_fields = ("date", "idp__name", "notification__name")
-    empty_value_display = "-пусто-"
 
 
 class TaskNoteAdmin(EmptyFieldModel):
     list_display = ("notification", "task", "status", "date")
     list_filter = ("status",)
     search_fields = ("date", "task", "notification__name")
-    empty_value_display = "-пусто-"
 
 
 admin.site.register(Task, TaskAdmin)

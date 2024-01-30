@@ -20,7 +20,7 @@ from api_v1.serializers.idp_app import (
     TaskNotificationSerializer,
     TaskSerializer,
 )
-from core.choices import IdpStatuses, StatusChoices
+from core.choices import IdpStatuses
 from core.utils import get_idp_extra_info
 from idp_app.models import (
     IDP,
@@ -97,9 +97,9 @@ class IDPViewSet(viewsets.ModelViewSet):
             employee_cheif = User.objects.get(uid=idp_data["employee"]).chief
 
             if user == employee_cheif:
-                idp_data["status"] = StatusChoices.ACTIVE
+                idp_data["status"] = IdpStatuses.ACTIVE
             else:
-                idp_data["status"] = StatusChoices.DRAFT
+                idp_data["status"] = IdpStatuses.DRAFT
 
             serializer = CreateIDPSerializer(data=idp_data)
             serializer.is_valid(raise_exception=True)
