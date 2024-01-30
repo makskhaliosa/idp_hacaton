@@ -1,5 +1,8 @@
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from api_v1.permissions import CreateUserPermission
@@ -35,3 +38,17 @@ class UserViewSet(ModelViewSet):
         elif self.action == "create":
             return UserCreateSerializer
         return UserSerializer
+
+    @extend_schema(request=UserUpdateSerializer, responses=UserSerializer)
+    @action(methods=["get", "put"], detail=False, url_path="me")
+    def get_me(self, request: Request):
+        """Возвращает данные авторизованного пользователя."""
+        if request.method == "PUT":
+            serializer = UserUpdateSerializer(
+                instance=request.user, data=request.data
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(data=serializer.data)
+        serializer = UserSerializer(request.user)
+        return Response(data=serializer.data)
