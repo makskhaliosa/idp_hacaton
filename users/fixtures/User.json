@@ -1,4 +1,5 @@
-	{
+[
+  {
   	"model": "users.User",
   	"pk": 1,
   	"fields": {

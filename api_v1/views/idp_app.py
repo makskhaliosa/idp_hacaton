@@ -7,24 +7,20 @@ from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
-
 from rest_framework.response import Response
 
 from api_v1.serializers.idp_app import (
     CreateIDPSerializer,
     DepartmentSerializer,
     FileSerializer,
+    IDPasFieldSerializer,
     IDPNotificationSerializer,
     IDPReadOnlySerializer,
     NotificationSerializer,
     TaskNotificationSerializer,
     TaskSerializer,
-    IDPasFieldSerializer,
-    IDPSerializer,
-    TaskSerializer,
 )
-from core.choices import IdpStatuses
-from core.choices import StatusChoices
+from core.choices import IdpStatuses, StatusChoices
 from core.utils import get_idp_extra_info
 from idp_app.models import (
     IDP,
@@ -39,9 +35,44 @@ from users.models import Department
 User = get_user_model()
 
 
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    permission_classes = (AllowAny,)
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    permission_classes = (AllowAny,)
+
+
+class FileViewSet(viewsets.ModelViewSet):
+    queryset = File.objects.all()
+    serializer_class = FileSerializer
+    permission_classes = (AllowAny,)
+
+    def download_file(self, request, file_id):
+        file_obj = get_object_or_404(File, pk=file_id)
+        file_content = file_obj.file.read()
+        response = HttpResponse(
+            file_content, content_type="application/octet-stream"
+        )
+        response[
+            "Content-Disposition"
+        ] = f'attachment; filename="{file_obj.file.name}"'
+        return response
+
+
+class NotificationViewSet(viewsets.ModelViewSet):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+    permission_classes = (AllowAny,)
+
+
 class IDPViewSet(viewsets.ModelViewSet):
     queryset = IDP.objects.all()
-    serializer_class = IDPSerializer
+    serializer_class = IDPReadOnlySerializer
     permission_classes = (IsAuthenticated,)
     filter_backends = (SearchFilter, OrderingFilter)
     search_fields = ("^name", "employee__last_name")
@@ -52,6 +83,30 @@ class IDPViewSet(viewsets.ModelViewSet):
         "employee__last_name",
         "employee__first_name",
     )
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return IDPReadOnlySerializer
+        return CreateIDPSerializer
+
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        if user.is_authenticated:
+            idp_data = request.data
+
+            employee_cheif = User.objects.get(uid=idp_data["employee"]).chief
+
+            if user == employee_cheif:
+                idp_data["status"] = StatusChoices.ACTIVE
+            else:
+                idp_data["status"] = StatusChoices.DRAFT
+
+            serializer = CreateIDPSerializer(data=idp_data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     @extend_schema(responses=IDPasFieldSerializer(many=True))
     @action(detail=False, url_path="private")
@@ -102,71 +157,6 @@ class IDPViewSet(viewsets.ModelViewSet):
             response.data = extra_info
             return response
         return Response({"detail": "У ваших сотрудников еще нет ИПР."})
-
-
-class DepartmentViewSet(viewsets.ModelViewSet):
-    queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
-    permission_classes = (AllowAny,)
-
-
-class TaskViewSet(viewsets.ModelViewSet):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer
-    permission_classes = (AllowAny,)
-
-
-class FileViewSet(viewsets.ModelViewSet):
-    queryset = File.objects.all()
-    serializer_class = FileSerializer
-    permission_classes = (AllowAny,)
-
-    def download_file(self, request, file_id):
-        file_obj = get_object_or_404(File, pk=file_id)
-        file_content = file_obj.file.read()
-        response = HttpResponse(
-            file_content, content_type="application/octet-stream"
-        )
-        response[
-            "Content-Disposition"
-        ] = f'attachment; filename="{file_obj.file.name}"'
-        return response
-
-
-class NotificationViewSet(viewsets.ModelViewSet):
-    queryset = Notification.objects.all()
-    serializer_class = NotificationSerializer
-    permission_classes = (AllowAny,)
-
-
-class IDPViewSet(viewsets.ModelViewSet):
-    queryset = IDP.objects.all()
-    serializer_class = IDPReadOnlySerializer
-    permission_classes = (AllowAny,)
-
-    def get_serializer_class(self):
-        if self.request.method == "GET":
-            return IDPReadOnlySerializer
-        return CreateIDPSerializer
-
-    def create(self, request, *args, **kwargs):
-        user = request.user
-        if user.is_authenticated:
-            idp_data = request.data
-
-            employee_cheif = User.objects.get(uid=idp_data["employee"]).chief
-
-            if user == employee_cheif:
-                idp_data["status"] = StatusChoices.ACTIVE
-            else:
-                idp_data["status"] = StatusChoices.DRAFT
-
-            serializer = CreateIDPSerializer(data=idp_data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 
 class TaskNotificationViewSet(viewsets.ModelViewSet):

@@ -3,7 +3,6 @@ from typing import Dict
 from rest_framework import serializers
 
 from core.utils import get_extensions
-
 from idp_app.models import (
     IDP,
     File,
@@ -154,26 +153,6 @@ class IDPasFieldSerializer(serializers.ModelSerializer):
             "last_name": obj.employee.last_name,
         }
         return data
-
-
-class TaskNotificationSerializer(serializers.ModelSerializer):
-    notification = serializers.SlugRelatedField(
-        slug_field="name", read_only=True
-    )
-
-    class Meta:
-        model = TaskNotification
-        fields = ("tn_id", "notification", "task", "message", "date", "status")
-
-
-class IDPNotificationSerializer(serializers.ModelSerializer):
-    notification = serializers.SlugRelatedField(
-        slug_field="name", read_only=True
-    )
-
-    class Meta:
-        model = IdpNotification
-        fields = ("in_id", "notification", "idp", "message", "date", "status")
 
 
 class FileSerializer(serializers.ModelSerializer):
