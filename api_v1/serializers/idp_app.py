@@ -25,17 +25,25 @@ class NotificationSerializer(serializers.ModelSerializer):
 class TaskNotificationSerializer(serializers.ModelSerializer):
     """Сериализатор модели TaskNotification."""
 
+    notification = serializers.SlugRelatedField(
+        slug_field="name", read_only=True
+    )
+
     class Meta:
         model = TaskNotification
-        fields = ("tn_id", "notification", "task", "date", "status")
+        fields = ("tn_id", "notification", "task", "message", "date", "status")
 
 
 class IDPNotificationSerializer(serializers.ModelSerializer):
     """Сериализатор чтения модели IdpNotification."""
 
+    notification = serializers.SlugRelatedField(
+        slug_field="name", read_only=True
+    )
+
     class Meta:
         model = IdpNotification
-        fields = ("in_id", "notification", "idp", "date", "status")
+        fields = ("in_id", "notification", "idp", "message", "date", "status")
 
 
 class CreateIDPNotificationSerializer(serializers.ModelSerializer):
@@ -64,14 +72,13 @@ class TaskSerializer(serializers.ModelSerializer):
             "task_name",
             "task_description",
             "task_status",
-            "mentor",
             "task_start_date",
             "task_end_date_plan",
             "task_end_date_fact",
             "task_note_employee",
             "task_note_cheif",
             "task_note_mentor",
-            "task_mentor_id",
+            "task_mentor",
         )
 
 
@@ -89,7 +96,6 @@ class IDPReadOnlySerializer(serializers.ModelSerializer):
             "end_date_plan",
             "end_date_fact",
             "employee",
-            "mentor",
             "notifications",
         )
 
@@ -109,7 +115,6 @@ class CreateIDPSerializer(serializers.ModelSerializer):
             "end_date_plan",
             "end_date_fact",
             "employee",
-            "mentor",
             "notifications",
         )
 
