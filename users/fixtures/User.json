@@ -1,5 +1,5 @@
 [
-	{
+  {
   	"model": "users.User",
   	"pk": 1,
   	"fields": {
@@ -82,5 +82,4 @@
     	"chief": 4
   	}
 	}
-
 ]

@@ -3,17 +3,60 @@ from typing import Dict
 from rest_framework import serializers
 
 from core.utils import get_extensions
-from idp_app.models import IDP, File, IdpNotification, Task, TaskNotification
+from idp_app.models import (
+    IDP,
+    File,
+    IdpNotification,
+    Notification,
+    Task,
+    TaskNotification,
+)
 from users.models import Department
 
 
+class NotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор модели Notification."""
+
+    class Meta:
+        model = Notification
+        fields = ("notice_id", "trigger", "name", "description")
+
+
+class TaskNotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор модели TaskNotification."""
+
+    class Meta:
+        model = TaskNotification
+        fields = ("tn_id", "notification", "task", "date", "status")
+
+
+class IDPNotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор чтения модели IdpNotification."""
+
+    class Meta:
+        model = IdpNotification
+        fields = ("in_id", "notification", "idp", "date", "status")
+
+
+class CreateIDPNotificationSerializer(serializers.ModelSerializer):
+    """Сериализатор создания модели IdpNotification."""
+
+    class Meta:
+        model = IdpNotification
+        fields = ("notification",)
+
+
 class DepartmentSerializer(serializers.ModelSerializer):
+    """Сериализатор модели Department."""
+
     class Meta:
         model = Department
         fields = ("dep_id", "dep_name", "company_id")
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    """Сериализатор модели Task."""
+
     class Meta:
         model = Task
         fields = (
@@ -21,6 +64,7 @@ class TaskSerializer(serializers.ModelSerializer):
             "task_name",
             "task_description",
             "task_status",
+            "mentor",
             "task_start_date",
             "task_end_date_plan",
             "task_end_date_fact",
@@ -31,10 +75,63 @@ class TaskSerializer(serializers.ModelSerializer):
         )
 
 
-class IDPSerializer(serializers.ModelSerializer):
+class IDPReadOnlySerializer(serializers.ModelSerializer):
+    """Сериализатор для чтения IDP."""
+
     class Meta:
         model = IDP
-        fields = "__all__"
+        fields = (
+            "idp_id",
+            "name",
+            "target",
+            "status",
+            "start_date",
+            "end_date_plan",
+            "end_date_fact",
+            "employee",
+            "mentor",
+            "notifications",
+        )
+
+
+class CreateIDPSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания IDP."""
+
+    notifications = CreateIDPNotificationSerializer(many=True, required=False)
+
+    class Meta:
+        model = IDP
+        fields = (
+            "name",
+            "target",
+            "status",
+            "start_date",
+            "end_date_plan",
+            "end_date_fact",
+            "employee",
+            "mentor",
+            "notifications",
+        )
+
+    def to_representation(self, instance):
+        return IDPReadOnlySerializer(
+            instance, context={"request": self.context.get("request")}
+        ).data
+
+    def create(self, validated_data):
+        if "notifications" not in self.initial_data:
+            idp = IDP.objects.create(**validated_data)
+
+            return idp
+
+        notifications = validated_data.pop("notifications")
+
+        idp = IDP.objects.create(**validated_data)
+
+        for notification in notifications:
+            IdpNotification.objects.create(**notification, idp_id=idp.pk)
+
+        return idp
 
 
 class IDPasFieldSerializer(serializers.ModelSerializer):
@@ -58,27 +155,9 @@ class IDPasFieldSerializer(serializers.ModelSerializer):
         return data
 
 
-class TaskNotificationSerializer(serializers.ModelSerializer):
-    notification = serializers.SlugRelatedField(
-        slug_field="name", read_only=True
-    )
-
-    class Meta:
-        model = TaskNotification
-        fields = ("tn_id", "notification", "task", "message", "date", "status")
-
-
-class IDPNotificationSerializer(serializers.ModelSerializer):
-    notification = serializers.SlugRelatedField(
-        slug_field="name", read_only=True
-    )
-
-    class Meta:
-        model = IdpNotification
-        fields = ("in_id", "notification", "idp", "message", "date", "status")
-
-
 class FileSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания File."""
+
     class Meta:
         model = File
         fields = (

@@ -162,12 +162,22 @@ class Task(models.Model):
         choices=TaskStatuses,
         default=TaskStatuses.DRAFT,
     )
+    mentor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        verbose_name="mentor",
+        related_name="tasks",
+        blank=True,
+        null=True,
+    )
     task_start_date = models.DateTimeField(
         verbose_name="task_start_date",
+        default=datetime.now,
     )
     task_end_date_plan = models.DateTimeField(
         verbose_name="task_end_date_plan",
         blank=True,
+        null=True,
     )
     task_end_date_fact = models.DateTimeField(
         verbose_name="task_end_date_fact", blank=True, null=True

@@ -29,4 +29,11 @@ docker compose -f docker-compose-postgres up -d
 
 Фикстуры располагаются в папках приложения в подкаталоге /fixtures.
 Для активации фикстур необходимо прописать команду:
-`python manage.py loaddata */fixtures/*.json`
+```bash
+python manage.py loaddata */fixtures/*.json
+```
+
+Также из фикстур создается базовая admin запись со следующими данными.
+
+email: admin@admin.ru
+password: admin

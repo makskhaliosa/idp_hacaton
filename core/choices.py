@@ -1,6 +1,16 @@
 from django.db import models
 
 
+class StatusChoices(models.TextChoices):
+    ACTIVE = "Active"
+    COMPLETED = "Completed"
+    TWO_WEEKS = "Two weeks"
+    OVERDUE = "Overdue"
+    CANCELED = "Canceled"
+    CLOSED = "Closed"
+    DRAFT = "Draft"
+
+
 class IdpStatuses(models.TextChoices):
     """Таблица со статусами ИПР."""
 
