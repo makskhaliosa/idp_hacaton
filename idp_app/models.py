@@ -4,6 +4,7 @@ from typing import Any, Dict, List
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 from core.choices import (
     IdpNoteRelation,
@@ -12,6 +13,7 @@ from core.choices import (
     NotificationTriggers,
     TaskNoteRelation,
     TaskStatuses,
+    UserRoles,
 )
 from core.utils import default_end_date_plan, find_differencies
 
@@ -19,7 +21,7 @@ User = get_user_model()
 
 
 class IDP(models.Model):
-    """IDP table."""
+    """Таблица ИПР."""
 
     idp_id = models.UUIDField(
         primary_key=True,
@@ -84,18 +86,23 @@ class IDP(models.Model):
             if self.status == IdpStatuses.ACTIVE:
                 self._activate_tasks()
 
-    def _create_notification(self, trigger: Dict[str, Dict]):
+    def _create_notification(self, trigger: Dict[str, Any]):
         try:
             note = Notification.objects.get(trigger=trigger.get("note"))
-            receivers = self._get_receiver(
-                trigger.get("receiver", ["employee"])
+            messages = trigger.get("message")
+            receivers_messages = self._get_receiver_and_message(
+                users=trigger.get("receiver", [UserRoles.employee]),
+                messages=messages,
             )
-            [
+            print(receivers_messages)
+            for receiver, message in receivers_messages.items():
+                final_message = f"{message} {self.get_absolute_url()}"
                 IdpNotification.objects.create(
-                    notification=note, idp=self, receiver=receiver
+                    notification=note,
+                    idp=self,
+                    receiver=receiver,
+                    message=final_message,
                 )
-                for receiver in receivers
-            ]
         except Notification.DoesNotExist:
             return None
 
@@ -112,9 +119,19 @@ class IDP(models.Model):
             trigger = IdpNoteRelation.get("updated")
             self._create_notification(trigger)
 
-    def _get_receiver(self, users: List[str]) -> List[User]:
-        receivers = {"employee": self.employee, "chief": self.employee.chief}
-        return [receivers.get(user) for user in users]
+    def _get_receiver_and_message(
+        self, users: List[str], messages: Dict[str, str]
+    ) -> Dict[User, str]:
+        """
+        Принимает список ролей и словарь с сообщениями для ролей.
+
+        Возвращает словарь, где ключ - получатель, а значение - сообщение.
+        """
+        receivers = {
+            UserRoles.employee: self.employee,
+            UserRoles.chief: self.employee.chief,
+        }
+        return {receivers.get(user): messages.get(user) for user in users}
 
     def _activate_tasks(self):
         for task in self.tasks.all():
@@ -126,9 +143,12 @@ class IDP(models.Model):
             task.task_status = TaskStatuses.CANCELLED_WITH_IDP
             task.save()
 
+    def get_absolute_url(self):
+        return reverse("idp-detail", kwargs={"pk": self.pk})
+
 
 class Task(models.Model):
-    """Tasks table."""
+    """Таблица для задач."""
 
     task_id = models.AutoField(primary_key=True, verbose_name="task_id")
     task_name = models.CharField(verbose_name="task_name", max_length=150)
@@ -214,18 +234,22 @@ class Task(models.Model):
             if trigger is not None:
                 self._create_notification(trigger)
 
-    def _create_notification(self, trigger: Dict[str, Dict]):
+    def _create_notification(self, trigger: Dict[str, Any]):
         try:
             note = Notification.objects.get(trigger=trigger.get("note"))
-            receivers = self._get_receiver(
-                trigger.get("receiver", ["employee"])
+            messages = trigger.get("message")
+            receivers_messages = self._get_receiver_and_message(
+                users=trigger.get("receiver", [UserRoles.employee]),
+                messages=messages,
             )
-            [
+            for receiver, message in receivers_messages.items():
+                final_message = f"{message} {self.get_absolute_url()}"
                 TaskNotification.objects.create(
-                    notification=note, task=self, receiver=receiver
+                    notification=note,
+                    task=self,
+                    receiver=receiver,
+                    message=final_message,
                 )
-                for receiver in receivers
-            ]
         except Notification.DoesNotExist:
             return None
 
@@ -242,13 +266,20 @@ class Task(models.Model):
             if trigger:
                 self._create_notification(trigger)
 
-    def _get_receiver(self, users: List[str]) -> List[User]:
+    def _get_receiver_and_message(
+        self, users: List[str], messages: Dict[str, str]
+    ) -> Dict[User, str]:
+        """
+        Принимает список ролей и словарь с сообщениями для ролей.
+
+        Возвращает словарь, где ключ - получатель, а значение - сообщение.
+        """
         receivers = {
-            "employee": self.idp.employee,
-            "chief": self.idp.employee.chief,
-            "mentor": self.task_mentor,
+            UserRoles.employee: self.idp.employee,
+            UserRoles.chief: self.idp.employee.chief,
+            UserRoles.mentor: self.task_mentor,
         }
-        return [receivers.get(user) for user in users]
+        return {receivers.get(user): messages.get(user) for user in users}
 
     def _check_other_tasks(self):
         all_tasks_done = True
@@ -262,9 +293,12 @@ class Task(models.Model):
             self.idp.status = IdpStatuses.COMPLETED_APPROVAL
             self.idp.save()
 
+    def get_absolute_url(self):
+        return reverse("task-detail", kwargs={"pk": self.pk})
+
 
 class File(models.Model):
-    """Files table."""
+    """Таблица для файлов."""
 
     file_id = models.AutoField(primary_key=True, verbose_name="file_id")
     file = models.FileField(upload_to="uploads/")
@@ -292,7 +326,7 @@ class File(models.Model):
 
 
 class Notification(models.Model):
-    """Notifications table."""
+    """Таблица для уведомлений."""
 
     notice_id = models.AutoField(
         primary_key=True, verbose_name="notification_id"
@@ -318,7 +352,7 @@ class Notification(models.Model):
 
 
 class TaskNotification(models.Model):
-    """Link table for task related notifications and users."""
+    """Связующая таблица для уведомлений и пользователей, связанных с задачами."""
 
     tn_id = models.BigAutoField(
         primary_key=True, verbose_name="notification_user_id"
@@ -342,6 +376,9 @@ class TaskNotification(models.Model):
         verbose_name="receiver_of_notice",
         null=True,
     )
+    message = models.TextField(
+        verbose_name="notification_message", blank=True, null=True
+    )
     date = models.DateTimeField(
         verbose_name="notification_sent_datetime", auto_now_add=True
     )
@@ -357,7 +394,7 @@ class TaskNotification(models.Model):
 
 
 class IdpNotification(models.Model):
-    """Link table for idp related notifications and users."""
+    """Связующая таблица для уведомлений и пользователей, связанных с ипр."""
 
     in_id = models.BigAutoField(
         primary_key=True, verbose_name="notification_user_id"
@@ -380,6 +417,9 @@ class IdpNotification(models.Model):
         related_name="idp_notices",
         verbose_name="receiver_of_notice",
         null=True,
+    )
+    message = models.TextField(
+        verbose_name="notification_message", blank=True, null=True
     )
     date = models.DateTimeField(
         verbose_name="notification_sent_datetime", auto_now_add=True

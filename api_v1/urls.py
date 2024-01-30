@@ -10,6 +10,7 @@ from api_v1.views.idp_app import (
     TaskNotificationViewSet,
     TaskViewSet,
 )
+from api_v1.views.users import UserViewSet
 
 router = DefaultRouter()
 
@@ -24,6 +25,7 @@ router.register(
 router.register(
     "task-notification", TaskNotificationViewSet, basename="task-notification"
 )
+router.register("users", UserViewSet, basename="users")
 
 
 urlpatterns = [
