@@ -6,11 +6,10 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from core.choices import (
-    NotificationStatuses,
-    NotificationTriggers,
-    StatusChoices,
     IdpNoteRelation,
     IdpStatuses,
+    NotificationStatuses,
+    NotificationTriggers,
     TaskNoteRelation,
     TaskStatuses,
 )
@@ -52,14 +51,6 @@ class IDP(models.Model):
     )
     end_date_fact = models.DateTimeField(
         verbose_name="end_date_fact", blank=True, null=True
-    )
-    mentor = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        verbose_name="mentor",
-        related_name="idp",
-        blank=True,
-        null=True,
     )
     employee = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="idps"

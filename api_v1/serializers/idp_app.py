@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from core.utils import get_extensions
 
+from core.utils import get_extensions
 from idp_app.models import (
     IDP,
     File,
@@ -9,7 +9,6 @@ from idp_app.models import (
     Task,
     TaskNotification,
 )
-
 from users.models import Department
 
 
