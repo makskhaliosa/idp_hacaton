@@ -20,5 +20,36 @@ services:
       - 8000:8000
     command: python manage.py runserver 0.0.0.0:8000
 
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis:/data
+    restart: always
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile_celery
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    command: celery -A idp worker --loglevel=info -P eventlet
+    restart: always
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile_celery
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    command: celery -A idp beat -l info
+    restart: always
+
 volumes:
   pg_data:
+  redis:

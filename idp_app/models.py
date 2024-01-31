@@ -15,6 +15,7 @@ from core.choices import (
     TaskStatuses,
     UserRoles,
 )
+from core.task_manager import define_idp_task, define_task_obj_task
 from core.utils import default_end_date_plan, find_differencies
 
 User = get_user_model()
@@ -85,6 +86,7 @@ class IDP(models.Model):
                 self._create_notification(trigger)
             if self.status == IdpStatuses.ACTIVE:
                 self._activate_tasks()
+        define_idp_task(self)
 
     def _create_notification(self, trigger: Dict[str, Any]):
         try:
@@ -94,7 +96,6 @@ class IDP(models.Model):
                 users=trigger.get("receiver", [UserRoles.employee]),
                 messages=messages,
             )
-            print(receivers_messages)
             for receiver, message in receivers_messages.items():
                 final_message = f"{message} {self.get_absolute_url()}"
                 IdpNotification.objects.create(
@@ -226,6 +227,7 @@ class Task(models.Model):
             trigger = TaskNoteRelation.get(self.task_status)
             if trigger is not None:
                 self._create_notification(trigger)
+        define_task_obj_task(self)
 
     def _create_notification(self, trigger: Dict[str, Any]):
         try:

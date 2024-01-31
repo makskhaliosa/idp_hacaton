@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "djoser",
     "django_filters",
+    "django_celery_beat",
     # project`s apps
     "idp_app.apps.IdpAppConfig",
     "core.apps.CoreConfig",
@@ -148,6 +149,14 @@ DJOSER = {
     },
     "HIDE_USERS": False,
 }
+
+# CELERY SETTINGS
+
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
