@@ -94,12 +94,14 @@ class IDPViewSet(viewsets.ModelViewSet):
         if user.is_authenticated:
             idp_data = request.data
 
-            employee_cheif = User.objects.get(uid=idp_data["employee"]).chief
+            employee_chief = User.objects.get(uid=idp_data["employee"]).chief
 
-            if user == employee_cheif:
-                idp_data["status"] = IdpStatuses.ACTIVE
-            else:
-                idp_data["status"] = IdpStatuses.DRAFT
+            if user != employee_chief:
+                if idp_data["status"] not in (
+                    IdpStatuses.DRAFT,
+                    IdpStatuses.DRAFT_APPROVAL,
+                ):
+                    idp_data["status"] = IdpStatuses.DRAFT
 
             serializer = CreateIDPSerializer(data=idp_data)
             serializer.is_valid(raise_exception=True)
