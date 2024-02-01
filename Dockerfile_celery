@@ -1,13 +1,8 @@
-FROM python:3.11-alpine
+FROM python:3.11
 
 WORKDIR /app
 
 COPY requirements.txt .
-
-RUN apk update
-
-RUN apk add --no-cache --virtual .build-deps gcc python3-dev musl-dev && \
-    apk add postgresql-dev
 
 RUN python -m pip install --upgrade pip
 

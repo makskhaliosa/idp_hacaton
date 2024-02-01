@@ -1,0 +1,32 @@
+[
+	{
+        "model": "idp_app.Task",
+        "pk": 1,
+        "fields": {
+            "task_name": "Изучить функциональное программирование",
+            "task_description": "Изучить функциональное программирование",
+            "task_status": "draft",
+            "taskend_date_plan": "2024-03-20T00:00:00+03:00",
+            "task_note_employee": "task_note_employee",
+            "task_note_cheif": "task_note_cheif",
+            "task_note_mentor": "task_note_mentor",
+            "task_mentor": 1,
+            "idp": 1
+        }
+	},
+    {
+        "model": "idp_app.Task",
+        "pk": 2,
+        "fields": {
+          "task_name": "Изучить функциональное программирование",
+          "task_description": "Изучить функциональное программирование",
+          "task_status": "draft",
+          "taskend_date_plan": "2024-03-20T00:00:00+03:00",
+          "task_note_employee": "task_note_employee",
+          "task_note_cheif": "task_note_cheif",
+          "task_note_mentor": "task_note_mentor",
+          "task_mentor": 4,
+          "idp": 5
+        }
+    }
+]
