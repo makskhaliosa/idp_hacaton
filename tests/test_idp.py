@@ -19,12 +19,12 @@ class Test01IDPAPI:
 
     def test_02_get_all_idp(self, client):
         """Запросить все ИПР"""
-        response = client.get("/api/v1/idp/all/list/")
+        response = client.get("/api/v1/idp/")
         assert response.status_code != HTTPStatus.NOT_FOUND, (
-            "Эндпоинт `/api/v1/idp/all/list/` не найден. Проверьте настройки в "
+            "Эндпоинт `/api/v1/idp/` не найден. Проверьте настройки в "
             "*urls.py*."
         )
         assert response.status_code == HTTPStatus.UNAUTHORIZED, (
             "Проверьте, что GET-запрос неавторизованного пользователя к "
-            "`/api/v1/idp/all/list/` возвращает ответ со статусом 401."
+            "`/api/v1/idp/` возвращает ответ со статусом 401."
         )

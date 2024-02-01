@@ -10,7 +10,11 @@ def user(django_user_model):
         last_name="TestUser",
         first_name="TestUser",
         password="510765_kaka",
+        email="test@test.com",
         id_admin=True,
+        is_active=True,
+        is_staff=True,
+        is_superuser=True,
     )
 
 
