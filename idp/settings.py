@@ -1,5 +1,5 @@
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -173,3 +173,46 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Logging
+
+LOG_LEVEL = "INFO"
+CURRENT_TIME = datetime.now().strftime("%Y-%m-%d_%H-%M")
+LOG_FILE = f"/log_{CURRENT_TIME}.log"
+LOG_DIR = os.path.join(BASE_DIR, "log")
+LOG_PATH = LOG_DIR + LOG_FILE
+
+if not os.path.exists(LOG_DIR):
+    os.mkdir(LOG_DIR)
+
+if os.getenv("LOG_LEVEL") is not None:
+    LOG_LEVEL = os.getenv("LOG_LEVEL")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": LOG_PATH,
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "": {
+            "level": "DEBUG",
+            "handlers": ["file"],
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} - {levelname} {name} {module} {process:d} {thread:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+}

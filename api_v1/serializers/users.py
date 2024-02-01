@@ -1,3 +1,4 @@
+import logging
 from itertools import chain
 from typing import Any, Dict, List
 
@@ -12,6 +13,8 @@ from .idp_app import (
     IDPNotificationSerializer,
     TaskNotificationSerializer,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class UserAsFieldSerializer(serializers.ModelSerializer):

@@ -1,3 +1,5 @@
+import logging
+
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -12,6 +14,8 @@ from api_v1.serializers.users import (
     UserUpdateSerializer,
 )
 from users.models import User
+
+logger = logging.getLogger(__name__)
 
 
 @extend_schema_view(

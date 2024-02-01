@@ -1,3 +1,4 @@
+import logging
 from typing import Dict
 
 from rest_framework import serializers
@@ -12,6 +13,8 @@ from idp_app.models import (
     TaskNotification,
 )
 from users.models import Department
+
+logger = logging.getLogger(__name__)
 
 
 class NotificationSerializer(serializers.ModelSerializer):

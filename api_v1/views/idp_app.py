@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -33,6 +35,7 @@ from idp_app.models import (
 from users.models import Department
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
