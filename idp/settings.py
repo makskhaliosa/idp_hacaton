@@ -177,7 +177,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Logging
 
-LOG_LEVEL = "INFO"
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 CURRENT_TIME = datetime.now().strftime("%Y-%m-%d_%H-%M")
 LOG_FILE = f"/log_{CURRENT_TIME}.log"
 LOG_DIR = os.path.join(BASE_DIR, "log")
@@ -185,9 +185,6 @@ LOG_PATH = LOG_DIR + LOG_FILE
 
 if not os.path.exists(LOG_DIR):
     os.mkdir(LOG_DIR)
-
-if os.getenv("LOG_LEVEL") is not None:
-    LOG_LEVEL = os.getenv("LOG_LEVEL")
 
 LOGGING = {
     "version": 1,
@@ -207,7 +204,7 @@ LOGGING = {
     },
     "formatters": {
         "verbose": {
-            "format": "{asctime} - {levelname} {name} {module} {process:d} {thread:d} {message}",
+            "format": "{asctime} - {levelname} {name} {module} {lineno} {funcName} {message}",
             "style": "{",
         },
         "simple": {
