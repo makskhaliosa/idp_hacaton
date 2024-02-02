@@ -94,7 +94,6 @@ class IDP(models.Model):
                 users=trigger.get("receiver", [UserRoles.employee]),
                 messages=messages,
             )
-            print(receivers_messages)
             for receiver, message in receivers_messages.items():
                 final_message = f"{message} {self.get_absolute_url()}"
                 IdpNotification.objects.create(
@@ -111,10 +110,7 @@ class IDP(models.Model):
             trigger = IdpNoteRelation.get(self.status)
             if trigger:
                 self._create_notification(trigger)
-            if self.status == IdpStatuses.ACTIVE:
-                self._activate_tasks()
-            elif self.status == IdpStatuses.CANCELLED:
-                self._cancel_tasks()
+            self._change_tasks_status(self.status)
         else:
             trigger = IdpNoteRelation.get("updated")
             self._create_notification(trigger)
@@ -133,15 +129,22 @@ class IDP(models.Model):
         }
         return {receivers.get(user): messages.get(user) for user in users}
 
-    def _activate_tasks(self):
-        for task in self.tasks.all():
-            task.task_status = TaskStatuses.ACTIVE_WITH_IDP
-            task.save()
+    def _change_tasks_status(self, status: str):
+        """
+        Получает статус ИПР и обновляет статус задач.
 
-    def _cancel_tasks(self):
-        for task in self.tasks.all():
-            task.task_status = TaskStatuses.CANCELLED_WITH_IDP
-            task.save()
+        Статус задач полуаем из словаря соответствий статусов.
+        """
+        statuses = {
+            IdpStatuses.ACTIVE: TaskStatuses.ACTIVE_WITH_IDP,
+            IdpStatuses.CANCELLED: TaskStatuses.CANCELLED_WITH_IDP,
+            IdpStatuses.DRAFT_APPROVAL: TaskStatuses.DRAFT_APPROVAL,
+        }
+        updated_status = statuses.get(status)
+        if updated_status:
+            for task in self.tasks.all():
+                task.task_status = updated_status
+                task.save()
 
     def get_absolute_url(self):
         return reverse("idp-detail", kwargs={"pk": self.pk})
