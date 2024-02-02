@@ -49,7 +49,7 @@
         "task_name": "Принять участие в конференции по совместной работе front и back ",
         "task_status": "draft_approval",
         "task_end_date_plan": "2024-02-28T00:00:00+03:00",
-        "task_note_cheif": "Конференция Яндекс 27-28 февраля 2024",
+        "task_note_chief": "Конференция Яндекс 27-28 февраля 2024",
         "task_mentor": 8,
         "idp": 4
         }
@@ -105,7 +105,7 @@
         "task_name": "Сделать ревью выполненных задач",
         "task_status": "active",
         "task_end_date_plan": "2024-02-28T00:00:00+03:00",
-            "task_note_cheif": "Ревью проверить с Фронтом в феврале",
+        "task_note_chief": "Ревью проверить с Фронтом в феврале",
         "task_mentor": 7,
         "idp": 7
         }
@@ -127,7 +127,7 @@
         "fields": {
         "task_name": "Бизнес-анализ и прототипы пользовательских интерфейсов",
         "task_status": "two_weeks",
-        "task_end_date_plan": "2024-02-180T00:00:00+03:00",
+        "task_end_date_plan": "2024-02-18T00:00:00+03:00",
         "task_mentor": 9,
         "idp": 8
         }
@@ -173,9 +173,9 @@
         "task_name": "Пройти он-лайн курс по тайм-менеджменту",
         "task_status": "cancelled",
         "task_end_date_plan": "2023-12-21T00:00:00+03:00",
-            "task_end_date_fact": "2024-01-21T00:00:00+03:00",
-        "task_note_cheif": "Все сроки вышли",
-            "task_mentor": 8,
+        "task_end_date_fact": "2024-01-21T00:00:00+03:00",
+        "task_note_chief": "Все сроки вышли",
+        "task_mentor": 8,
         "idp": 9
         }
     },
@@ -199,7 +199,7 @@
         "task_end_date_plan": "2024-02-14T00:00:00+03:00",
             "task_end_date_fact": "2024-01-16T00:00:00+03:00",
         "task_note_employee": "Набрал 75 из 100 баллов",
-        "task_note_cheif": "Дать обратную связь ментору по количеству правильных ответов",
+        "task_note_chief": "Дать обратную связь ментору по количеству правильных ответов",
         "task_note_mentor": "Отличный результат!",
         "task_mentor": 3,
         "idp": 11
@@ -214,7 +214,7 @@
         "task_status": "closed",
         "task_end_date_plan": "2024-03-20T00:00:00+03:00",
         "task_end_date_fact": "2024-01-06T00:00:00+03:00",
-            "task_note_mentor": "Выполнено",
+        "task_note_mentor": "Выполнено",
         "task_mentor": 3,
         "idp": 11
         }
@@ -227,8 +227,8 @@
         "task_description": "На платформе Яндекс Практикума",
         "task_status": "cancelled",
         "task_end_date_plan": "2024-06-11T00:00:00+03:00",
-            "task_end_date_fact": "2023-12-22T00:00:00+03:00",
-    "task_note_cheif": "Включим в следующий план",
+        "task_end_date_fact": "2023-12-22T00:00:00+03:00",
+        "task_note_chief": "Включим в следующий план",
         "task_mentor": 8,
         "idp": 12
         }
@@ -253,7 +253,7 @@
         "task_status": "completed_approval",
         "task_end_date_plan": "2024-02-29T00:00:00+03:00",
         "task_end_date_fact": "2024-02-01T00:00:00+03:00",
-            "task_note_employee": "Курс пройден",
+        "task_note_employee": "Курс пройден",
         "task_mentor": 8,
         "idp": 13
         }
@@ -267,7 +267,7 @@
         "task_end_date_plan": "2024-02-29T00:00:00+03:00",
         "task_end_date_fact": "2024-01-11T00:00:00+03:00",
         "task_note_employee": "Получен сертификат о прохождении курса",
-        "task_note_cheif": "Уделить особое внимание!",
+        "task_note_chief": "Уделить особое внимание!",
         "task_note_mentor": "Подтверждено",
         "task_mentor": 8,
         "idp": 13
@@ -282,7 +282,7 @@
         "task_status": "closed",
         "task_end_date_plan": "2024-01-23T00:00:00+03:00",
         "task_end_date_fact": "2024-01-30T00:00:00+03:00",
-            "task_note_employee": "Выполнено",
+        "task_note_employee": "Выполнено",
         "task_note_mentor": "Подтверждаю выполнение",
         "task_mentor": 8,
         "idp": 14
@@ -297,7 +297,7 @@
         "task_status": "cancelled",
         "task_end_date_plan": "2024-01-23T00:00:00+03:00",
         "task_end_date_fact": "2024-01-10T00:00:00+03:00",
-            "task_note_cheif": "Переносим на новый календарный год",
+        "task_note_chief": "Переносим на новый календарный год",
         "task_mentor": 8,
         "idp": 14
         }

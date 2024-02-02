@@ -186,8 +186,8 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
-    task_note_cheif = models.CharField(
-        verbose_name="task_note_cheif", max_length=10000, blank=True, null=True
+    task_note_chief = models.CharField(
+        verbose_name="task_note_chief", max_length=10000, blank=True, null=True
     )
     task_note_mentor = models.CharField(
         verbose_name="task_note_mentor",

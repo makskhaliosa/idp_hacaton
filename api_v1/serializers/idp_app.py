@@ -2,6 +2,8 @@ from typing import Dict
 
 from rest_framework import serializers
 
+from core.choices import TaskStatuses
+from core.serializer_fields import TaskChoiceField
 from core.utils import get_extensions
 from idp_app.models import (
     IDP,
@@ -65,6 +67,8 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     """Сериализатор модели Task."""
 
+    task_status = TaskChoiceField(choices=TaskStatuses, allow_blank=True)
+
     class Meta:
         model = Task
         fields = (
@@ -76,9 +80,10 @@ class TaskSerializer(serializers.ModelSerializer):
             "task_end_date_plan",
             "task_end_date_fact",
             "task_note_employee",
-            "task_note_cheif",
+            "task_note_chief",
             "task_note_mentor",
             "task_mentor",
+            "idp",
         )
 
 
