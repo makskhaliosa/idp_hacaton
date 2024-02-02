@@ -85,8 +85,7 @@ class IDP(models.Model):
             trigger = IdpNoteRelation.get(self.status)
             if trigger is not None:
                 self._create_notification(trigger)
-            if self.status == IdpStatuses.ACTIVE:
-                self._activate_tasks()
+            self._change_tasks_status(self.status)
         if INCLUDE_CELERY:
             define_idp_task(self)
 
