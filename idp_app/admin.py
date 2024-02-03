@@ -71,7 +71,6 @@ class IDPAdmin(EmptyFieldModel):
         "target",
         "status",
         "employee",
-        "mentor",
         "start_date",
         "end_date_plan",
         "end_date_fact",

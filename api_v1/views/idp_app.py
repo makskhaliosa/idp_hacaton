@@ -1,7 +1,11 @@
+import pendulum
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from drf_spectacular.utils import extend_schema
+from openpyxl import Workbook
+from openpyxl.styles import Font
+from openpyxl.utils import get_column_letter
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter, SearchFilter
@@ -21,6 +25,7 @@ from api_v1.serializers.idp_app import (
     TaskSerializer,
 )
 from core.choices import IdpStatuses, StatusChoices
+from core.constants import DEFAULT_COLUMN_WIDTH, IDP_NAME_COLUMN_WIDTH
 from core.utils import get_idp_extra_info
 from idp_app.models import (
     IDP,
@@ -155,8 +160,63 @@ class IDPViewSet(viewsets.ModelViewSet):
 
             extra_info.update(response.data)
             response.data = extra_info
+
             return response
+
         return Response({"detail": "У ваших сотрудников еще нет ИПР."})
+
+    @action(detail=False, url_path="export/excel")
+    def export_idps_to_excel(self, request):
+        """Экспорт списка ИПР подчиненных в excel файл."""
+        subordinates_data = self.get_subordinates_idps(request).data
+
+        if subordinates_data:
+            workbook = Workbook()
+            excel_sheet = workbook.active
+            headers = [
+                "План развития",
+                "Cотрудник",
+                "Плановая дата закрытия",
+                "Фактическая дата закрытия",
+                "Статус",
+            ]
+            for col_num, header in enumerate(headers, 1):
+                col_letter = get_column_letter(col_num)
+                cell = excel_sheet[f"{col_letter}1"]
+                cell.value = header
+                cell.font = Font(bold=True)
+                # Устанавливаем ширину столбцов по умолчанию
+                excel_sheet.column_dimensions[
+                    col_letter
+                ].width = DEFAULT_COLUMN_WIDTH
+                excel_sheet.column_dimensions[
+                    "A"
+                ].width = IDP_NAME_COLUMN_WIDTH
+            for row_num, idp in enumerate(subordinates_data["results"], 2):
+                excel_sheet[f"A{row_num}"] = idp.get("name", "")
+                employee = idp.get("employee", {})
+                employee_name = f"{employee.get('first_name', '')} {employee.get('last_name', '')}"
+                excel_sheet[f"B{row_num}"] = employee_name
+                time_str = idp.get("end_date_plan", "")
+                # Дату приводим к формату DD:MM:YYYY HH:mm
+                end_date_plan = pendulum.parse(time_str)
+                formatted_date = end_date_plan.format("DD:MM:YYYY HH:mm")
+                excel_sheet[f"C{row_num}"] = formatted_date
+                excel_sheet[f"D{row_num}"] = idp.get("end_date_fact", "")
+                status_eng = idp.get("status", "")
+                status_label = getattr(IdpStatuses, status_eng.upper()).label
+                excel_sheet[f"E{row_num}"] = status_label
+            response = HttpResponse(
+                content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+            response[
+                "Content-Disposition"
+            ] = "attachment; filename=subordinates_idps.xlsx"
+            workbook.save(response)
+
+            return response
+
+        return Response({"detail": "Нет данных для экспорта в Excel."})
 
 
 class TaskNotificationViewSet(viewsets.ModelViewSet):
