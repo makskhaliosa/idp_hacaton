@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
@@ -9,6 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from api_v1.filters import IdpFilterSet, IdpOrderingFilter
 from api_v1.serializers.idp_app import (
     CreateIDPSerializer,
     DepartmentSerializer,
@@ -21,7 +23,7 @@ from api_v1.serializers.idp_app import (
     TaskSerializer,
 )
 from core.choices import IdpStatuses
-from core.utils import get_idp_extra_info
+from core.utils import get_idp_extra_info, idp_status_order
 from idp_app.models import (
     IDP,
     File,
@@ -45,6 +47,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = (AllowAny,)
+    filter_backends = (SearchFilter, OrderingFilter)
 
 
 class FileViewSet(viewsets.ModelViewSet):
@@ -74,8 +77,8 @@ class IDPViewSet(viewsets.ModelViewSet):
     queryset = IDP.objects.all()
     serializer_class = IDPReadOnlySerializer
     permission_classes = (IsAuthenticated,)
-    filter_backends = (SearchFilter, OrderingFilter)
-    search_fields = ("^name", "employee__last_name")
+    filter_backends = (SearchFilter, IdpOrderingFilter, DjangoFilterBackend)
+    search_fields = ("^name", "^employee__last_name")
     ordering_fields = (
         "name",
         "end_date_plan",
@@ -83,23 +86,47 @@ class IDPViewSet(viewsets.ModelViewSet):
         "employee__last_name",
         "employee__first_name",
     )
+    filterset_class = IdpFilterSet
 
     def get_serializer_class(self):
         if self.request.method == "GET":
             return IDPReadOnlySerializer
         return CreateIDPSerializer
 
+    def filter_queryset(self, queryset):
+        filtered_queryset = super().filter_queryset(queryset)
+        if self.request.query_params:
+            if not self.request.query_params.get("ordering"):
+                filtered_queryset.order_by(
+                    idp_status_order,
+                    "-end_date_plan",
+                    "employee__last_name",
+                    "employee__first_name",
+                    "name",
+                )
+        else:
+            filtered_queryset = filtered_queryset.order_by(
+                idp_status_order,
+                "-end_date_plan",
+                "employee__last_name",
+                "employee__first_name",
+                "name",
+            )
+        return filtered_queryset
+
     def create(self, request, *args, **kwargs):
         user = request.user
         if user.is_authenticated:
             idp_data = request.data
 
-            employee_cheif = User.objects.get(uid=idp_data["employee"]).chief
+            employee_chief = User.objects.get(uid=idp_data["employee"]).chief
 
-            if user == employee_cheif:
-                idp_data["status"] = IdpStatuses.ACTIVE
-            else:
-                idp_data["status"] = IdpStatuses.DRAFT
+            if user != employee_chief:
+                if idp_data["status"] not in (
+                    IdpStatuses.DRAFT,
+                    IdpStatuses.DRAFT_APPROVAL,
+                ):
+                    idp_data["status"] = IdpStatuses.DRAFT
 
             serializer = CreateIDPSerializer(data=idp_data)
             serializer.is_valid(raise_exception=True)
@@ -136,10 +163,8 @@ class IDPViewSet(viewsets.ModelViewSet):
         subordinates = request.user.subordinates.all()
         if not subordinates:
             return Response({"detail": "У вас нет сотрудников."})
-        idps = (
-            IDP.objects.filter(employee__in=subordinates)
-            .exclude(status=IdpStatuses.DRAFT)
-            .order_by("-end_date_plan", "employee__last_name")
+        idps = IDP.objects.filter(employee__in=subordinates).exclude(
+            status=IdpStatuses.DRAFT
         )
         filtered_idps = self.filter_queryset(idps)
 

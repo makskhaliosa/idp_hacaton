@@ -76,9 +76,10 @@ class TaskSerializer(serializers.ModelSerializer):
             "task_end_date_plan",
             "task_end_date_fact",
             "task_note_employee",
-            "task_note_cheif",
+            "task_note_chief",
             "task_note_mentor",
             "task_mentor",
+            "idp",
         )
 
 

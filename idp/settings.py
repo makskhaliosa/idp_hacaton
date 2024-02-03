@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "djoser",
     "django_filters",
+    "django_celery_beat",
+    "corsheaders",
     # project`s apps
     "idp_app.apps.IdpAppConfig",
     "core.apps.CoreConfig",
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -149,6 +152,16 @@ DJOSER = {
     "HIDE_USERS": False,
 }
 
+# CELERY SETTINGS
+
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+# если планировщик запущен, добавить в .env INCLUDE_CELERY = True
+INCLUDE_CELERY = os.getenv("INCLUDE_CELERY", False)
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -173,3 +186,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# CORS SETTINGS
+
+CORS_ALLOW_ALL_ORIGINS = True

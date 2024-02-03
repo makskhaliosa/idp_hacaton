@@ -15,7 +15,9 @@ from core.choices import (
     TaskStatuses,
     UserRoles,
 )
+from core.task_manager import define_idp_task, define_task_obj_task
 from core.utils import default_end_date_plan, find_differencies
+from idp.settings import INCLUDE_CELERY
 
 User = get_user_model()
 
@@ -83,8 +85,9 @@ class IDP(models.Model):
             trigger = IdpNoteRelation.get(self.status)
             if trigger is not None:
                 self._create_notification(trigger)
-            if self.status == IdpStatuses.ACTIVE:
-                self._activate_tasks()
+            self._change_tasks_status(self.status)
+        if INCLUDE_CELERY:
+            define_idp_task(self)
 
     def _create_notification(self, trigger: Dict[str, Any]):
         try:
@@ -94,7 +97,6 @@ class IDP(models.Model):
                 users=trigger.get("receiver", [UserRoles.employee]),
                 messages=messages,
             )
-            print(receivers_messages)
             for receiver, message in receivers_messages.items():
                 final_message = f"{message} {self.get_absolute_url()}"
                 IdpNotification.objects.create(
@@ -111,10 +113,7 @@ class IDP(models.Model):
             trigger = IdpNoteRelation.get(self.status)
             if trigger:
                 self._create_notification(trigger)
-            if self.status == IdpStatuses.ACTIVE:
-                self._activate_tasks()
-            elif self.status == IdpStatuses.CANCELLED:
-                self._cancel_tasks()
+            self._change_tasks_status(self.status)
         else:
             trigger = IdpNoteRelation.get("updated")
             self._create_notification(trigger)
@@ -133,15 +132,22 @@ class IDP(models.Model):
         }
         return {receivers.get(user): messages.get(user) for user in users}
 
-    def _activate_tasks(self):
-        for task in self.tasks.all():
-            task.task_status = TaskStatuses.ACTIVE_WITH_IDP
-            task.save()
+    def _change_tasks_status(self, status: str):
+        """
+        Получает статус ИПР и обновляет статус задач.
 
-    def _cancel_tasks(self):
-        for task in self.tasks.all():
-            task.task_status = TaskStatuses.CANCELLED_WITH_IDP
-            task.save()
+        Статус задач полуаем из словаря соответствий статусов.
+        """
+        statuses = {
+            IdpStatuses.ACTIVE: TaskStatuses.ACTIVE_WITH_IDP,
+            IdpStatuses.CANCELLED: TaskStatuses.CANCELLED_WITH_IDP,
+            IdpStatuses.DRAFT_APPROVAL: TaskStatuses.DRAFT_APPROVAL,
+        }
+        updated_status = statuses.get(status)
+        if updated_status:
+            for task in self.tasks.all():
+                task.task_status = updated_status
+                task.save()
 
     def get_absolute_url(self):
         return reverse("idp-detail", kwargs={"pk": self.pk})
@@ -180,8 +186,8 @@ class Task(models.Model):
         blank=True,
         null=True,
     )
-    task_note_cheif = models.CharField(
-        verbose_name="task_note_cheif", max_length=10000, blank=True, null=True
+    task_note_chief = models.CharField(
+        verbose_name="task_note_chief", max_length=10000, blank=True, null=True
     )
     task_note_mentor = models.CharField(
         verbose_name="task_note_mentor",
@@ -226,6 +232,8 @@ class Task(models.Model):
             trigger = TaskNoteRelation.get(self.task_status)
             if trigger is not None:
                 self._create_notification(trigger)
+        if INCLUDE_CELERY:
+            define_task_obj_task(self)
 
     def _create_notification(self, trigger: Dict[str, Any]):
         try:

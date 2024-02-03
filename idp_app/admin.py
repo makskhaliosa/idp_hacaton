@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from core.choices import IdpStatuses
-from core.models import EmptyFieldModel, MinValidatedInlineMixIn
+from core.models import EmptyFieldModel
 
 from .models import (
     IDP,
@@ -13,20 +12,12 @@ from .models import (
 )
 
 
-class IDPNotificationTabularInline(
-    admin.TabularInline, MinValidatedInlineMixIn
-):
+class IDPNotificationTabularInline(admin.TabularInline):
     model = IdpNotification
-    validate_min = True
-    min_num = 1
 
 
-class TaskNotificationTabularInline(
-    admin.TabularInline, MinValidatedInlineMixIn
-):
+class TaskNotificationTabularInline(admin.TabularInline):
     model = TaskNotification
-    validate_min = True
-    min_num = 1
 
 
 class TaskAdmin(EmptyFieldModel):
@@ -39,7 +30,7 @@ class TaskAdmin(EmptyFieldModel):
         "task_end_date_plan",
         "task_end_date_fact",
         "task_note_employee",
-        "task_note_cheif",
+        "task_note_chief",
         "task_note_mentor",
         "task_mentor",
         "idp",
@@ -75,21 +66,6 @@ class IDPAdmin(EmptyFieldModel):
     list_filter = ("status",)
     search_fields = ("name", "employee__last_name", "start_date")
     inlines = [IDPNotificationTabularInline]
-
-    def save_model(self, request, obj, form, change):
-        """
-        Проверяет, был ли ипр создан рук-ом пользователя.
-
-        Если нет, то задание является черновиком, который необходимо утвердить.
-        """
-        employee = obj.employee
-
-        if request.user == employee.chief:
-            obj.status = IdpStatuses.ACTIVE
-        else:
-            obj.status = IdpStatuses.DRAFT
-
-        super().save_model(request, obj, form, change)
 
 
 class NotificationAdmin(EmptyFieldModel):
