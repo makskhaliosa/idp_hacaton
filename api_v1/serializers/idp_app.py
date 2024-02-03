@@ -2,8 +2,6 @@ from typing import Dict
 
 from rest_framework import serializers
 
-from core.choices import IdpStatuses, TaskStatuses
-from core.serializer_fields import IdpChoiceField, TaskChoiceField
 from core.utils import get_extensions
 from idp_app.models import (
     IDP,
@@ -67,8 +65,6 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     """Сериализатор модели Task."""
 
-    task_status = TaskChoiceField(choices=TaskStatuses)
-
     class Meta:
         model = Task
         fields = (
@@ -90,8 +86,6 @@ class TaskSerializer(serializers.ModelSerializer):
 class IDPReadOnlySerializer(serializers.ModelSerializer):
     """Сериализатор для чтения IDP."""
 
-    status = IdpChoiceField(choices=IdpStatuses)
-
     class Meta:
         model = IDP
         fields = (
@@ -111,7 +105,6 @@ class CreateIDPSerializer(serializers.ModelSerializer):
     """Сериализатор для создания IDP."""
 
     notifications = CreateIDPNotificationSerializer(many=True, required=False)
-    status = IdpChoiceField(choices=IdpStatuses)
 
     class Meta:
         model = IDP
@@ -155,7 +148,6 @@ class IDPasFieldSerializer(serializers.ModelSerializer):
     """
 
     employee = serializers.SerializerMethodField()
-    status = IdpChoiceField(choices=IdpStatuses)
 
     class Meta:
         model = IDP
