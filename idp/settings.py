@@ -130,6 +130,11 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
     "REDOC_DIST": "SIDECAR",
     "SCHEMA_PATH_PREFIX": r"/api/v[0-9]",
+    "ENUM_NAME_OVERRIDES": {
+        "IdpStatuses": "core.choices.IdpStatuses",
+        "TaskStatuses": "core.choices.TaskStatuses",
+        "NotificationStatuses": "core.choices.NotificationStatuses",
+    },
 }
 
 # SIMPLE_JWT

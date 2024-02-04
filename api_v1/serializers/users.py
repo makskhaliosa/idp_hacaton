@@ -8,27 +8,10 @@ from rest_framework import serializers
 
 from users.models import Department, Position, User
 
-from .idp_app import (
-    IDPasFieldSerializer,
-    IDPNotificationSerializer,
-    TaskNotificationSerializer,
-)
+from .fields import IDPasFieldSerializer, UserAsFieldSerializer
+from .idp_app import IDPNotificationSerializer, TaskNotificationSerializer
 
 logger = logging.getLogger(__name__)
-
-
-class UserAsFieldSerializer(serializers.ModelSerializer):
-    """Сериализатор для User, где есть поле с отсылкой к User."""
-
-    class Meta:
-        model = User
-        fields = (
-            "uid",
-            "first_name",
-            "middle_name",
-            "last_name",
-        )
-        read_only_fields = ("first_name", "middle_name", "last_name")
 
 
 class UserSerializer(serializers.ModelSerializer):

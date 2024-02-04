@@ -1,5 +1,4 @@
 import logging
-from typing import Dict
 
 from rest_framework import serializers
 
@@ -13,6 +12,8 @@ from idp_app.models import (
     TaskNotification,
 )
 from users.models import Department
+
+from .fields import TaskAsFieldSerializer, UserAsFieldSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +69,8 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     """Сериализатор модели Task."""
 
+    task_mentor = UserAsFieldSerializer()
+
     class Meta:
         model = Task
         fields = (
@@ -89,6 +92,8 @@ class TaskSerializer(serializers.ModelSerializer):
 class IDPReadOnlySerializer(serializers.ModelSerializer):
     """Сериализатор для чтения IDP."""
 
+    tasks = TaskAsFieldSerializer(many=True)
+
     class Meta:
         model = IDP
         fields = (
@@ -101,6 +106,7 @@ class IDPReadOnlySerializer(serializers.ModelSerializer):
             "end_date_fact",
             "employee",
             "notifications",
+            "tasks",
         )
 
 
@@ -141,27 +147,6 @@ class CreateIDPSerializer(serializers.ModelSerializer):
             IdpNotification.objects.create(**notification, idp_id=idp.pk)
 
         return idp
-
-
-class IDPasFieldSerializer(serializers.ModelSerializer):
-    """
-    IDP сериализатор с определенными полями.
-
-    Для включения в другие сериализаторы.
-    """
-
-    employee = serializers.SerializerMethodField()
-
-    class Meta:
-        model = IDP
-        fields = ("idp_id", "name", "employee", "end_date_plan", "status")
-
-    def get_employee(self, obj: IDP) -> Dict[str, str]:
-        data = {
-            "first_name": obj.employee.first_name,
-            "last_name": obj.employee.last_name,
-        }
-        return data
 
 
 class FileSerializer(serializers.ModelSerializer):

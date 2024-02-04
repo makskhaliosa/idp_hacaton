@@ -14,7 +14,11 @@ from api_v1.views.users import UserViewSet
 
 router = DefaultRouter()
 
-router.register("task", TaskViewSet, basename="task")
+router.register(
+    r"idp/(?P<idp_id>\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/tasks",
+    TaskViewSet,
+    basename="tasks",
+)
 router.register("department", DepartmentViewSet, basename="department")
 router.register("file", FileViewSet, basename="file")
 router.register("notification", NotificationViewSet, basename="notification")
