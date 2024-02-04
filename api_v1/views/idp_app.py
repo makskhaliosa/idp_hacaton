@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -30,7 +32,7 @@ from api_v1.serializers.idp_app import (
     TaskNotificationSerializer,
     TaskSerializer,
 )
-from core.choices import IdpStatuses, StatusChoices
+from core.choices import IdpStatuses
 from core.utils import get_idp_extra_info, idp_status_order, setup_excel_file
 from idp_app.models import (
     IDP,
@@ -43,6 +45,7 @@ from idp_app.models import (
 from users.models import Department
 
 User = get_user_model()
+logger = logging.getLogger(__name__)
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):

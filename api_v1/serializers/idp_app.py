@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import serializers
 
 from core.utils import get_extensions
@@ -12,6 +14,8 @@ from idp_app.models import (
 from users.models import Department
 
 from .fields import TaskAsFieldSerializer, UserAsFieldSerializer
+
+logger = logging.getLogger(__name__)
 
 
 class NotificationSerializer(serializers.ModelSerializer):
