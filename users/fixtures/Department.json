@@ -1,0 +1,74 @@
+[
+    {
+      "model": "users.Department",
+      "pk": 1,
+      "fields": {
+        "dep_name": "Administration",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 2,
+      "fields": {
+        "dep_name": "Marketing",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 3,
+      "fields": {
+        "dep_name": "Business Development",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 4,
+      "fields": {
+        "dep_name": "Cybersecurity",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 5,
+      "fields": {
+        "dep_name": "Programming",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 6,
+      "fields": {
+        "dep_name": "IT services",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 7,
+      "fields": {
+        "dep_name": "HR",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk": 8,
+      "fields": {
+        "dep_name": "Account department",
+        "company_id": 1
+      }
+    },
+    {
+      "model": "users.Department",
+      "pk":9,
+      "fields": {
+        "dep_name": "Technical Support",
+        "company_id": 1
+      }
+    }
+]

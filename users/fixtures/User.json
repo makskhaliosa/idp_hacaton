@@ -1,0 +1,122 @@
+[
+	{
+		"model": "users.User",
+		"pk": 1,
+		"fields": {
+		"first_name": "Andrey",
+		"last_name": "Varachev",
+		"email": "user1@mail.ru",
+		"position": 6,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+		"chief": 5
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 2,
+		"fields": {
+		"first_name": "Alexy",
+		"last_name": "Chizhov",
+		"email": "user2@mail.ru",
+		"position": 5,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+		"chief": 5
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 3,
+		"fields": {
+		"first_name": "Maxim",
+		"last_name": "Kalesa",
+		"email": "user3@mail.ru",
+		"position": 5,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+		"chief": 5
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 4,
+		"fields": {
+		"first_name": "Igor",
+		"last_name": "Babazhuk",
+		"email": "user4@mail.ru",
+		"position": 2,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+		"chief": 5
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 5,
+		"fields": {
+		"first_name": "Pavel",
+		"last_name": "Pavlov",
+		"email": "user5@mail.ru",
+		"position": 1,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww="
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 6,
+		"fields": {
+		"first_name": "Ivan",
+		"last_name": "Pavin",
+		"email": "user6@mail.ru",
+		"position": 3,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+		"chief": 4
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 7,
+		"fields": {
+		"first_name": "Stanislav",
+		"last_name": "Paslov",
+		"email": "user7@mail.ru",
+		"position": 4,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+		"chief": 4
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 8,
+		"fields": {
+		"first_name": "Elena",
+		"last_name": "Stavitskaya",
+		"email": "user8@mail.ru",
+		"position": 1,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww="
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 9,
+		"fields": {
+		"first_name": "Oksana",
+		"last_name": "Smirnova",
+		"email": "user9@mail.ru",
+		"position": 7,
+		"password": "pbkdf2_sha256$720000$hj9VoMEgEaYgYAUH14urFE$E9QMuxPN14DchlcO4fetRz6vRLUJ9hJh6bUqWftjGww=",
+		"chief": 8
+		}
+	},
+	{
+		"model": "users.User",
+		"pk": 10,
+		"fields": {
+		  "first_name": "Test",
+		  "last_name": "Admin",
+		  "email": "admin@admin.ru",
+		  "position": 6,
+		  "is_admin": "True",
+		  "is_staff": "True",
+		  "is_superuser": "True",
+		  "password": "pbkdf2_sha256$720000$AWUSFGAkI3Ls4CSYxJ2Sgi$PQeKuW/guAt0kSYOoRntZqIQqj4NOS8awWxQCwkgYeY="
+		}
+	  }
+]
