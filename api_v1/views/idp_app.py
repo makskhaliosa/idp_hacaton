@@ -22,8 +22,8 @@ from api_v1.serializers.idp_app import (
     TaskNotificationSerializer,
     TaskSerializer,
 )
-from core.choices import IdpStatuses
-from core.utils import get_idp_extra_info, idp_status_order
+from core.choices import IdpStatuses, StatusChoices
+from core.utils import get_idp_extra_info, idp_status_order, setup_excel_file
 from idp_app.models import (
     IDP,
     File,
@@ -180,8 +180,27 @@ class IDPViewSet(viewsets.ModelViewSet):
 
             extra_info.update(response.data)
             response.data = extra_info
+
             return response
+
         return Response({"detail": "У ваших сотрудников еще нет ИПР."})
+
+    @action(detail=False, url_path="export/excel")
+    def export_idps_to_excel(self, request):
+        """Экспорт списка ИПР подчиненных в excel файл."""
+        subordinates_data = self.get_subordinates_idps(request).data
+
+        if subordinates_data:
+            excel_file = setup_excel_file(subordinates_data)
+            response = HttpResponse(
+                content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+            response[
+                "Content-Disposition"
+            ] = "attachment; filename=subordinates_idps.xlsx"
+            excel_file.save(response)
+            return response
+        return Response({"detail": "Нет данных для экспорта в Excel."})
 
 
 class TaskNotificationViewSet(viewsets.ModelViewSet):
