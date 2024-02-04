@@ -143,20 +143,28 @@ def define_idp_task(idp_obj):
             set_idp_status_two_weeks(idp_obj)
         else:
             set_idp_status_overdue(idp_obj)
+
     elif idp_obj.status in (
         IdpStatuses.CANCELLED,
         IdpStatuses.COMPLETED_APPROVAL,
     ):
         two_weeks_task = f"idp_two_week_{idp_obj.idp_id}"
         overdue_task = f"idp_overdue_{idp_obj.idp_id}"
-        logger.info(f"Cancelling task {two_weeks_task}")
-        try:
-            current_task = PeriodicTask.objects.get(name=two_weeks_task)
-        except PeriodicTask.DoesNotExist:
-            current_task = PeriodicTask.objects.get(name=overdue_task)
-        current_task.enabled = False
-        current_task.save()
-        logger.info(f"Cancelled task {current_task.name}")
+        logger.info(f"Cancelling task {idp_obj.idp_id}")
+        task_list = [two_weeks_task, overdue_task]
+
+        current_task = None
+        for task_name in task_list:
+            try:
+                current_task = PeriodicTask.objects.get(name=task_name)
+            except PeriodicTask.DoesNotExist:
+                continue
+            else:
+                break
+        if current_task is not None:
+            current_task.enabled = False
+            current_task.save()
+            logger.info(f"Cancelled task {current_task.name}")
 
 
 def define_task_obj_task(task_obj):
@@ -176,13 +184,18 @@ def define_task_obj_task(task_obj):
     ):
         two_weeks_task = f"task_two_week_{task_obj.task_id}"
         overdue_task = f"task_overdue_{task_obj.task_id}"
-        logger.info(f"Cancelling task {two_weeks_task}")
+        logger.info(f"Cancelling task {task_obj.task_id}")
+        task_list = [two_weeks_task, overdue_task]
 
-        try:
-            current_task = PeriodicTask.objects.get(name=two_weeks_task)
-        except PeriodicTask.DoesNotExist:
-            current_task = PeriodicTask.objects.get(name=overdue_task)
-
-        current_task.enabled = False
-        current_task.save()
-        logger.info(f"Cancelled task {current_task.name}")
+        current_task = None
+        for task_name in task_list:
+            try:
+                current_task = PeriodicTask.objects.get(name=task_name)
+            except PeriodicTask.DoesNotExist:
+                continue
+            else:
+                break
+        if current_task is not None:
+            current_task.enabled = False
+            current_task.save()
+            logger.info(f"Cancelled task {current_task.name}")
