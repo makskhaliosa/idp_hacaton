@@ -3,8 +3,13 @@ from typing import Dict, List
 
 from django.db.models import Model
 from django.utils import timezone
+from openpyxl import Workbook
+from openpyxl.styles import Font
+from openpyxl.utils import get_column_letter
+from pendulum import parse as pendulum_parse
 
 from core.choices import IdpStatuses
+from core.constants import DEFAULT_COLUMN_WIDTH, IDP_NAME_COLUMN_WIDTH
 
 
 def default_end_date_plan():
@@ -68,3 +73,40 @@ def get_extensions():
     extensions = list(extension_mapping.keys())
     content_types = list(extension_mapping.values())
     return extensions, content_types
+
+
+def setup_excel_file(data):
+    """Настройка Excel-файла для экспорта ИПР подчиненных."""
+    workbook = Workbook()
+    excel_sheet = workbook.active
+    headers = [
+        "План развития",
+        "Cотрудник",
+        "Плановая дата закрытия",
+        "Фактическая дата закрытия",
+        "Статус",
+    ]
+    for col_num, header in enumerate(headers, 1):
+        col_letter = get_column_letter(col_num)
+        cell = excel_sheet[f"{col_letter}1"]
+        cell.value = header
+        cell.font = Font(bold=True)
+        excel_sheet.column_dimensions[col_letter].width = DEFAULT_COLUMN_WIDTH
+        excel_sheet.column_dimensions["A"].width = IDP_NAME_COLUMN_WIDTH
+    for row_num, idp in enumerate(data["results"], 2):
+        excel_sheet[f"A{row_num}"] = idp.get("name", "")
+        employee = idp.get("employee", {})
+        employee_name = (
+            f"{employee.get('first_name', '')} {employee.get('last_name', '')}"
+        )
+        excel_sheet[f"B{row_num}"] = employee_name
+        time_str = idp.get("end_date_plan", "")
+        end_date_plan = pendulum_parse(time_str)
+        formatted_date = end_date_plan.format("DD:MM:YYYY HH:mm")
+        excel_sheet[f"C{row_num}"] = formatted_date
+        excel_sheet[f"D{row_num}"] = idp.get("end_date_fact", "")
+        status_eng = idp.get("status", "")
+        status_label = getattr(IdpStatuses, status_eng.upper()).label
+        excel_sheet[f"E{row_num}"] = status_label
+
+    return workbook
