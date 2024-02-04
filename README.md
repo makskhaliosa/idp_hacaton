@@ -58,7 +58,7 @@ sudo docker exec idp_hacaton-backend-1 python manage.py migrate
 2. В корневой директории выполнить команду
 
 ```bash
-docker compose up -d
+sudo docker compose up -d
 
 sudo docker exec idp_hacaton-backend-1 python manage.py migrate
 ```
