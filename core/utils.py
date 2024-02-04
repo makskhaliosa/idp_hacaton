@@ -135,5 +135,5 @@ task_status_order = Case(
     When(task_status=TaskStatuses.OVERDUE, then=Value(4)),
     When(task_status=TaskStatuses.COMPLETED_APPROVAL, then=Value(5)),
     When(task_status=TaskStatuses.CLOSED, then=Value(6)),
-    When(task_status=TaskStatuses.CANCELLED, then=Value(6)),
+    When(task_status=TaskStatuses.CANCELLED, then=Value(7)),
 )

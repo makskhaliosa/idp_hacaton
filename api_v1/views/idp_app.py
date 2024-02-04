@@ -5,17 +5,25 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.filters import SearchFilter
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from api_v1.filters import IdpFilterSet, IdpOrderingFilter
+from api_v1.filters import (
+    IdpFilterSet,
+    IdpOrderingFilter,
+    TaskFilterSet,
+    TaskOrderingFilter,
+)
+from api_v1.serializers.fields import (
+    IDPasFieldSerializer,
+    TaskAsFieldSerializer,
+)
 from api_v1.serializers.idp_app import (
     CreateIDPSerializer,
     DepartmentSerializer,
     FileSerializer,
-    IDPasFieldSerializer,
     IDPNotificationSerializer,
     IDPReadOnlySerializer,
     NotificationSerializer,
@@ -40,20 +48,47 @@ User = get_user_model()
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
 
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = (AllowAny,)
-    filter_backends = (SearchFilter, OrderingFilter)
+    permission_classes = (IsAuthenticated,)
+    filter_backends = (SearchFilter, TaskOrderingFilter, DjangoFilterBackend)
+    search_fields = ("^task_name", "^task_mentor__last_name")
+    ordering_fields = (
+        "task_name",
+        "task_status",
+        "task_end_date_plan",
+        "task_start_date",
+    )
+    filterset_class = TaskFilterSet
+
+    def get_queryset(self):
+        idp_id = self.kwargs.get("idp_id")
+        tasks = Task.objects.filter(idp=idp_id)
+        return tasks
+
+    @extend_schema(responses=IDPReadOnlySerializer)
+    def list(self, request, *args, **kwargs):
+        tasks = self.get_queryset()
+        idp = get_object_or_404(IDP, pk=tasks[0].idp_id)
+        idp_data = IDPReadOnlySerializer(instance=idp).data
+        if not tasks:
+            return Response(data=idp_data)
+        filtered_tasks = self.filter_queryset(tasks)
+        tasks_data = TaskAsFieldSerializer(
+            instance=filtered_tasks, many=True
+        ).data
+        idp_data["tasks"] = tasks_data
+        return Response(data=idp_data)
 
 
 class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
     def download_file(self, request, file_id):
         file_obj = get_object_or_404(File, pk=file_id)
@@ -70,7 +105,7 @@ class FileViewSet(viewsets.ModelViewSet):
 class NotificationViewSet(viewsets.ModelViewSet):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
 
 class IDPViewSet(viewsets.ModelViewSet):
@@ -206,10 +241,10 @@ class IDPViewSet(viewsets.ModelViewSet):
 class TaskNotificationViewSet(viewsets.ModelViewSet):
     queryset = TaskNotification.objects.all()
     serializer_class = TaskNotificationSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
 
 
 class IDPNotificationViewSet(viewsets.ModelViewSet):
     queryset = IdpNotification.objects.all()
     serializer_class = IDPNotificationSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
