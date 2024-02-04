@@ -9,5 +9,15 @@ services:
       - pg_data:/var/lib/postgresql/data
     restart: always
 
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+    restart: always
+
+
 volumes:
   pg_data:
+  redis:

@@ -37,3 +37,38 @@ python manage.py loaddata */fixtures/*.json
 
 email: admin@admin.ru
 password: admin
+
+
+## Добавлен планировщик задач django-celery-beat
+
+Нужно обновить файл с переменными .env
+
+Из-за того что django-celery-beat автоматически устанавливает Django==4.2.9, нужно после установки зависимостей отдельно установить Django==5.0.1
+
+Для запуска локально сначала нужно сделать все миграции.
+Для запуска в докере нужно будет сделать миграции из контейнера backend.
+
+Локально потребуется три консоли
+1.
+```bash
+celery -A idp worker --loglevel=info -P eventlet
+```
+2.
+```bash
+celery -A idp beat -l info
+```
+3.
+```bash
+python manage.py runserver
+```
+
+Для запуска докера с планировщиком
+
+```bash
+docker compose -f docker-compose-celery.yml up -d
+```
+
+Без планировщика обычный докер компоуз
+```bash
+docker compose up
+```

@@ -1,0 +1,55 @@
+version: '3.0'
+
+services:
+  db:
+    image: postgres:latest
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      - .env
+    ports:
+      - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis:/data
+    restart: always
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile_celery
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    command: celery -A idp worker --loglevel=info -P eventlet
+    restart: always
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: Dockerfile_celery
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - .env
+    command: celery -A idp beat -l info
+    restart: always
+
+volumes:
+  pg_data:
+  redis:

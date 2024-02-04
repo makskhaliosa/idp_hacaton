@@ -1,14 +1,14 @@
 from datetime import timedelta
 from typing import Dict, List
 
-from django.db.models import Model
+from django.db.models import Case, Model, Value, When
 from django.utils import timezone
 from openpyxl import Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 from pendulum import parse as pendulum_parse
 
-from core.choices import IdpStatuses
+from core.choices import IdpStatuses, TaskStatuses
 from core.constants import DEFAULT_COLUMN_WIDTH, IDP_NAME_COLUMN_WIDTH
 
 
@@ -46,7 +46,12 @@ def get_idp_extra_info(idps: List[Model]) -> Dict[str, int]:
         IdpStatuses.OVERDUE: 0,
     }
     for idp in idps:
-        if idp.status == IdpStatuses.ACTIVE:
+        if idp.status in (
+            IdpStatuses.ACTIVE,
+            IdpStatuses.TWO_WEEKS,
+            IdpStatuses.COMPLETED_APPROVAL,
+            IdpStatuses.DRAFT_APPROVAL,
+        ):
             extra_info["in_total"] += 1
             extra_info[IdpStatuses.ACTIVE] += 1
         elif idp.status == IdpStatuses.CLOSED:
@@ -108,5 +113,27 @@ def setup_excel_file(data):
         status_eng = idp.get("status", "")
         status_label = getattr(IdpStatuses, status_eng.upper()).label
         excel_sheet[f"E{row_num}"] = status_label
-
     return workbook
+  
+  
+# Упорядочивает по статусам ипр
+idp_status_order = Case(
+    When(status=IdpStatuses.DRAFT_APPROVAL, then=Value(1)),
+    When(status=IdpStatuses.ACTIVE, then=Value(2)),
+    When(status=IdpStatuses.TWO_WEEKS, then=Value(3)),
+    When(status=IdpStatuses.OVERDUE, then=Value(4)),
+    When(status=IdpStatuses.COMPLETED_APPROVAL, then=Value(5)),
+    When(status=IdpStatuses.CLOSED, then=Value(6)),
+    When(status=IdpStatuses.CANCELLED, then=Value(7)),
+)
+
+# Упорядочивает по статусам задач
+task_status_order = Case(
+    When(task_status=TaskStatuses.DRAFT_APPROVAL, then=Value(1)),
+    When(task_status=TaskStatuses.ACTIVE, then=Value(2)),
+    When(task_status=TaskStatuses.TWO_WEEKS, then=Value(3)),
+    When(task_status=TaskStatuses.OVERDUE, then=Value(4)),
+    When(task_status=TaskStatuses.COMPLETED_APPROVAL, then=Value(5)),
+    When(task_status=TaskStatuses.CLOSED, then=Value(6)),
+    When(task_status=TaskStatuses.CANCELLED, then=Value(6)),
+)
