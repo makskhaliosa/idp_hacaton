@@ -1,42 +1,42 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class IdpStatuses(models.TextChoices):
     """Таблица со статусами ИПР."""
 
-    DRAFT = ("draft", "Черновик")
-    DRAFT_APPROVAL = ("draft_approval", "Черновик (на согласовании)")
-    ACTIVE = ("active", "Активные (в работе)")
-    TWO_WEEKS = ("two_weeks", "Две недели до плановой даты выполнения")
-    OVERDUE = ("overdue", "Просрочено")
-    CANCELLED = ("cancelled", "Отменено")
-    COMPLETED_APPROVAL = ("completed_approval", "Выполнено (на подтверждении)")
-    CLOSED = ("closed", "Выполнено")
+    DRAFT = "draft", _("Черновик")
+    DRAFT_APPROVAL = "draft_approval", _("Черновик (на согласовании)")
+    ACTIVE = "active", _("Активные (в работе)")
+    TWO_WEEKS = "two_weeks", _("Две недели до плановой даты выполнения")
+    OVERDUE = "overdue", _("Просрочено")
+    CANCELLED = "cancelled", _("Отменено")
+    COMPLETED_APPROVAL = "completed_approval", _(
+        "Выполнено (на подтверждении)"
+    )
+    CLOSED = "closed", _("Выполнено")
 
 
 class TaskStatuses(models.TextChoices):
     """Таблица со статусами задач."""
 
-    DRAFT = ("draft", "Черновик")
-    DRAFT_APPROVAL = ("draft_approval", "Черновик (на согласовании)")
-    ACTIVE = (
-        "active",
-        "Активные (в работе)",
-    )  # Если создано после создания ипр
-    ACTIVE_WITH_IDP = (
-        "active_with_idp",
-        "Активные (в работе)",
-    )  # Если создано вместе с ипр
-    TWO_WEEKS = ("two_weeks", "Две недели до плановой даты выполнения")
-    OVERDUE = ("overdue", "Просрочено")
-    CANCELLED = ("cancelled", "Отменено")  # Если отменено отдельно от ипр
-    CANCELLED_WITH_IDP = (
-        "cancelled_with_idp",
-        "Отменено",
-    )  # Если отменено вместе с ипр
-    COMPLETED_APPROVAL = ("completed_approval", "Выполнено (на подтверждении)")
-    REJECTED = ("rejected", "Активные (в работе)")
-    CLOSED = ("closed", "Выполнено")
+    DRAFT = "draft", _("Черновик")
+    DRAFT_APPROVAL = "draft_approval", _("Черновик (на согласовании)")
+    # Если создано после создания ипр
+    ACTIVE = "active", _("Активные (в работе)")
+    # Если создано вместе с ипр
+    ACTIVE_WITH_IDP = "active_with_idp", _("Активные (в работе)")
+    TWO_WEEKS = "two_weeks", _("Две недели до плановой даты выполнения")
+    OVERDUE = "overdue", _("Просрочено")
+    # Если отменено отдельно от ипр
+    CANCELLED = "cancelled", _("Отменено")
+    # Если отменено вместе с ипр
+    CANCELLED_WITH_IDP = "cancelled_with_idp", _("Отменено")
+    COMPLETED_APPROVAL = "completed_approval", _(
+        "Выполнено (на подтверждении)"
+    )
+    REJECTED = "rejected", _("Активные (в работе)")
+    CLOSED = "closed", _("Выполнено")
 
 
 class NotificationStatuses(models.TextChoices):
