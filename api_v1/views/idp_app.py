@@ -76,7 +76,8 @@ class TaskViewSet(viewsets.ModelViewSet):
     @extend_schema(responses=IDPReadOnlySerializer)
     def list(self, request, *args, **kwargs):
         tasks = self.get_queryset()
-        idp = get_object_or_404(IDP, pk=tasks[0].idp_id)
+        idp_id = self.kwargs.get("idp_id")
+        idp = get_object_or_404(IDP, pk=idp_id)
         idp_data = IDPReadOnlySerializer(instance=idp).data
         if not tasks:
             return Response(data=idp_data)

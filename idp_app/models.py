@@ -295,7 +295,7 @@ class Task(models.Model):
             self.idp.save()
 
     def get_absolute_url(self):
-        return reverse("task-detail", kwargs={"pk": self.pk})
+        return reverse("tasks-detail", kwargs={"pk": self.pk})
 
 
 class File(models.Model):
