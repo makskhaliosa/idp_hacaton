@@ -301,5 +301,611 @@
         "task_mentor": 8,
         "idp": 14
         }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 122,
+        "fields": {
+            "task_name": "Прочитать статьи Angular, React, Vue",
+            "task_status": "draft",
+            "task_end_date_plan": "2024-03-20T00:00:00+03:00",
+            "idp": 1
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 222,
+        "fields": {
+        "task_name": "Прочитать книгу Роберта Мартина 'Идеальный программист'",
+        "task_description": "Всех программистов, которые добиваются успеха в мире разработки ПО, отличает один общий признак: они больше всего заботятся о качестве создаваемого программного обеспечения. Это – основа для них. Потому что они являются профессионалами своего дела.",
+        "task_status": "draft",
+        "task_end_date_plan": "2024-03-21T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 2
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 322,
+        "fields": {
+        "task_name": "Принять участие в конференции по делегированию задач",
+        "task_status": "draft",
+        "idp": 3
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 42,
+        "fields": {
+        "task_name": "Пройти курс по новым языкам программирования",
+        "task_status": "draft_approval",
+        "task_end_date_plan": "2024-03-11T00:00:00+03:00",
+        "task_note_employee": "Изучить TypeScript и Go",
+        "task_mentor": 8,
+        "idp": 4
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 52,
+        "fields": {
+        "task_name": "Принять участие в конференции по совместной работе front и back ",
+        "task_status": "draft_approval",
+        "task_end_date_plan": "2024-02-28T00:00:00+03:00",
+        "task_note_chief": "Конференция Яндекс 27-28 февраля 2024",
+        "task_mentor": 8,
+        "idp": 4
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 62,
+        "fields": {
+        "task_name": "Изучить методы системного анализа",
+        "task_status": "draft_approval",
+        "task_mentor": 3,
+        "idp": 5
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 72,
+        "fields": {
+        "task_name": "Сделать тестовое задание по API ",
+        "task_status": "draft_approval",
+        "task_mentor": 3,
+        "idp": 5
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 82,
+        "fields": {
+        "task_name": "Пройти курс по коммуникациям и софт-скиллам",
+        "task_description": "Яндекс-Практикум",
+        "task_status": "active",
+        "task_end_date_plan": "2024-03-17T00:00:00+03:00",
+        "task_mentor": 3,
+        "idp": 6
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 92,
+        "fields": {
+        "task_name": "Составить список вопросов для проведения интервью",
+        "task_status": "active",
+        "task_end_date_plan": "2024-03-05T00:00:00+03:00",
+        "task_note_chief": "Постараться успеть в феврале",
+        "task_mentor": 3,
+        "idp": 6
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 102,
+        "fields": {
+        "task_name": "Сделать ревью выполненных задач",
+        "task_status": "active",
+        "task_end_date_plan": "2024-02-28T00:00:00+03:00",
+        "task_note_chief": "Ревью проверить с Фронтом в феврале",
+        "task_mentor": 7,
+        "idp": 7
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 112,
+        "fields": {
+        "task_name": "Пройти управленческий курс от HR",
+        "task_status": "active",
+        "task_end_date_plan": "2024-03-19T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 7
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 122,
+        "fields": {
+        "task_name": "Бизнес-анализ и прототипы пользовательских интерфейсов",
+        "task_status": "two_weeks",
+        "task_end_date_plan": "2024-02-18T00:00:00+03:00",
+        "task_mentor": 9,
+        "idp": 8
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 132,
+        "fields": {
+        "task_name": "Работа с обратной связью от Frontend разработки ",
+        "task_status": "overdue",
+        "task_end_date_plan": "2024-01-30T00:00:00+03:00",
+        "task_mentor": 7,
+        "idp": 8
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 142,
+        "fields": {
+        "task_name": "Прочитать и законспектировать «Визуализируйте работу. Как выявить расхитителей времени и оптимизировать процессы», Доминика Деграндис",
+        "task_status": "overdue",
+        "task_end_date_plan": "2023-12-21T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 9
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 152,
+        "fields": {
+        "task_name": "Сделать список задач на день/неделю/месяц в Notion",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2023-12-21T00:00:00+03:00",
+            "task_end_date_fact": "2023-12-31T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 9
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 162,
+        "fields": {
+        "task_name": "Пройти он-лайн курс по тайм-менеджменту",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2023-12-21T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-21T00:00:00+03:00",
+        "task_note_chief": "Все сроки вышли",
+        "task_mentor": 8,
+        "idp": 9
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 172,
+        "fields": {
+        "task_name": "Изучить код senior разработчиков",
+        "task_status": "overdue",
+        "task_end_date_plan": "2024-01-11T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 10
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 182,
+        "fields": {
+        "task_name": "Пройти тестирование по определению соответствия управленцу",
+        "task_status": "closed",
+        "task_end_date_plan": "2024-02-14T00:00:00+03:00",
+            "task_end_date_fact": "2024-01-16T00:00:00+03:00",
+        "task_note_employee": "Набрал 75 из 100 баллов",
+        "task_note_chief": "Дать обратную связь ментору по количеству правильных ответов",
+        "task_note_mentor": "Отличный результат!",
+        "task_mentor": 3,
+        "idp": 11
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 192,
+        "fields": {
+        "task_name": "Сделать ревью проекта по БА и СА",
+        "task_description": "Уделить внимание оформлению диаграмм",
+        "task_status": "closed",
+        "task_end_date_plan": "2024-03-20T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-06T00:00:00+03:00",
+        "task_note_mentor": "Выполнено",
+        "task_mentor": 3,
+        "idp": 11
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 202,
+        "fields": {
+        "task_name": "Пройти тестирование HR по софт-скиллам",
+        "task_description": "На платформе Яндекс Практикума",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2024-06-11T00:00:00+03:00",
+        "task_end_date_fact": "2023-12-22T00:00:00+03:00",
+        "task_note_chief": "Включим в следующий план",
+        "task_mentor": 8,
+        "idp": 12
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 212,
+        "fields": {
+        "task_name": "Подготовить список вопросов для разработчиков на собеседовании",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2024-06-11T00:00:00+03:00",
+        "task_end_date_fact": "2023-12-12T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 12
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 222,
+        "fields": {
+        "task_name": "Пройти курс “Онбординг по полочкам”",
+        "task_status": "completed_approval",
+        "task_end_date_plan": "2024-02-29T00:00:00+03:00",
+        "task_end_date_fact": "2024-02-01T00:00:00+03:00",
+        "task_note_employee": "Курс пройден",
+        "task_mentor": 8,
+        "idp": 13
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 232,
+        "fields": {
+        "task_name": "Пройти курс “Автоматизация Онбординга”",
+        "task_status": "closed",
+        "task_end_date_plan": "2024-02-29T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-11T00:00:00+03:00",
+        "task_note_employee": "Получен сертификат о прохождении курса",
+        "task_note_chief": "Уделить особое внимание!",
+        "task_note_mentor": "Подтверждено",
+        "task_mentor": 8,
+        "idp": 13
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 242,
+        "fields": {
+        "task_name": "Прочитать книгу «Архитектура приложений с открытым исходным кодом»",
+        "task_description": "авторы четырех дюжин приложений с открытым исходным кодом рассказывают о структуре созданных ими программ и о том, как эти программы создавались. Каковы их основные компоненты? Как они взаимодействуют? И что открыли для себя их создатели в процессе разработки? В ответах на эти вопросы авторы статей, собранных в данных книгах, дают вам уникальную возможность проникнуть в то, как они творят.",
+        "task_status": "closed",
+        "task_end_date_plan": "2024-01-23T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-30T00:00:00+03:00",
+        "task_note_employee": "Выполнено",
+        "task_note_mentor": "Подтверждаю выполнение",
+        "task_mentor": 8,
+        "idp": 14
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 252,
+        "fields": {
+        "task_name": "Пройти курс “Архитектор ПО”",
+        "task_description": "https://practicum.yandex.ru/blog/kto-takoy-arhitektor-programmnogo-obespecheniya/",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2024-01-23T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-10T00:00:00+03:00",
+        "task_note_chief": "Переносим на новый календарный год",
+        "task_mentor": 8,
+        "idp": 14
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 111,
+        "fields": {
+            "task_name": "Прочитать статьи Angular, React, Vue",
+            "task_status": "draft",
+            "task_end_date_plan": "2024-03-20T00:00:00+03:00",
+            "idp": 1
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 211,
+        "fields": {
+        "task_name": "Прочитать книгу Роберта Мартина 'Идеальный программист'",
+        "task_description": "Всех программистов, которые добиваются успеха в мире разработки ПО, отличает один общий признак: они больше всего заботятся о качестве создаваемого программного обеспечения. Это – основа для них. Потому что они являются профессионалами своего дела.",
+        "task_status": "draft",
+        "task_end_date_plan": "2024-03-21T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 2
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 31,
+        "fields": {
+        "task_name": "Принять участие в конференции по делегированию задач",
+        "task_status": "draft",
+        "idp": 3
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 41,
+        "fields": {
+        "task_name": "Пройти курс по новым языкам программирования",
+        "task_status": "draft_approval",
+        "task_end_date_plan": "2024-03-11T00:00:00+03:00",
+        "task_note_employee": "Изучить TypeScript и Go",
+        "task_mentor": 8,
+        "idp": 4
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 51,
+        "fields": {
+        "task_name": "Принять участие в конференции по совместной работе front и back ",
+        "task_status": "draft_approval",
+        "task_end_date_plan": "2024-02-28T00:00:00+03:00",
+        "task_note_chief": "Конференция Яндекс 27-28 февраля 2024",
+        "task_mentor": 8,
+        "idp": 4
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 61,
+        "fields": {
+        "task_name": "Изучить методы системного анализа",
+        "task_status": "draft_approval",
+        "task_mentor": 3,
+        "idp": 5
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 71,
+        "fields": {
+        "task_name": "Сделать тестовое задание по API ",
+        "task_status": "draft_approval",
+        "task_mentor": 3,
+        "idp": 5
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 81,
+        "fields": {
+        "task_name": "Пройти курс по коммуникациям и софт-скиллам",
+        "task_description": "Яндекс-Практикум",
+        "task_status": "active",
+        "task_end_date_plan": "2024-03-17T00:00:00+03:00",
+        "task_mentor": 3,
+        "idp": 6
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 91,
+        "fields": {
+        "task_name": "Составить список вопросов для проведения интервью",
+        "task_status": "active",
+        "task_end_date_plan": "2024-03-05T00:00:00+03:00",
+        "task_note_chief": "Постараться успеть в феврале",
+        "task_mentor": 3,
+        "idp": 6
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 101,
+        "fields": {
+        "task_name": "Сделать ревью выполненных задач",
+        "task_status": "active",
+        "task_end_date_plan": "2024-02-28T00:00:00+03:00",
+        "task_note_chief": "Ревью проверить с Фронтом в феврале",
+        "task_mentor": 7,
+        "idp": 7
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 111,
+        "fields": {
+        "task_name": "Пройти управленческий курс от HR",
+        "task_status": "active",
+        "task_end_date_plan": "2024-03-19T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 7
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 121,
+        "fields": {
+        "task_name": "Бизнес-анализ и прототипы пользовательских интерфейсов",
+        "task_status": "two_weeks",
+        "task_end_date_plan": "2024-02-18T00:00:00+03:00",
+        "task_mentor": 9,
+        "idp": 8
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 131,
+        "fields": {
+        "task_name": "Работа с обратной связью от Frontend разработки ",
+        "task_status": "overdue",
+        "task_end_date_plan": "2024-01-30T00:00:00+03:00",
+        "task_mentor": 7,
+        "idp": 8
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 141,
+        "fields": {
+        "task_name": "Прочитать и законспектировать «Визуализируйте работу. Как выявить расхитителей времени и оптимизировать процессы», Доминика Деграндис",
+        "task_status": "overdue",
+        "task_end_date_plan": "2023-12-21T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 9
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 151,
+        "fields": {
+        "task_name": "Сделать список задач на день/неделю/месяц в Notion",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2023-12-21T00:00:00+03:00",
+            "task_end_date_fact": "2023-12-31T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 9
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 161,
+        "fields": {
+        "task_name": "Пройти он-лайн курс по тайм-менеджменту",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2023-12-21T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-21T00:00:00+03:00",
+        "task_note_chief": "Все сроки вышли",
+        "task_mentor": 8,
+        "idp": 9
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 171,
+        "fields": {
+        "task_name": "Изучить код senior разработчиков",
+        "task_status": "overdue",
+        "task_end_date_plan": "2024-01-11T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 10
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 181,
+        "fields": {
+        "task_name": "Пройти тестирование по определению соответствия управленцу",
+        "task_status": "closed",
+        "task_end_date_plan": "2024-02-14T00:00:00+03:00",
+            "task_end_date_fact": "2024-01-16T00:00:00+03:00",
+        "task_note_employee": "Набрал 75 из 100 баллов",
+        "task_note_chief": "Дать обратную связь ментору по количеству правильных ответов",
+        "task_note_mentor": "Отличный результат!",
+        "task_mentor": 3,
+        "idp": 11
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 191,
+        "fields": {
+        "task_name": "Сделать ревью проекта по БА и СА",
+        "task_description": "Уделить внимание оформлению диаграмм",
+        "task_status": "closed",
+        "task_end_date_plan": "2024-03-20T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-06T00:00:00+03:00",
+        "task_note_mentor": "Выполнено",
+        "task_mentor": 3,
+        "idp": 11
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 201,
+        "fields": {
+        "task_name": "Пройти тестирование HR по софт-скиллам",
+        "task_description": "На платформе Яндекс Практикума",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2024-06-11T00:00:00+03:00",
+        "task_end_date_fact": "2023-12-22T00:00:00+03:00",
+        "task_note_chief": "Включим в следующий план",
+        "task_mentor": 8,
+        "idp": 12
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 211,
+        "fields": {
+        "task_name": "Подготовить список вопросов для разработчиков на собеседовании",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2024-06-11T00:00:00+03:00",
+        "task_end_date_fact": "2023-12-12T00:00:00+03:00",
+        "task_mentor": 8,
+        "idp": 12
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 221,
+        "fields": {
+        "task_name": "Пройти курс “Онбординг по полочкам”",
+        "task_status": "completed_approval",
+        "task_end_date_plan": "2024-02-29T00:00:00+03:00",
+        "task_end_date_fact": "2024-02-01T00:00:00+03:00",
+        "task_note_employee": "Курс пройден",
+        "task_mentor": 8,
+        "idp": 13
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 231,
+        "fields": {
+        "task_name": "Пройти курс “Автоматизация Онбординга”",
+        "task_status": "closed",
+        "task_end_date_plan": "2024-02-29T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-11T00:00:00+03:00",
+        "task_note_employee": "Получен сертификат о прохождении курса",
+        "task_note_chief": "Уделить особое внимание!",
+        "task_note_mentor": "Подтверждено",
+        "task_mentor": 8,
+        "idp": 13
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 241,
+        "fields": {
+        "task_name": "Прочитать книгу «Архитектура приложений с открытым исходным кодом»",
+        "task_description": "авторы четырех дюжин приложений с открытым исходным кодом рассказывают о структуре созданных ими программ и о том, как эти программы создавались. Каковы их основные компоненты? Как они взаимодействуют? И что открыли для себя их создатели в процессе разработки? В ответах на эти вопросы авторы статей, собранных в данных книгах, дают вам уникальную возможность проникнуть в то, как они творят.",
+        "task_status": "closed",
+        "task_end_date_plan": "2024-01-23T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-30T00:00:00+03:00",
+        "task_note_employee": "Выполнено",
+        "task_note_mentor": "Подтверждаю выполнение",
+        "task_mentor": 8,
+        "idp": 14
+        }
+    },
+    {
+        "model": "idp_app.Task",
+        "pk": 251,
+        "fields": {
+        "task_name": "Пройти курс “Архитектор ПО”",
+        "task_description": "https://practicum.yandex.ru/blog/kto-takoy-arhitektor-programmnogo-obespecheniya/",
+        "task_status": "cancelled",
+        "task_end_date_plan": "2024-01-23T00:00:00+03:00",
+        "task_end_date_fact": "2024-01-10T00:00:00+03:00",
+        "task_note_chief": "Переносим на новый календарный год",
+        "task_mentor": 8,
+        "idp": 14
+        }
     }
 ]
