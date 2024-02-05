@@ -75,7 +75,7 @@ def set_idp_status_overdue(idp_obj):
 
 def set_task_status_two_weeks(task_obj):
     """Создает задачу для смены статуса задачи на TWO_WEEKS."""
-    target_date = task_obj.end_date_plan
+    target_date = task_obj.task_end_date_plan
     two_weeks = target_date - timedelta(weeks=2.0)
     schedule = ClockedSchedule.objects.create(clocked_time=two_weeks)
     task_name = f"task_two_weeks_{task_obj.task_id}"
@@ -106,7 +106,7 @@ def set_task_status_two_weeks(task_obj):
 
 def set_task_status_overdue(task_obj):
     """Создает задачу для смены статуса задачи на OVERDUE."""
-    target_date = task_obj.end_date_plan
+    target_date = task_obj.task_end_date_plan
     schedule = ClockedSchedule.objects.create(clocked_time=target_date)
     task_name = f"task_overdue_{task_obj.task_id}"
     task_target = "change_task_status"
@@ -172,7 +172,7 @@ def define_task_obj_task(task_obj):
     if task_obj.task_status in (TaskStatuses.ACTIVE, TaskStatuses.TWO_WEEKS):
         logger.info("Defining task")
 
-        tz = task_obj.end_date_plan
+        tz = task_obj.task_end_date_plan
         if tz - datetime.now().astimezone(None) > timedelta(weeks=2.0):
             set_task_status_two_weeks(task_obj)
         else:
